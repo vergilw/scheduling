@@ -1,13 +1,24 @@
-import _ from 'lodash';
-import './style.css';
+import Vue from 'vue';
+import App from './App.vue';
 
-function component() {
-    var element = document.createElement('div');
+// function component() {
+//   var element = document.createElement('div');
+//   element.id = 'app';
 
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-    element.classList.add('hello');
+//   return element;
+// }
 
-    return element;
-}
+// document.body.appendChild(component());
 
-document.body.appendChild(component());
+// new Vue({
+//   el: '#app',
+//   template: '<div> {{ message }} </div>',
+//   data: {
+//     message: 'hello'
+//   }
+// });
+
+new Vue({
+  el: '#app',
+  render: h => h(App),
+});
