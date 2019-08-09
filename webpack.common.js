@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -14,10 +15,14 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: '课程表',
-            template: 'index.html'
+            template: './src/index.html'
         }),
         new CleanWebpackPlugin(),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        })
     ],
     module: {
         rules: [
@@ -39,10 +44,19 @@ module.exports = {
                 ]
             },
             {
+                test: /\.less$/,
+                use: [
+                    'vue-style-loader',
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
+            },
+            {
                 test: /\.js$/,
-                use: {
-                    loader: 'babel-loader'
-                },
+                use: [
+                    'babel-loader'
+                ],
                 exclude: /node_modules/
             },
             {

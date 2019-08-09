@@ -1,3 +1,10 @@
-.hello {
-    color: blue;
+body {
+  background-image: linear-gradient(to bottom right, #00D0BB, #00BCCB) !important;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 30px;
+}
+
+body .ui.segment {
+  padding: 0;
 }
