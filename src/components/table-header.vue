@@ -55,8 +55,8 @@
         <div class="back button" v-on:click="rangeBack()">
           <i class="fas fa-chevron-left"></i>
         </div>
-        <div class="time">{{ dateRange }} </div>
-        <div class="front button">
+        <div class="time">{{ dateRange }}</div>
+        <div class="front button" v-on:click="rangeFront()">
           <i class="fas fa-chevron-right"></i>
         </div>
       </div>
@@ -65,18 +65,45 @@
 </template>
 
 <script>
+var dateFormat = require("dateformat");
 
 export default {
   name: "TableHeader",
   props: {
-    weekStart: Date,
-    dateRange: String
+    originalWeek: {
+      type: Date,
+      required: true
+    }
   },
+  data: function() {
+    return {
+      weekStart: new Date(this.originalWeek.getTime()),
+      dateRange: dateFormat(this.originalWeek, "yyyy.mm.dd") + " - " + dateFormat(new Date(this.originalWeek.getTime() + 3600 * 24 * 1000 * 6), "yyyy.mm.dd")
+    }
+  },
+  // computed: {
+  //   dateRange: function() {
+  //     return (
+  //       dateFormat(this.weekStart, "yyyy.mm.dd") +
+  //       " - " +
+  //       dateFormat(
+  //         new Date(this.weekStart.getTime() + 3600 * 24 * 1000 * 6),
+  //         "yyyy.mm.dd"
+  //       )
+  //     );
+  //   }
+  // },
   methods: {
-      rangeBack () {
-        this.weekStart.setDate(this.weekStart.getDate()-7);
-        alert(this.weekStart);
-      }
+    rangeBack() {
+      this.weekStart.setDate(this.weekStart.getDate() - 7);
+      this.dateRange = dateFormat(this.weekStart, "yyyy.mm.dd") + " - " + dateFormat(new Date(this.weekStart.getTime() + 3600 * 24 * 1000 * 6), "yyyy.mm.dd");
+      this.$forceUpdate();
+    },
+    rangeFront() {
+      this.weekStart.setDate(this.weekStart.getDate() + 7);
+      this.dateRange = dateFormat(this.weekStart, "yyyy.mm.dd") + " - " + dateFormat(new Date(this.weekStart.getTime() + 3600 * 24 * 1000 * 6), "yyyy.mm.dd");
+      this.$forceUpdate();
+    }
   }
 };
 </script>

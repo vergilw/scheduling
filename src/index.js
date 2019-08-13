@@ -22,40 +22,37 @@ var weekStart = new Date(checkedDate.setDate(weekDays));
 weekStart.setHours(0,0,0,0);
 
 
+var store = {
+  debug: true,
+  state: {
+    weekStart: weekStart
+  }
+}
 
-new Vue({
-  el: '#app',
+
+var weekHeader = new Vue({
+  el: '#week-header',
   render: h => h(TableHeader, {
     props: {
-      weekStart: weekStart,
-      dateRange: dateFormat(weekStart, 'yyyy.mm.dd') + ' - ' + dateFormat(now.setDate(weekStart.getDate()+6), 'yyyy.mm.dd')
+      originalWeek: store.state.weekStart
     }
   }),
+  // template: '<table-header/>',
+  // components: { TableHeader},
+  // props: {
+  //   originalWeek: new Date()
+  // }
 });
 
 
-
-new Vue({
+var weekTable= new Vue({
   el: '#week-table',
   render: h => h(WeekTable, {
     props: {
-      weekStart: weekStart,
-      dates: [
-        dateFormat(weekStart, '周一(mm月dd日)'),
-        dateFormat(now.setDate(weekStart.getDate()+1), '周二(mm月dd日)'),
-        dateFormat(now.setDate(weekStart.getDate()+1), '周三(mm月dd日)'),
-        dateFormat(now.setDate(weekStart.getDate()+1), '周四(mm月dd日)'),
-        dateFormat(now.setDate(weekStart.getDate()+1), '周五(mm月dd日)'),
-        dateFormat(now.setDate(weekStart.getDate()+1), '周六(mm月dd日)'),
-        dateFormat(now.setDate(weekStart.getDate()+1), '周日(mm月dd日)'),
-      ]
+      originalWeek: store.state.weekStart
     }
   }),
 });
 
 $('.ui.dropdown').dropdown();
 
-// $(".ui.sgheader > .filter > .date > .back.button").on("click", function() {
-//   weekStart.setDate(weekStart.getDate()-7);
-//   console.log("1");
-// });
