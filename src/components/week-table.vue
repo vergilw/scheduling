@@ -11,8 +11,8 @@
 
     <tbody>
       <tr>
-        <td><div class="content"></div></td>
-        <td><div class="content"></div></td>
+        <td><div class="content" v-if="scheduleModels"> {{ scheduleModels[0]['time_items'][0]['start_at'] }} </div></td>
+        <td><div class="content" v-if="scheduleModels"> {{ scheduleModels[0]['time_items'][0]['courses'] }} </div></td>
         <td><div class="content"></div></td>
         <td><div class="content"></div></td>
         <td><div class="content"></div></td>
@@ -43,6 +43,9 @@ export default {
         dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*5), '周六(mm月dd日)'),
         dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*6), '周日(mm月dd日)'),
       ];
+    },
+    scheduleModels: function() {
+      return this.$store.state.scheduleModels;
     }
   }
 };
