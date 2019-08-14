@@ -69,40 +69,27 @@ var dateFormat = require("dateformat");
 
 export default {
   name: "TableHeader",
-  props: {
-    originalWeek: {
-      type: Date,
-      required: true
+  computed: {
+    weekStart: function() {
+      return new Date(this.$store.state.weekStart.getTime());
+    },
+    dateRange: function() {
+      return (
+        dateFormat(this.$store.state.weekStart, "yyyy.mm.dd") +
+        " - " +
+        dateFormat(
+          new Date(this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6),
+          "yyyy.mm.dd"
+        )
+      );
     }
   },
-  data: function() {
-    return {
-      weekStart: new Date(this.originalWeek.getTime()),
-      dateRange: dateFormat(this.originalWeek, "yyyy.mm.dd") + " - " + dateFormat(new Date(this.originalWeek.getTime() + 3600 * 24 * 1000 * 6), "yyyy.mm.dd")
-    }
-  },
-  // computed: {
-  //   dateRange: function() {
-  //     return (
-  //       dateFormat(this.weekStart, "yyyy.mm.dd") +
-  //       " - " +
-  //       dateFormat(
-  //         new Date(this.weekStart.getTime() + 3600 * 24 * 1000 * 6),
-  //         "yyyy.mm.dd"
-  //       )
-  //     );
-  //   }
-  // },
   methods: {
     rangeBack() {
-      this.weekStart.setDate(this.weekStart.getDate() - 7);
-      this.dateRange = dateFormat(this.weekStart, "yyyy.mm.dd") + " - " + dateFormat(new Date(this.weekStart.getTime() + 3600 * 24 * 1000 * 6), "yyyy.mm.dd");
-      this.$forceUpdate();
+      this.$store.commit('dateRangeBack');
     },
     rangeFront() {
-      this.weekStart.setDate(this.weekStart.getDate() + 7);
-      this.dateRange = dateFormat(this.weekStart, "yyyy.mm.dd") + " - " + dateFormat(new Date(this.weekStart.getTime() + 3600 * 24 * 1000 * 6), "yyyy.mm.dd");
-      this.$forceUpdate();
+      this.$store.commit('dateRangeFront');
     }
   }
 };

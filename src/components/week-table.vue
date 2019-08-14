@@ -29,24 +29,20 @@ var dateFormat = require("dateformat");
 
 export default {
   name: "WeekTable",
-  props: {
-      originalWeek: {
-        type: Date,
-        required: true
-      }
-  },
-  data: function() {
-    return {
-      weekStart: new Date(this.originalWeek.getTime()),
-      dates: [
-        dateFormat(this.originalWeek, '周一(mm月dd日)'),
-        dateFormat(new Date(this.originalWeek.getTime()+3600*24*1000), '周二(mm月dd日)'),
-        dateFormat(new Date(this.originalWeek.getTime()+3600*24*1000*2), '周三(mm月dd日)'),
-        dateFormat(new Date(this.originalWeek.getTime()+3600*24*1000*3), '周四(mm月dd日)'),
-        dateFormat(new Date(this.originalWeek.getTime()+3600*24*1000*4), '周五(mm月dd日)'),
-        dateFormat(new Date(this.originalWeek.getTime()+3600*24*1000*5), '周六(mm月dd日)'),
-        dateFormat(new Date(this.originalWeek.getTime()+3600*24*1000*6), '周日(mm月dd日)'),
-      ]
+  computed: {
+    weekStart: function() {
+      return new Date(this.$store.state.weekStart.getTime());
+    },
+    dates: function() {
+      return [
+        dateFormat(this.$store.state.weekStart, '周一(mm月dd日)'),
+        dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000), '周二(mm月dd日)'),
+        dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*2), '周三(mm月dd日)'),
+        dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*3), '周四(mm月dd日)'),
+        dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*4), '周五(mm月dd日)'),
+        dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*5), '周六(mm月dd日)'),
+        dateFormat(new Date(this.$store.state.weekStart.getTime()+3600*24*1000*6), '周日(mm月dd日)'),
+      ];
     }
   }
 };

@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import 'es6-promise/auto';
+import Vuex from 'vuex';
 import 'dappore-ui/dist/main.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -11,8 +13,7 @@ import WeekTable from './components/week-table.vue';
 var dateFormat = require('dateformat');
 require('./index.css');
 
-
-
+Vue.use(Vuex)
 
 
 var now = new Date;
@@ -22,36 +23,32 @@ var weekStart = new Date(checkedDate.setDate(weekDays));
 weekStart.setHours(0,0,0,0);
 
 
-var store = {
-  debug: true,
+const store = new Vuex.Store({
   state: {
-    weekStart: weekStart
+    weekStart: new Date(weekStart.getTime())
+  },
+  mutations: {
+    dateRangeBack (state) {
+      state.weekStart = new Date(state.weekStart.getTime()-3600*24*1000*7);
+    },
+    dateRangeFront (state) {
+      state.weekStart = new Date(state.weekStart.getTime()+3600*24*1000*7);
+    }
   }
-}
+})
 
 
 var weekHeader = new Vue({
   el: '#week-header',
-  render: h => h(TableHeader, {
-    props: {
-      originalWeek: store.state.weekStart
-    }
-  }),
-  // template: '<table-header/>',
-  // components: { TableHeader},
-  // props: {
-  //   originalWeek: new Date()
-  // }
+  store,
+  render: h => h(TableHeader),
 });
 
 
 var weekTable= new Vue({
   el: '#week-table',
-  render: h => h(WeekTable, {
-    props: {
-      originalWeek: store.state.weekStart
-    }
-  }),
+  store,
+  render: h => h(WeekTable),
 });
 
 $('.ui.dropdown').dropdown();
