@@ -3,28 +3,77 @@
     <thead>
       <tr>
         <th></th>
-        <th v-for="date in dates" v-bind:key="date">
-            {{ date }}
+        <th v-if="scheduleModels && scheduleModels.length > 0">
+            {{ weekDateFormat(scheduleModels[0].date, '周一(mm月dd日)') }}
+        </th>
+        <th v-if="scheduleModels.length > 1">
+            {{ weekDateFormat(scheduleModels[1].date, '周二(mm月dd日)') }}
+        </th>
+        <th v-if="scheduleModels.length > 2">
+            {{ weekDateFormat(scheduleModels[2].date, '周三(mm月dd日)') }}
+        </th>
+        <th v-if="scheduleModels.length > 3">
+            {{ weekDateFormat(scheduleModels[3].date, '周四(mm月dd日)') }}
+        </th>
+        <th v-if="scheduleModels.length > 4">
+            {{ weekDateFormat(scheduleModels[4].date, '周五(mm月dd日)') }}
+        </th>
+        <th v-if="scheduleModels.length > 5">
+            {{ weekDateFormat(scheduleModels[5].date, '周六(mm月dd日)') }}
+        </th>
+        <th v-if="scheduleModels.length > 6">
+            {{ weekDateFormat(scheduleModels[6].date, '周日(mm月dd日)') }}
         </th>
       </tr>
     </thead>
 
-    <tbody>
-      <tr>
-        <td><div class="content" v-if="scheduleModels"> {{ scheduleModels[0]['time_items'][0]['start_at'] }} </div></td>
-        <td><div class="content" v-if="scheduleModels"> {{ scheduleModels[0]['time_items'][0]['courses'] }} </div></td>
-        <td><div class="content"></div></td>
-        <td><div class="content"></div></td>
-        <td><div class="content"></div></td>
-        <td><div class="content"></div></td>
-        <td><div class="content"></div></td>
-        <td><div class="content"></div></td>
+    <tbody v-if="scheduleModels && scheduleModels.length > 0">
+      <tr v-for="(timeItem, index) in scheduleModels[0]['time_items']" v-bind:key="timeItem['id']">
+        <td>
+          <div class="content"> {{ timeRangeDateFormat(timeItem['start_at'], timeItem['end_at']) }} </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 0">
+            <Course v-for="course in scheduleModels[0]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 1">
+            <Course v-for="course in scheduleModels[1]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 2">
+            <Course v-for="course in scheduleModels[2]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 3">
+            <Course v-for="course in scheduleModels[3]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 4">
+            <Course v-for="course in scheduleModels[4]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 5">
+            <Course v-for="course in scheduleModels[5]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
+        <td>
+          <div class="content" v-if="scheduleModels && scheduleModels.length > 6">
+            <Course v-for="course in scheduleModels[6]['time_items'][index]['courses']" v-bind:course-model="course" v-bind:key="course.date" />
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+import Course from './course-card.vue';
 var dateFormat = require("dateformat");
 
 export default {
@@ -47,6 +96,17 @@ export default {
     scheduleModels: function() {
       return this.$store.state.scheduleModels;
     }
+  },
+  methods: {
+    weekDateFormat: function(date, string) {
+      return dateFormat(date, string);
+    },
+    timeRangeDateFormat: function(dateStart, dateEnd) {
+      return dateFormat(dateStart, 'HH:MM') + ' - ' + dateFormat(dateEnd, 'HH:MM');
+    }
+  },
+  components: {
+    Course
   }
 };
 </script>
@@ -76,7 +136,7 @@ export default {
     border-bottom-left-radius: 8px;
 }
 
-.ui.table > tbody > tr > td > div {
+.ui.table > tbody > tr > td:not(:first-child) > div {
     min-height: 185px;
 }
 
@@ -98,5 +158,13 @@ export default {
 .ui.table > thead > tr > th {
     background: unset;
 }
+
+
+/* course */
+.ui.table > tbody > tr > td > .content > .course {
+  margin: 7.5px 0;
+}
+
+
 
 </style>
