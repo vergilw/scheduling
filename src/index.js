@@ -6,6 +6,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'semantic-ui-css/semantic';
 const axios = require('axios');
+import Sortable from 'sortablejs';
 
 import App from './App.vue';
 import TableHeader from './components/table-header.vue';
@@ -56,7 +57,7 @@ var weekTable = new Vue({
   render: h => h(WeekTable),
 });
 
-axios.get('http://192.168.0.109/schedule/index')
+axios.get('http://192.168.0.110/schedule/index')
   .then(function (response) {
     console.log(response);
     store.commit('scheduleModelsUpdated', response['data']);
@@ -67,6 +68,9 @@ axios.get('http://192.168.0.109/schedule/index')
   .finally(function () {
 
   });
+
+
+
 
 $('.ui.dropdown').dropdown();
 
