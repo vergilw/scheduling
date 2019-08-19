@@ -3,27 +3,27 @@
     <a class="delete">
       <i class="fas fa-times"></i>
     </a>
-    <div class="name">English</div>
-    <div class="shortname">EN</div>
+    <div class="name"> {{ courseModel.short_name }} </div>
+    <div class="shortname"> {{ courseModel.name }} </div>
     <div class="footer">
       <div class="top">
         <div class="room">
           <i class="fas fa-door-closed"></i>
-          教室
+           {{ courseModel.room.name }}
         </div>
         <div class="teacher">
           <i class="fas fa-graduation-cap"></i>
-          老师
+          {{ courseModel.teacher.name }}
         </div>
       </div>
       <div class="bottom">
         <div class="class">
           <i class="fas fa-user"></i>
-          班级
+          {{ courseModel.crowd.name }}
         </div>
         <div class="members">
           <i class="fas fa-user-friends"></i>
-          人数
+          {{ courseModel.room.limit_members_count }}
         </div>
       </div>
     </div>
@@ -46,6 +46,11 @@ export default {
   box-shadow: 0px 8px 7px 0px rgba(52, 57, 61, 0.11);
   border-radius: 8px;
   text-align: left;
+}
+
+.disable.course {
+  background-color: #f6f8fa;
+  color: #9199a3;
 }
 
 .course > .delete {

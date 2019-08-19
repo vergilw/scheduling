@@ -57,7 +57,7 @@ var weekTable = new Vue({
   render: h => h(WeekTable),
 });
 
-axios.get('http://192.168.0.110/schedule/index')
+axios.get('http://192.168.0.114/schedule/index')
   .then(function (response) {
     console.log(response);
     store.commit('scheduleModelsUpdated', response['data']);

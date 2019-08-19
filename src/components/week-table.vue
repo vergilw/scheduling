@@ -36,7 +36,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 0">
             <Course
               v-for="course in scheduleModels[0]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -45,7 +45,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 1">
             <Course
               v-for="course in scheduleModels[1]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -54,7 +54,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 2">
             <Course
               v-for="course in scheduleModels[2]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -63,7 +63,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 3">
             <Course
               v-for="course in scheduleModels[3]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -72,7 +72,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 4">
             <Course
               v-for="course in scheduleModels[4]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -81,7 +81,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 5">
             <Course
               v-for="course in scheduleModels[5]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -90,7 +90,7 @@
           <div class="content" v-if="scheduleModels && scheduleModels.length > 6">
             <Course
               v-for="course in scheduleModels[6]['time_items'][index]['courses']"
-              v-bind:course-model="course"
+              v-bind:courseModel="course"
               v-bind:key="course.date"
             />
           </div>
@@ -108,7 +108,7 @@ import Sortable from "sortablejs";
 $(document).ready(function() {
   // var courseContainerElements = document.querySelectorAll('table > tbody > tr > td > .content');
   // var courseContainerElements = document.getElementById("table > tbody > tr > td > .content");
-  var courseContainerElements = $('table > tbody > tr > td:not(:eq(0))');
+  var courseContainerElements = $('table > tbody > tr > td  > .content:not(:eq(0))');
   for (var i=0; i<courseContainerElements.length; ++i) {
     Sortable.create(courseContainerElements[i], {
       group: 'course-group',
