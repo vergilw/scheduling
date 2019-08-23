@@ -15,7 +15,7 @@
       </form>
 
       <div class="action">
-        <div class="ui button">
+        <div class="ui button" v-on:click="addCourse" >
           <i class="fas fa-plus"></i>
           添加课程
         </div>
@@ -78,7 +78,9 @@ export default {
         dateFormat(this.$store.state.weekStart, "yyyy.mm.dd") +
         " - " +
         dateFormat(
-          new Date(this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6),
+          new Date(
+            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6
+          ),
           "yyyy.mm.dd"
         )
       );
@@ -86,13 +88,22 @@ export default {
   },
   methods: {
     rangeBack() {
-      this.$store.commit('dateRangeBack');
+      this.$store.commit("dateRangeBack");
     },
     rangeFront() {
-      this.$store.commit('dateRangeFront');
+      this.$store.commit("dateRangeFront");
+    },
+    addCourse() {
+      $('.ui.modal').modal('show');
     }
+  },
+  mounted: function() {
+    $('.ui.dropdown').dropdown();
   }
 };
+
+
+
 </script>
 
 <style scoped>

@@ -3,29 +3,31 @@
     <a class="delete">
       <i class="fas fa-times"></i>
     </a>
-    <div class="name"> {{ courseModel.short_name }} </div>
-    <div class="shortname"> {{ courseModel.name }} </div>
+    <div class="name">{{ courseModel.short_name }}</div>
+    <div class="shortname">{{ courseModel.name }}</div>
     <div class="footer">
-      <div class="top">
-        <div class="room">
-          <i class="fas fa-door-closed"></i>
-           {{ courseModel.room.name }}
-        </div>
-        <div class="teacher">
-          <i class="fas fa-graduation-cap"></i>
-          {{ courseModel.teacher.name }}
-        </div>
+      <div class="room">
+        <i class="fas fa-door-closed"></i>
+        {{ courseModel.room.name }}
+      </div>
+      <div class="teacher">
+        <i class="fas fa-graduation-cap"></i>
+        {{ courseModel.teacher.name }}
+      </div>
+      <div class="class">
+        <i class="fas fa-user"></i>
+        {{ courseModel.crowd.name }}
+      </div>
+      <div class="members">
+        <i class="fas fa-user-friends"></i>
+        {{ courseModel.room.limit_members_count }}
+      </div>
+      <!-- <div class="top">
+        
       </div>
       <div class="bottom">
-        <div class="class">
-          <i class="fas fa-user"></i>
-          {{ courseModel.crowd.name }}
-        </div>
-        <div class="members">
-          <i class="fas fa-user-friends"></i>
-          {{ courseModel.room.limit_members_count }}
-        </div>
-      </div>
+        
+      </div>-->
     </div>
   </div>
 </template>
@@ -36,14 +38,15 @@ export default {
   props: {
     "course-model": Object
   }
-}
+};
 </script>
 
 <style scoped>
 .course {
   position: relative;
   background-color: white;
-  box-shadow: 0px 8px 7px 0px rgba(52, 57, 61, 0.11);
+  box-shadow: 0px 1px 8px 0px 
+		rgba(8, 14, 21, 0.06);
   border-radius: 8px;
   text-align: left;
 }
@@ -59,30 +62,28 @@ export default {
   top: 0;
   padding: 2px 8px;
   cursor: pointer;
-  color: #9199a3;
+  color: #caced3;
 }
 
 .course > .name {
   margin: 0 15px;
   padding-top: 16px;
   font-size: 14px;
-  color: #4b525a;
+  color: #00cddd;
 }
 
 .course > .shortname {
   font-size: 12px;
-  line-height: 24px;
   color: #4b525a;
-  height: 24px;
   background-color: #f0f4f6;
   border-radius: 4px;
   margin: 6px 15px 0 15px;
-  padding: 0 8px;
+  padding: 2px 8px 1px 8px;
 }
 
 .course > .footer {
   padding-bottom: 5px;
-  padding-top: 10px;
+  padding-top: 6px;
   color: #9199a3;
   font-size: 12px;
 }
@@ -90,16 +91,13 @@ export default {
 .course > .footer > div {
   margin: 3px 18px;
   display: flex;
+  align-items: center;
 }
 
-.course > .footer > div > div {
-  width: 50%;
-}
-
-.course > .footer > div > div > svg {
-  width: 20px;
-  height: 16px;
+.course > .footer > div > svg {
+  width: 16px;
+  height: 12px;
+  vertical-align: middle;
   margin-right: 5px;
 }
-
 </style>

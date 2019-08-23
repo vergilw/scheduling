@@ -8,9 +8,9 @@ import 'semantic-ui-css/semantic';
 const axios = require('axios');
 import Sortable from 'sortablejs';
 
-import App from './App.vue';
 import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
+import CourseForm from './components/course-form.vue';
 
 var dateFormat = require('dateformat');
 require('./index.css');
@@ -28,7 +28,8 @@ weekStart.setHours(0, 0, 0, 0);
 const store = new Vuex.Store({
   state: {
     weekStart: new Date(weekStart.getTime()),
-    scheduleModels: null
+    scheduleModels: null,
+    isLoading: false
   },
   mutations: {
     dateRangeBack(state) {
@@ -57,10 +58,20 @@ var weekTable = new Vue({
   render: h => h(WeekTable),
 });
 
-axios.get('http://192.168.0.114/schedule/index')
+var courseForm = new Vue({
+  el: '#course-form',
+  store,
+  render: h => h(CourseForm),
+});
+
+store.state.isLoading = true;
+axios.get('http://192.168.0.122/schedule/index')
   .then(function (response) {
-    console.log(response);
-    store.commit('scheduleModelsUpdated', response['data']);
+    
+    setTimeout(function() {
+      store.commit('scheduleModelsUpdated', response['data']);
+      store.state.isLoading = false;
+    }, 2000);
   })
   .catch(function (error) {
     console.log(error);
@@ -69,8 +80,4 @@ axios.get('http://192.168.0.114/schedule/index')
 
   });
 
-
-
-
-$('.ui.dropdown').dropdown();
-
+// $('.ui.modal').modal('show');
