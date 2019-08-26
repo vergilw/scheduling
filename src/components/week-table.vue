@@ -7,22 +7,22 @@
           v-if="scheduleModels && scheduleModels.length > 0"
         >{{ weekDateFormat(scheduleModels[0].date, '周一(mm月dd日)') }}</th>
         <th
-          v-if="scheduleModels.length > 1"
+          v-if="scheduleModels && scheduleModels.length > 1"
         >{{ weekDateFormat(scheduleModels[1].date, '周二(mm月dd日)') }}</th>
         <th
-          v-if="scheduleModels.length > 2"
+          v-if="scheduleModels && scheduleModels.length > 2"
         >{{ weekDateFormat(scheduleModels[2].date, '周三(mm月dd日)') }}</th>
         <th
-          v-if="scheduleModels.length > 3"
+          v-if="scheduleModels && scheduleModels.length > 3"
         >{{ weekDateFormat(scheduleModels[3].date, '周四(mm月dd日)') }}</th>
         <th
-          v-if="scheduleModels.length > 4"
+          v-if="scheduleModels && scheduleModels.length > 4"
         >{{ weekDateFormat(scheduleModels[4].date, '周五(mm月dd日)') }}</th>
         <th
-          v-if="scheduleModels.length > 5"
+          v-if="scheduleModels && scheduleModels.length > 5"
         >{{ weekDateFormat(scheduleModels[5].date, '周六(mm月dd日)') }}</th>
         <th
-          v-if="scheduleModels.length > 6"
+          v-if="scheduleModels && scheduleModels.length > 6"
         >{{ weekDateFormat(scheduleModels[6].date, '周日(mm月dd日)') }}</th>
       </tr>
     </thead>
@@ -33,7 +33,11 @@
           <div class="content">{{ timeRangeDateFormat(timeItem['start_at'], timeItem['end_at']) }}</div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 0">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(0)}"
+            v-if="scheduleModels && scheduleModels.length > 0"
+          >
             <Course
               v-for="course in scheduleModels[0]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -42,7 +46,11 @@
           </div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 1">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(1)}"
+            v-if="scheduleModels && scheduleModels.length > 1"
+          >
             <Course
               v-for="course in scheduleModels[1]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -51,7 +59,11 @@
           </div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 2">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(2)}"
+            v-if="scheduleModels && scheduleModels.length > 2"
+          >
             <Course
               v-for="course in scheduleModels[2]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -60,7 +72,11 @@
           </div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 3">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(3)}"
+            v-if="scheduleModels && scheduleModels.length > 3"
+          >
             <Course
               v-for="course in scheduleModels[3]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -69,7 +85,11 @@
           </div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 4">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(4)}"
+            v-if="scheduleModels && scheduleModels.length > 4"
+          >
             <Course
               v-for="course in scheduleModels[4]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -78,7 +98,11 @@
           </div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 5">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(5)}"
+            v-if="scheduleModels && scheduleModels.length > 5"
+          >
             <Course
               v-for="course in scheduleModels[5]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -87,7 +111,11 @@
           </div>
         </td>
         <td>
-          <div class="content" v-if="scheduleModels && scheduleModels.length > 6">
+          <div
+            class="content"
+            v-bind:class="{expired: isExpired(6)}"
+            v-if="scheduleModels && scheduleModels.length > 6"
+          >
             <Course
               v-for="course in scheduleModels[6]['time_items'][index]['courses']"
               v-bind:courseModel="course"
@@ -97,6 +125,10 @@
         </td>
       </tr>
     </tbody>
+
+    <div class="ui inverted dimmer" v-bind:class="{active: this.$store.state.isLoading}">
+      <div class="ui loader"></div>
+    </div>
   </table>
 </template>
 
@@ -105,17 +137,17 @@ import Course from "./course-card.vue";
 var dateFormat = require("dateformat");
 import Sortable from "sortablejs";
 
-$(document).ready(function() {
-  // var courseContainerElements = document.querySelectorAll('table > tbody > tr > td > .content');
-  // var courseContainerElements = document.getElementById("table > tbody > tr > td > .content");
-  var courseContainerElements = $('table > tbody > tr > td  > .content:not(:eq(0))');
-  for (var i=0; i<courseContainerElements.length; ++i) {
-    Sortable.create(courseContainerElements[i], {
-      group: 'course-group',
-      animation: 150
-    });
-  }
-});
+// $(document).ready(function() {
+//   var courseContainerElements = $(
+//     "table > tbody > tr > td  > .content:not(:eq(0))"
+//   );
+//   for (var i = 0; i < courseContainerElements.length; ++i) {
+//     Sortable.create(courseContainerElements[i], {
+//       group: "course-group",
+//       animation: 150
+//     });
+//   }
+// });
 
 export default {
   name: "WeekTable",
@@ -123,45 +155,45 @@ export default {
     weekStart: function() {
       return new Date(this.$store.state.weekStart.getTime());
     },
-    dates: function() {
-      return [
-        dateFormat(this.$store.state.weekStart, "周一(mm月dd日)"),
-        dateFormat(
-          new Date(this.$store.state.weekStart.getTime() + 3600 * 24 * 1000),
-          "周二(mm月dd日)"
-        ),
-        dateFormat(
-          new Date(
-            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 2
-          ),
-          "周三(mm月dd日)"
-        ),
-        dateFormat(
-          new Date(
-            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 3
-          ),
-          "周四(mm月dd日)"
-        ),
-        dateFormat(
-          new Date(
-            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 4
-          ),
-          "周五(mm月dd日)"
-        ),
-        dateFormat(
-          new Date(
-            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 5
-          ),
-          "周六(mm月dd日)"
-        ),
-        dateFormat(
-          new Date(
-            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6
-          ),
-          "周日(mm月dd日)"
-        )
-      ];
-    },
+    // dates: function() {
+    //   return [
+    //     dateFormat(this.$store.state.weekStart, "周一(mm月dd日)"),
+    //     dateFormat(
+    //       new Date(this.$store.state.weekStart.getTime() + 3600 * 24 * 1000),
+    //       "周二(mm月dd日)"
+    //     ),
+    //     dateFormat(
+    //       new Date(
+    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 2
+    //       ),
+    //       "周三(mm月dd日)"
+    //     ),
+    //     dateFormat(
+    //       new Date(
+    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 3
+    //       ),
+    //       "周四(mm月dd日)"
+    //     ),
+    //     dateFormat(
+    //       new Date(
+    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 4
+    //       ),
+    //       "周五(mm月dd日)"
+    //     ),
+    //     dateFormat(
+    //       new Date(
+    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 5
+    //       ),
+    //       "周六(mm月dd日)"
+    //     ),
+    //     dateFormat(
+    //       new Date(
+    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6
+    //       ),
+    //       "周日(mm月dd日)"
+    //     )
+    //   ];
+    // },
     scheduleModels: function() {
       return this.$store.state.scheduleModels;
     }
@@ -174,6 +206,23 @@ export default {
       return (
         dateFormat(dateStart, "HH:MM") + " - " + dateFormat(dateEnd, "HH:MM")
       );
+    },
+    isExpired: function(additionalDays) {
+      var comparedDate = new Date(
+        this.weekStart.getTime() + 3600 * 24 * 1000 * additionalDays
+      );
+      return new Date() > comparedDate;
+    }
+  },
+  updated: function() {
+    var courseContainerElements = $(
+      "table > tbody > tr > td  > .content:not(:eq(0))"
+    );
+    for (var i = 0; i < courseContainerElements.length; ++i) {
+      Sortable.create(courseContainerElements[i], {
+        group: "course-group",
+        animation: 150
+      });
     }
   },
   components: {
@@ -184,6 +233,7 @@ export default {
 
 <style scoped>
 /* common */
+
 .ui.table tr td:first-child {
   background-color: white;
 }
@@ -196,11 +246,21 @@ export default {
 /* thead */
 .ui.table > thead > tr {
   height: 65px;
+  font-size: 14px;
 }
 
 /* tbody */
+.ui.table > tbody > tr > td:first-child {
+  font-size: 14px;
+  width: 120px;
+}
+
 .ui.table > tbody > tr:last-child > td:first-child {
   border-bottom-left-radius: 8px;
+}
+
+.ui.table > tbody > tr > td:not(:first-child) {
+  padding: 0;
 }
 
 .ui.table > tbody > tr > td:not(:first-child) > div {
@@ -215,6 +275,11 @@ export default {
   background-color: #f6f8fa;
 }
 
+.ui.table > tbody > tr > td > .expired.content > .course {
+  background-color: #f6f8fa;
+  color: #9199a3;
+}
+
 /* unset */
 .ui.table {
   border: unset;
@@ -226,7 +291,11 @@ export default {
 }
 
 /* course */
+.ui.table > tbody > tr > td:not(:first-child) > .content {
+  margin: 10px;
+}
+
 .ui.table > tbody > tr > td > .content > .course {
-  margin: 7.5px 0;
+  margin: 10px 0;
 }
 </style>
