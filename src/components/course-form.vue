@@ -28,6 +28,44 @@
             </div>
           </div>
         </div>
+
+        <div class="ui config sgfield">
+          <label class="header">人员配置</label>
+          <div class="field">
+            <i class="icon close"></i>
+            <a href="#"><i class="icon primary edit"></i></a>
+            <table>
+              <tbody>
+                <tr>
+                  <td>课节次</td>
+                  <td><span>周一 / 09:30-10:30 / 10:30-11:30</span>
+                      <span>周一 / 09:30-10:30 / 10:30-11:30</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>教室</td>
+                  <td>Lorem ipsum</td>
+                </tr>
+                <tr>
+                  <td>班级</td>
+                  <td>Lorem ipsum dolor </td>
+                </tr>
+                <tr>
+                  <td>学生</td>
+                  <td>Lorem ipsum dolor sit</td>
+                </tr>
+                <tr>
+                  <td>老师</td>
+                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ui add sgfield">
+              <a href="#">+添加配置</a>
+          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -51,6 +89,6 @@ export default {
   height: 72px;
   padding: 26px 20px;
   cursor: pointer;
-} 
+}
 
 </style>
