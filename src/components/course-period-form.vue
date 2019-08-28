@@ -1,23 +1,11 @@
 <template>
-  <div class="ui modal dimmable course">
+  <div class="ui modal dimmable period-course">
     <i class="fas fa-times close icon"></i>
     <div class="header">
-      <div class="title">添加课程</div>
+      <div class="title">添加配置</div>
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <InputComponent
-          label="课程标题"
-          name="courseTitle"
-          v-bind:value="courseTitle"
-          v-bind:isRequired="true"
-        />
-        <SelectComponent
-          label="课类"
-          name="type"
-          v-bind:itemsArray="courseTypeModels"
-          v-bind:isRequired="true"
-        />
         <SelectComponent
           label="教室"
           name="room"
@@ -38,18 +26,6 @@
           v-bind:itemsArray="teacherModels"
           v-bind:isRequired="true"
         />
-        <InputComponent
-          label="限制人数"
-          name="limitCapacity"
-          v-bind:value="limitCapacity"
-          v-bind:isRequired="true"
-        />
-        <InputComponent
-          v-bind:isMultipleLines="true"
-          label="备注"
-          name="note"
-          v-bind:value="limitCapacity"
-        />
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
@@ -61,15 +37,11 @@
 <script>
 import SelectComponent from "./form-components/select-component.vue";
 import InputComponent from "./form-components/input-component.vue";
-import "semantic-ui-css/semantic";
 
 export default {
   name: "CourseForm",
   data: function() {
-    return {
-      courseTitle: null,
-      limitCapacity: null
-    };
+    return {};
   },
   computed: {
     roomModels: function() {
@@ -80,12 +52,6 @@ export default {
     },
     teacherModels: function() {
       return [this.$store.state.teacherModels];
-    },
-    courseTypeModels: function() {
-      return [
-        this.$store.state.majorCourseTypeModels,
-        this.$store.state.minorCourseTypeModels
-      ];
     }
   },
   components: {
@@ -95,35 +61,30 @@ export default {
   methods: {
     onNewOption: function(name) {
       console.log(name);
-      $('.ui.modal:not(.period-course)').dimmer('show');
-      $('.ui.modal.period-course').dimmer('hide');
-      $('.ui.modal.period-course').modal({ autofocus: false, allowMultiple: true }).modal('show');
     },
     onSubmit: function() {
-      $(".ui.form").form({
-        fields: {
-          courseTitle: "empty",
-          type: "empty",
-          name: "empty",
-          room: "empty",
-          crowd: "empty",
-          teacher: "empty",
-          limitCapacity: "empty"
-        }
-      });
-
-      if ($(".ui.form").form("is valid")) {
-        console.log("true");
-      } else {
-        console.log("false");
-      }
+      //   $(".ui.form").form({
+      //     fields: {
+      //       courseTitle: "empty",
+      //       type: "empty",
+      //       name: "empty",
+      //       room: "empty",
+      //       crowd: "empty",
+      //       teacher: "empty",
+      //       limitCapacity: "empty"
+      //     }
+      //   });
+      //   if ($(".ui.form").form("is valid")) {
+      //     console.log("true");
+      //   } else {
+      //     console.log("false");
+      //   }
     }
   }
 };
 </script>
 
 <style scoped>
-
 .ui.modal > .fa-times {
   width: 72px;
   height: 72px;
@@ -148,4 +109,31 @@ export default {
   box-shadow: 0px 2px 11px 0px rgba(0, 205, 221, 0.2);
   border-radius: 4px;
 }
+
+@media only screen and (min-width: 1920px) {
+  .ui.modal:not(.fullscreen) {
+    width: 620px;
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .ui.modal:not(.fullscreen) {
+    width: 570px;
+    margin: 0;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .ui.modal:not(.fullscreen) {
+    width: 520px;
+    margin: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .ui.modal:not(.fullscreen) {
+    width: 35%;
+    margin: 0;
+  }
+}
+
 </style>

@@ -15,7 +15,7 @@
       </form>
 
       <div class="action">
-        <div class="ui button" v-on:click="addCourse" >
+        <div class="ui button" v-on:click="addCourse">
           <i class="fas fa-plus"></i>
           添加课程
         </div>
@@ -94,16 +94,14 @@ export default {
       this.$store.commit("dateRangeFront");
     },
     addCourse() {
-      $('.ui.modal').modal('show');
+      $('.ui.modal.course').dimmer('hide');
+      $(".ui.modal.course").modal({ autofocus: false, allowMultiple: true }).modal("show");
     }
   },
   mounted: function() {
-    $('.ui.dropdown').dropdown();
+    $(".ui.dropdown").dropdown();
   }
 };
-
-
-
 </script>
 
 <style scoped>

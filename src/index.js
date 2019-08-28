@@ -11,6 +11,7 @@ import Sortable from 'sortablejs';
 import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
 import CourseForm from './components/course-form.vue';
+import CoursePeriodForm from './components/course-period-form.vue';
 
 var dateFormat = require('dateformat');
 require('./index.css');
@@ -80,6 +81,12 @@ var courseForm = new Vue({
   el: '#course-form',
   store,
   render: h => h(CourseForm),
+});
+
+var coursePeriodForm = new Vue({
+  el: '#course-period-form',
+  store,
+  render: h => h(CoursePeriodForm),
 });
 
 //get courses
