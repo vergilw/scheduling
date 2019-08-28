@@ -13,7 +13,7 @@
         <SelectComponent label="老师" name="teacher" v-bind:itemsArray="teacherModels" />
         <InputComponent label="限制人数" name="limitCapacity" v-bind:value="limitCapacity" />
         <InputComponent v-bind:isMultipleLines=true label="备注" name="limitCapacity" v-bind:value="limitCapacity" />
-        <Courseware v-bind:coursewareTable="{name:'关节活动课',file: '关节活动课.docx',url: 'image/404.png',teacher: '橙子老师',}"></Courseware>
+        <Courseware  label="子课程" name="courseware" v-bind:itemsArray="coursewareModels"></Courseware>
       </form>
     </div>
   </div>
@@ -44,7 +44,10 @@ export default {
     },
     courseTypeModels: function() {
       return [this.$store.state.majorCourseTypeModels, this.$store.state.minorCourseTypeModels];
-    }
+    },
+    coursewareModels: function() {
+      return [this.$store.state.coursewareModels];
+    },
   },
   components: {
     SelectComponent,

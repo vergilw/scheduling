@@ -1,13 +1,12 @@
 <template>
-  <div class="ui sgfield">
-    <div class="header">子课程</div>
-    <div class="ui sginput">
-        <select class="ui dropdown" v-on:change="showCourseware()">
-            <option value="">请选择</option>
-            <option value="course">
-                关节活动课
+  <div class="ui sgfield" id="kss">
+    <div class="header">{{label}}</div>
+    <div v-for="(items,index) in itemsArray" v-bind:key="index" class="ui sginput">
+        <select class="ui dropdown" v-on:change="showCourseware()" v-model.lazy="selected">
+            <option value=""></option>
+            <option v-for="item in items" v-bind:value="item" v-bind:key="item.id">
+                {{item.name}}
             </option>
-            <option value="course1">1</option>
         </select>
     </div>
 
@@ -18,15 +17,15 @@
           <tbody>
             <tr>
               <td>课程名称</td>
-              <td>{{coursewareTable.name}}</td>
+              <td>{{ selected.name }}</td>
             </tr>
             <tr>
               <td>文件资料</td>
-              <td><a href="#" download="#">{{coursewareTable.file}}</a></td>
+              <td><a v-bind:href="selected.file" v-bind:download="selected.file">{{ selected.file }}</a></td>
             </tr>
             <tr>
               <td>配课老师</td>
-              <td>{{coursewareTable.teacher}}</td>
+              <td>{{ selected.teacher }}</td>
             </tr>
           </tbody>
         </table>
@@ -35,29 +34,32 @@
 </template>
 
 <script>
+
 export default {
   name: "CoursewareTable",
-  // data() {
-  //   return {
-  //     url: coursewareTable.url
-  //   }
-  // },
+  data(){
+    return{
+      selected:""
+    }
+  },
   props: {
-    "courseware-table":Object
+    label: String,
+    itemsArray: Array
   },
   methods: {
     closeSgfield:function(){
       $(".ui.config.sgfield").css("display","none");
       $(".ui.sgfield > .ui.sginput > .ui.dropdown > .text").html("请选择");
-      $(".ui.sgfield > .ui.sginput > .ui.dropdown option").val("0");
+      $(".ui.sgfield > .ui.sginput > .ui.dropdown option").val("");
     },
     showCourseware(){
         $(".ui.config.sgfield").css("display","block");
       }
   },
-      mounted: function() {
+
+  mounted: function() {
     $('.ui.dropdown').dropdown();
-    }
+  }
 }
 </script>
 

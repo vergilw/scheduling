@@ -35,6 +35,7 @@ const store = new Vuex.Store({
     teacherModels: null,
     majorCourseTypeModels: null,
     minorCourseTypeModels: null,
+    coursewareModels: null,
     isLoading: false
   },
   mutations: {
@@ -56,12 +57,15 @@ const store = new Vuex.Store({
     teacherModelsUpdated(state, models) {
       state.teacherModels = models;
     },
-    courseTypesModelsUpdated(state, {majorModels, minorModels}) {
+    courseTypesModelsUpdated(state, { majorModels, minorModels }) {
       state.majorCourseTypeModels = majorModels;
       state.minorCourseTypeModels = minorModels;
-    }
+    },
+    coursewareModelsUpdated(state, models) {
+      state.coursewareModels = models;
+    },
   }
-})
+});
 
 
 var weekHeader = new Vue({
@@ -85,7 +89,7 @@ var courseForm = new Vue({
 
 //get courses
 store.state.isLoading = true;
-axios.get('http://192.168.0.109/schedule/index')
+axios.get('http://192.168.0.104:8082/schedule/index')
   .then(function (response) {
 
     setTimeout(function () {
@@ -101,7 +105,7 @@ axios.get('http://192.168.0.109/schedule/index')
   });
 
 //get rooms
-axios.get('http://192.168.0.122/schedule/rooms')
+axios.get('http://192.168.0.104:8082/schedule/rooms')
   .then(function (response) {
     store.commit('roomModelsUpdated', response['data']);
   })
@@ -113,7 +117,7 @@ axios.get('http://192.168.0.122/schedule/rooms')
   });
 
 //get crowds
-axios.get('http://192.168.0.122/schedule/crowds')
+axios.get('http://192.168.0.104:8082/schedule/crowds')
   .then(function (response) {
     store.commit('crowdModelsUpdated', response['data']);
   })
@@ -125,7 +129,7 @@ axios.get('http://192.168.0.122/schedule/crowds')
   });
 
 //get teachers
-axios.get('http://192.168.0.122/schedule/teachers')
+axios.get('http://192.168.0.104:8082/schedule/teachers')
   .then(function (response) {
     store.commit('teacherModelsUpdated', response['data']);
   })
@@ -137,7 +141,7 @@ axios.get('http://192.168.0.122/schedule/teachers')
   });
 
 //get courseTypes
-axios.get('http://192.168.0.122/schedule/courseTypes')
+axios.get('http://192.168.0.104:8082/schedule/courseTypes')
   .then(function (response) {
     store.commit('courseTypesModelsUpdated', { majorModels: response['data']['major'], minorModels: response['data']['minor'] });
   })
@@ -145,5 +149,16 @@ axios.get('http://192.168.0.122/schedule/courseTypes')
     console.log(error);
   })
   .finally(function () {
+
+  });
+//get coursewares
+axios.get("http://192.168.0.104:8082/schedule/courses")
+  .then(function(response) {
+    store.commit("coursewareModelsUpdated", response["data"]);
+  })
+  .catch(function(error) {
+    console.log(error);
+  })
+  .finally(function() {
 
   });
