@@ -1,19 +1,59 @@
 <template>
-  <div class="ui sg modal">
+  <div class="ui modal dimmable course">
+    <i class="fas fa-times close icon"></i>
     <div class="header">
       <div class="title">添加课程</div>
-      <i class="fas fa-times"></i>
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <InputComponent label="课程标题" name="courseTitle" v-bind:value="courseTitle" />
-        <SelectComponent label="课类" name="type" v-bind:itemsArray="courseTypeModels" />
-        <SelectComponent label="教室" name="room" v-bind:itemsArray="roomModels" />
-        <SelectComponent label="班级" name="crowd" v-bind:itemsArray="crowdModels" />
-        <SelectComponent label="老师" name="teacher" v-bind:itemsArray="teacherModels" />
-        <InputComponent label="限制人数" name="limitCapacity" v-bind:value="limitCapacity" />
-        <InputComponent v-bind:isMultipleLines=true label="备注" name="limitCapacity" v-bind:value="limitCapacity" />
+        <InputComponent
+          label="课程标题"
+          name="courseTitle"
+          v-bind:value="courseTitle"
+          v-bind:isRequired="true"
+        />
+        <SelectComponent
+          label="课类"
+          name="type"
+          v-bind:itemsArray="courseTypeModels"
+          v-bind:isRequired="true"
+        />
+        <SelectComponent
+          label="教室"
+          name="room"
+          newText="新增教室"
+          v-bind:itemsArray="roomModels"
+          v-bind:isRequired="true"
+          v-on:onNewOption="onNewOption"
+        />
+        <SelectComponent
+          label="班级"
+          name="crowd"
+          v-bind:itemsArray="crowdModels"
+          v-bind:isRequired="true"
+        />
+        <SelectComponent
+          label="老师"
+          name="teacher"
+          v-bind:itemsArray="teacherModels"
+          v-bind:isRequired="true"
+        />
+        <InputComponent
+          label="限制人数"
+          name="limitCapacity"
+          v-bind:value="limitCapacity"
+          v-bind:isRequired="true"
+        />
+        <InputComponent
+          v-bind:isMultipleLines="true"
+          label="备注"
+          name="note"
+          v-bind:value="limitCapacity"
+        />
         <Courseware  label="子课程" name="courseware" v-bind:itemsArray="coursewareModels"></Courseware>
+        <div class="action">
+          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+        </div>
       </form>
     </div>
   </div>
@@ -30,7 +70,7 @@ export default {
     return {
       courseTitle: null,
       limitCapacity: null
-    }
+    };
   },
   computed: {
     roomModels: function() {
@@ -43,9 +83,12 @@ export default {
       return [this.$store.state.teacherModels];
     },
     courseTypeModels: function() {
-      return [this.$store.state.majorCourseTypeModels, this.$store.state.minorCourseTypeModels];
+      return [
+        this.$store.state.majorCourseTypeModels,
+        this.$store.state.minorCourseTypeModels
+      ];
     },
-    coursewareModels: function() {
+        coursewareModels: function() {
       return [this.$store.state.coursewareModels];
     },
   },
@@ -53,23 +96,61 @@ export default {
     SelectComponent,
     InputComponent,
     Courseware
+  },
+  methods: {
+    onNewOption: function(name) {
+      console.log(name);
+      $('.ui.modal:not(.period-course)').dimmer('show');
+      $('.ui.modal.period-course').dimmer('hide');
+      $('.ui.modal.period-course').modal({ autofocus: false, allowMultiple: true }).modal('show');
+    },
+    onSubmit: function() {
+      $(".ui.form").form({
+        fields: {
+          courseTitle: "empty",
+          type: "empty",
+          name: "empty",
+          room: "empty",
+          crowd: "empty",
+          teacher: "empty",
+          limitCapacity: "empty"
+        }
+      });
+
+      if ($(".ui.form").form("is valid")) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
-.ui.sg.modal > .header > svg {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 60px;
+
+.ui.modal > .fa-times {
+  width: 72px;
   height: 72px;
-  padding: 26px 20px;
-  cursor: pointer;
+  top: 0;
+  right: 0;
+  padding: 25px;
 }
 
-.ui.sg.modal > .content > .ui.form {
+.ui.modal > .content > .ui.form {
   margin: auto;
   max-width: 420px;
+}
+
+.ui.form > .action {
+  width: 100%;
+  text-align: center;
+}
+
+.ui.form > .action > .ui.submit.button {
+  color: white;
+  background-color: #00cddd;
+  box-shadow: 0px 2px 11px 0px rgba(0, 205, 221, 0.2);
+  border-radius: 4px;
 }
 </style>
