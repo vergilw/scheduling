@@ -50,6 +50,7 @@
           name="note"
           v-bind:value="limitCapacity"
         />
+        <Courseware v-bind:coursewareTable="{name:'关节活动课',file: '关节活动课.docx',url: 'image/404.png',teacher: '橙子老师',}"></Courseware>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
@@ -59,9 +60,9 @@
 </template>
 
 <script>
-import SelectComponent from "./form-components/select-component.vue";
-import InputComponent from "./form-components/input-component.vue";
-import "semantic-ui-css/semantic";
+import SelectComponent from './form-components/select-component.vue';
+import InputComponent from './form-components/input-component.vue';
+import Courseware from './courseware-table.vue';
 
 export default {
   name: "CourseForm",
@@ -90,7 +91,8 @@ export default {
   },
   components: {
     SelectComponent,
-    InputComponent
+    InputComponent,
+    Courseware
   },
   methods: {
     onNewOption: function(name) {
