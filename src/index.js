@@ -12,6 +12,7 @@ import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
 import CourseForm from './components/course-form.vue';
 
+
 var dateFormat = require('dateformat');
 require('./index.css');
 
@@ -65,7 +66,7 @@ var courseForm = new Vue({
 });
 
 store.state.isLoading = true;
-axios.get('http://192.168.0.122/schedule/index')
+axios.get('http://192.168.0.109/schedule/index')
   .then(function (response) {
 
     setTimeout(function() {

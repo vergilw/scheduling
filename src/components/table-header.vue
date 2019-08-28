@@ -94,11 +94,13 @@ export default {
       this.$store.commit("dateRangeFront");
     },
     addCourse() {
-      $('.ui.modal').modal('show');
-    }
+      $('.ui.sg.modal').modal('show');
+      $('.ui.modal').modal({allowMultiple: true,});
+    },
   },
   mounted: function() {
     $('.ui.dropdown').dropdown();
+
   }
 };
 
