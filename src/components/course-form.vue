@@ -6,57 +6,55 @@
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <div class="field">
-          <label class="header">课频次</label>
-          <div class="field">
-            <select class="ui dropdown">
-              <option value="单次课">单词课</option>
-              <option value="多次课">多次课</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="interval field">
-          <label class="header">时间区间</label>
-          <div class="inline fields">
-            <div class="ui input">
-              <input type="date" />
-            </div>
-            <span>-</span>
-            <div class="ui input">
-              <input type="date" />
-            </div>
-          </div>
-        </div>
-
-          <Courseware v-bind:coursewareTable="{
-            name:'关节活动课',
-            file: '关节活动课.docx',
-            url: 'image/404.png',
-            teacher: '橙子老师',}"
-            ></Courseware>
+        <InputComponent label="课程标题" name="courseTitle" v-bind:value="courseTitle" />
+        <SelectComponent label="课类" name="type" v-bind:itemsArray="courseTypeModels" />
+        <SelectComponent label="教室" name="room" v-bind:itemsArray="roomModels" />
+        <SelectComponent label="班级" name="crowd" v-bind:itemsArray="crowdModels" />
+        <SelectComponent label="老师" name="teacher" v-bind:itemsArray="teacherModels" />
+        <InputComponent label="限制人数" name="limitCapacity" v-bind:value="limitCapacity" />
+        <InputComponent v-bind:isMultipleLines=true label="备注" name="limitCapacity" v-bind:value="limitCapacity" />
+        <Courseware v-bind:coursewareTable="{name:'关节活动课',file: '关节活动课.docx',url: 'image/404.png',teacher: '橙子老师',}"></Courseware>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import Courseware from "./courseware-table.vue";
+import SelectComponent from './form-components/select-component.vue';
+import InputComponent from './form-components/input-component.vue';
+import Courseware from './courseware-table.vue';
+
 export default {
-    name: 'CourseForm',
-    components: {
-      Courseware
-    },
-    mounted: function() {
-    $('.ui.dropdown').dropdown();
+  name: "CourseForm",
+  data: function() {
+    return {
+      courseTitle: null,
+      limitCapacity: null
     }
+  },
+  computed: {
+    roomModels: function() {
+      return [this.$store.state.roomModels];
+    },
+    crowdModels: function() {
+      return [this.$store.state.crowdModels];
+    },
+    teacherModels: function() {
+      return [this.$store.state.teacherModels];
+    },
+    courseTypeModels: function() {
+      return [this.$store.state.majorCourseTypeModels, this.$store.state.minorCourseTypeModels];
+    }
+  },
+  components: {
+    SelectComponent,
+    InputComponent,
+    Courseware
+  }
 };
-
-
 </script>
 
 <style scoped>
-
 .ui.sg.modal > .header > svg {
   position: absolute;
   right: 0;
@@ -67,4 +65,8 @@ export default {
   cursor: pointer;
 }
 
+.ui.sg.modal > .content > .ui.form {
+  margin: auto;
+  max-width: 420px;
+}
 </style>

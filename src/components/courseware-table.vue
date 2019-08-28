@@ -51,10 +51,13 @@ export default {
       $(".ui.sgfield > .ui.sginput > .ui.dropdown > .text").html("请选择");
       $(".ui.sgfield > .ui.sginput > .ui.dropdown option").val("0");
     },
-          showCourseware(){
+    showCourseware(){
         $(".ui.config.sgfield").css("display","block");
       }
-  }
+  },
+      mounted: function() {
+    $('.ui.dropdown').dropdown();
+    }
 }
 </script>
 
