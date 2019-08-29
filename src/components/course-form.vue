@@ -187,6 +187,7 @@ export default {
   top: 0;
   right: 0;
   padding: 25px;
+  color: #9199a3;
 }
 
 .ui.modal > .content {

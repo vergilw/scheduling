@@ -10,8 +10,10 @@
     <SelectComponent
       v-bind:label="label"
       v-bind:name="name"
+      newText="新增子课程"
       v-bind:itemsArray="itemArray"
       v-bind:isRequired="true"
+      v-on:onNewOption="onNewOption"
       v-on:onChangeOption="onChangeOption"
     />
     <div v-if="index != null" class="ui config sgfield">
@@ -31,17 +33,36 @@
             <td>文件资料</td>
             <td>
               <a
-                v-bind:href="itemArray[index].file"
-                v-bind:download="itemArray[index].file"
-              >{{ itemArray[index].file }}</a>
+                v-bind:href="itemArray[index].file.url"
+                v-bind:download="itemArray[index].file.name"
+              >{{ itemArray[index].file.name }}</a>
             </td>
           </tr>
           <tr>
             <td>配课老师</td>
-            <td>{{ itemArray[index].teacher }}</td>
+            <td>{{ itemArray[index].teacher.name }}</td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="inline fields">
+      <div class="ui sgfield">
+        <div class="header">媒体资料</div>
+        <div class="ui file sgfield">
+          <div class="ui inverted button">+添加文件</div>
+          <input type="file" id="mediaFile" v-on:click="showMediaFile">
+          <div class="description" id="mediaFileUrl">未选择任何文件</div>
+        </div>
+      </div>
+      <div class="ui sgfield">
+        <div class="header">文件</div>
+        <div class="ui file sgfield">
+          <div class="ui inverted button">+添加文件</div>
+          <input type="file" id="file" v-on:click="showFile">
+          <div class="description" id="fileUrl">未选择任何文件</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -65,15 +86,41 @@ export default {
   methods: {
     closeSgfield: function() {
       $(".ui.config.sgfield").css("display", "none");
-      $(".ui.sgfield > .ui.sginput > .ui.dropdown > .text").html("请选择");
-      $(".ui.sgfield > .ui.sginput > .ui.dropdown option").val("");
-    },
-    showCourseware() {
-      $(".ui.config.sgfield").css("display", "block");
     },
     onChangeOption: function(name, index) {
       console.log(index);
       this.index = index;
+      $(".ui.config.sgfield").css("display", "block");
+    },
+    onNewOption: function(name) {
+      console.log(name);
+      $(".ui.modal:not(.period-course)").dimmer("show");
+      $(".ui.modal.period-course").dimmer("hide");
+      $(".ui.modal.period-course")
+        .modal({
+          autofocus: false,
+          allowMultiple: true,
+          onHide: function() {
+            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer("hide");
+          }
+        })
+        .modal("show");
+    },
+    showMediaFile: function(){
+      var file = $('#mediaFile'),
+      aim = $('#mediaFileUrl');
+      file.on('change', function( e ){
+          var name = e.currentTarget.files[0].name;
+          aim.text( name ).css("color","#4a90e2");
+      });
+    },
+    showFile: function(){
+      var file = $('#file'),
+      aim = $('#fileUrl');
+      file.on('change', function( e ){
+          var name = e.currentTarget.files[0].name;
+          aim.text( name ).css("color","#4a90e2");
+      });
     }
   },
   mounted: function() {
@@ -144,4 +191,5 @@ export default {
   padding-left: 10px;
   color: #4b525a;
 }
+
 </style>
