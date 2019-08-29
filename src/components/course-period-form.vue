@@ -45,13 +45,13 @@ export default {
   },
   computed: {
     roomModels: function() {
-      return [this.$store.state.roomModels];
+      return this.$store.state.roomModels;
     },
     crowdModels: function() {
-      return [this.$store.state.crowdModels];
+      return this.$store.state.crowdModels;
     },
     teacherModels: function() {
-      return [this.$store.state.teacherModels];
+      return this.$store.state.teacherModels;
     }
   },
   components: {
@@ -91,6 +91,14 @@ export default {
   top: 0;
   right: 0;
   padding: 25px;
+}
+
+.ui.modal > .content {
+  background-color: unset;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .ui.modal > .content > .ui.form {

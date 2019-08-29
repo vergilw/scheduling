@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="itemsArray && itemsArray.length > 1"
+    v-if="itemsArray && itemsArray.length > 1 && Array.isArray(itemsArray[0])"
     class="equal width fields"
     v-bind:class="{ required : isRequired }"
   >
@@ -20,14 +20,18 @@
           <div
             class="item"
             v-for="(item, index) in items"
-            v-bind:key="item.id"
+            v-bind:key="index"
             v-bind:data-value="index"
           >{{ item.name }}</div>
         </div>
       </div>
     </div>
   </div>
-  <div v-else-if="itemsArray" class="field" v-bind:class="{ required : isRequired }">
+  <div
+    v-else-if="itemsArray && itemsArray.length > 0 && itemsArray[0] != null"
+    class="field"
+    v-bind:class="{ required : isRequired }"
+  >
     <label class="header">{{ label }}</label>
 
     <div class="ui selection dropdown">
@@ -37,8 +41,8 @@
       <div class="menu">
         <div
           class="item"
-          v-for="(item, index) in itemsArray[0]"
-          v-bind:key="item.id"
+          v-for="(item, index) in itemsArray"
+          v-bind:key="index"
           v-bind:data-value="index"
           v-on:click="$emit('onChangeOption', name, index)"
         >{{ item.name }}</div>
@@ -61,14 +65,13 @@ export default {
     isRequired: Boolean,
     newText: String
   },
-  mounted: function() {
+  updated: function() {
     $(".field .ui.dropdown").dropdown();
   }
 };
 </script>
 
 <style scoped>
-
 .equal.width.fields > .field:not(.first) {
   display: flex;
   align-items: flex-end;
@@ -80,7 +83,8 @@ export default {
   font-size: 14px;
 }
 
-.field > .ui.dropdown > .text, .field > .ui.dropdown > .menu > .item {
+.field > .ui.dropdown > .text,
+.field > .ui.dropdown > .menu > .item {
   font-size: 14px;
 }
 
@@ -89,9 +93,9 @@ export default {
   line-height: 41px;
   font-size: 14px;
   height: 41px;
-  border-top: 1px solid rgba(34,36,38,.1);
+  border-top: 1px solid rgba(34, 36, 38, 0.1);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   color: #00cddd;
   cursor: pointer;
 }
-
 </style>

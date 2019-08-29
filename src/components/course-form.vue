@@ -8,7 +8,7 @@
       <form class="ui form">
         <InputComponent
           label="课程标题"
-          name="courseTitle"
+          name="name"
           v-bind:value="courseTitle"
           v-bind:isRequired="true"
         />
@@ -39,23 +39,16 @@
           v-bind:itemsArray="teacherModels"
           v-bind:isRequired="true"
         />
-        <InputComponent
-          label="限制人数"
-          name="limitCapacity"
-          v-bind:value="limitCapacity"
-          v-bind:isRequired="true"
-        />
-        <InputComponent
-          v-bind:isMultipleLines="true"
-          label="备注"
-          name="note"
-          v-bind:value="limitCapacity"
-        />
-        <Courseware  label="子课程" name="courseware" v-bind:itemArray="coursewareModels"></Courseware>
+        <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note" />
+        <Courseware label="子课程" name="courseware" v-bind:itemArray="coursewareModels"></Courseware>
+        <div class="ui error message"></div>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
       </form>
+      <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
+        <div class="ui loader"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,18 +63,19 @@ export default {
   data: function() {
     return {
       courseTitle: null,
-      limitCapacity: null
+      note: null,
+      isLoading: false
     };
   },
   computed: {
     roomModels: function() {
-      return [this.$store.state.roomModels];
+      return this.$store.state.roomModels;
     },
     crowdModels: function() {
-      return [this.$store.state.crowdModels];
+      return this.$store.state.crowdModels;
     },
     teacherModels: function() {
-      return [this.$store.state.teacherModels];
+      return this.$store.state.teacherModels;
     },
     courseTypeModels: function() {
       return [
@@ -90,8 +84,8 @@ export default {
       ];
     },
     coursewareModels: function() {
-      return [this.$store.state.coursewareModels];
-    },
+      return this.$store.state.coursewareModels;
+    }
   },
   components: {
     SelectComponent,
@@ -103,7 +97,6 @@ export default {
       console.log(index);
     },
     onNewOption: function(name) {
-      console.log(name);
       $(".ui.modal:not(.period-course)").dimmer("show");
       $(".ui.modal.period-course").dimmer("hide");
       $(".ui.modal.period-course")
@@ -111,34 +104,80 @@ export default {
           autofocus: false,
           allowMultiple: true,
           onHide: function() {
-            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer("hide");
+            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer(
+              "hide"
+            );
           }
         })
         .modal("show");
     },
     onSubmit: function() {
-      $(".ui.form").form({
-        fields: {
-          courseTitle: "empty",
-          type: "empty",
-          name: "empty",
-          room: "empty",
-          crowd: "empty",
-          teacher: "empty",
-          limitCapacity: "empty"
+      this.isLoading = true;
+      var obj = this;
+      setTimeout(function() {
+        if ($(".ui.form").form("is valid") == true) {
+          console.log("true");
+        } else {
+          console.log("false");
         }
-      });
+        obj.isLoading = false;
+      }, 2000);
 
-      if ($(".ui.form").form("is valid")) {
-        console.log("true");
-      } else {
-        console.log("false");
-      }
+      console.log(this.courseTitle);
     }
+  },
+  updated: function() {
+    $(".ui.form").form({
+      fields: {
+        name: {
+          identifier: "name",
+          rules: [
+            {
+              type: "regExp[/^\\S{4,16}$/]",
+              prompt: "标题不能为空，长度4-16位"
+            }
+          ]
+        },
+        type: {
+          identifier: "type",
+          rules: [
+            {
+              type: "empty",
+              prompt: "课类不能为空"
+            }
+          ]
+        },
+        room: {
+          identifier: "room",
+          rules: [
+            {
+              type: "empty",
+              prompt: "教室不能为空"
+            }
+          ]
+        },
+        crowd: {
+          identifier: "crowd",
+          rules: [
+            {
+              type: "empty",
+              prompt: "班级不能为空"
+            }
+          ]
+        },
+        teacher: {
+          identifier: "teacher",
+          rules: [
+            {
+              type: "empty",
+              prompt: "老师不能为空"
+            }
+          ]
+        }
+      }
+    });
   }
 };
-
-
 </script>
 
 <style scoped>
@@ -148,6 +187,14 @@ export default {
   top: 0;
   right: 0;
   padding: 25px;
+}
+
+.ui.modal > .content {
+  background-color: unset;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .ui.modal > .content > .ui.form {

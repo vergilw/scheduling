@@ -25,20 +25,20 @@
         <tbody>
           <tr>
             <td>课程名称</td>
-            <td>{{ itemArray[0][index].name }}</td>
+            <td>{{ itemArray[index].name }}</td>
           </tr>
           <tr>
             <td>文件资料</td>
             <td>
               <a
-                v-bind:href="itemArray[0][index].file"
-                v-bind:download="itemArray[0][index].file"
-              >{{ itemArray[0][index].file }}</a>
+                v-bind:href="itemArray[index].file"
+                v-bind:download="itemArray[index].file"
+              >{{ itemArray[index].file }}</a>
             </td>
           </tr>
           <tr>
             <td>配课老师</td>
-            <td>{{ itemArray[0][index].teacher }}</td>
+            <td>{{ itemArray[index].teacher }}</td>
           </tr>
         </tbody>
       </table>
