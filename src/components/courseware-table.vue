@@ -6,14 +6,15 @@
         <option value></option>
         <option v-for="item in itemArray" v-bind:value="item" v-bind:key="item.id">{{item.name}}</option>
       </select>
-    </div> -->
-    <SelectComponent v-bind:label="label"
-          v-bind:name="name"
-          v-bind:itemsArray="itemArray"
-          v-bind:isRequired="true"
-          v-bind:onChangeOption="onChangeOption" />
-
-    <div v-if="selected" class="ui config sgfield">
+    </div>-->
+    <SelectComponent
+      v-bind:label="label"
+      v-bind:name="name"
+      v-bind:itemsArray="itemArray"
+      v-bind:isRequired="true"
+      v-on:onChangeOption="onChangeOption"
+    />
+    <div v-if="index != null" class="ui config sgfield">
       <a v-on:click="closeSgfield">
         <i class="fas fa-times"></i>
       </a>
@@ -24,20 +25,20 @@
         <tbody>
           <tr>
             <td>课程名称</td>
-            <td>{{ selected.name }}</td>
+            <td>{{ itemArray[0][index].name }}</td>
           </tr>
           <tr>
             <td>文件资料</td>
             <td>
               <a
-                v-bind:href="selected.file"
-                v-bind:download="selected.file"
-              >{{ selected.file['name'] }}</a>
+                v-bind:href="itemArray[0][index].file"
+                v-bind:download="itemArray[0][index].file"
+              >{{ itemArray[0][index].file }}</a>
             </td>
           </tr>
           <tr>
             <td>配课老师</td>
-            <td>{{ selected.teacher }}</td>
+            <td>{{ itemArray[0][index].teacher }}</td>
           </tr>
         </tbody>
       </table>
@@ -46,16 +47,15 @@
 </template>
 
 <script>
-import SelectComponent from './form-components/select-component.vue';
+import SelectComponent from "./form-components/select-component.vue";
 
 export default {
   name: "CoursewareTable",
-  data() {
+  data: function() {
     return {
       index: null
-    };
+    }
   },
-
   props: {
     label: String,
     itemArray: Array,
@@ -73,14 +73,11 @@ export default {
     },
     onChangeOption: function(name, index) {
       console.log(index);
+      this.index = index;
     }
   },
   mounted: function() {
-    $(".ui.sgfield .ui.dropdown").dropdown({
-      onChange: function(value, text, $choice) {
-        console.log($choice);
-      }
-    });
+    $(".ui.sgfield .ui.dropdown").dropdown();
   },
   components: {
     SelectComponent
