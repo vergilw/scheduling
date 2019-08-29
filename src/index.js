@@ -96,7 +96,7 @@ var coursePeriodForm = new Vue({
 
 //get courses
 store.state.isLoading = true;
-axios.get('http://192.168.0.101:8082/schedule/index')
+axios.get('http://192.168.0.105:8082/schedule/index')
   .then(function (response) {
 
     setTimeout(function () {
@@ -112,7 +112,7 @@ axios.get('http://192.168.0.101:8082/schedule/index')
   });
 
 //get rooms
-axios.get('http://192.168.0.101:8082/schedule/rooms')
+axios.get('http://192.168.0.105:8082/schedule/rooms')
   .then(function (response) {
     store.commit('roomModelsUpdated', response['data']);
   })
@@ -124,7 +124,7 @@ axios.get('http://192.168.0.101:8082/schedule/rooms')
   });
 
 //get crowds
-axios.get('http://192.168.0.101:8082/schedule/crowds')
+axios.get('http://192.168.0.105:8082/schedule/crowds')
   .then(function (response) {
     store.commit('crowdModelsUpdated', response['data']);
   })
@@ -136,7 +136,7 @@ axios.get('http://192.168.0.101:8082/schedule/crowds')
   });
 
 //get teachers
-axios.get('http://192.168.0.101:8082/schedule/teachers')
+axios.get('http://192.168.0.105:8082/schedule/teachers')
   .then(function (response) {
     store.commit('teacherModelsUpdated', response['data']);
   })
@@ -148,7 +148,7 @@ axios.get('http://192.168.0.101:8082/schedule/teachers')
   });
 
 //get courseTypes
-axios.get('http://192.168.0.101:8082/schedule/courseTypes')
+axios.get('http://192.168.0.105:8082/schedule/courseTypes')
   .then(function (response) {
     store.commit('courseTypesModelsUpdated', { majorModels: response['data']['major'], minorModels: response['data']['minor'] });
   })
@@ -159,7 +159,7 @@ axios.get('http://192.168.0.101:8082/schedule/courseTypes')
 
   });
 //get coursewares
-axios.get("http://192.168.0.101:8082/schedule/courses")
+axios.get("http://192.168.0.10:58082/schedule/courses")
   .then(function(response) {
     store.commit("coursewareModelsUpdated", response["data"]);
   })

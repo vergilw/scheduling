@@ -6,14 +6,17 @@
         <option value></option>
         <option v-for="item in itemArray" v-bind:value="item" v-bind:key="item.id">{{item.name}}</option>
       </select>
-    </div> -->
-    <SelectComponent v-bind:label="label"
-          v-bind:name="name"
-          v-bind:itemsArray="itemArray"
-          v-bind:isRequired="true"
-          v-bind:onChangeOption="onChangeOption" />
+    </div>-->
+    <SelectComponent
+      v-bind:label="label"
+      v-bind:name="name"
+      v-bind:itemsArray="itemArray"
+      v-bind:isRequired="true"
+      v-bind:index="index"
+      v-bind:onChangeOption="onChangeOption"
+    />
 
-    <div v-if="selected" class="ui config sgfield">
+    <div v-if="index" class="ui config sgfield">
       <a v-on:click="closeSgfield">
         <i class="fas fa-times"></i>
       </a>
@@ -24,7 +27,7 @@
         <tbody>
           <tr>
             <td>课程名称</td>
-            <td>{{ selected.name }}</td>
+            <td>{{ itemArray[index].name }}</td>
           </tr>
           <tr>
             <td>文件资料</td>
@@ -32,12 +35,12 @@
               <a
                 v-bind:href="selected.file"
                 v-bind:download="selected.file"
-              >{{ selected.file['name'] }}</a>
+              >{{ itemArray[index].file['name'] }}</a>
             </td>
           </tr>
           <tr>
             <td>配课老师</td>
-            <td>{{ selected.teacher }}</td>
+            <td>{{ itemArray[index].teacher }}</td>
           </tr>
         </tbody>
       </table>
@@ -46,7 +49,7 @@
 </template>
 
 <script>
-import SelectComponent from './form-components/select-component.vue';
+import SelectComponent from "./form-components/select-component.vue";
 
 export default {
   name: "CoursewareTable",
@@ -63,6 +66,9 @@ export default {
     isRequired: Boolean
   },
   methods: {
+    onChangeOption: function(name, index) {
+      console.log(index);
+    },
     closeSgfield: function() {
       $(".ui.config.sgfield").css("display", "none");
       $(".ui.sgfield > .ui.sginput > .ui.dropdown > .text").html("请选择");
@@ -70,17 +76,11 @@ export default {
     },
     showCourseware() {
       $(".ui.config.sgfield").css("display", "block");
-    },
-    onChangeOption: function(name, index) {
-      console.log(index);
     }
+
   },
   mounted: function() {
-    $(".ui.sgfield .ui.dropdown").dropdown({
-      onChange: function(value, text, $choice) {
-        console.log($choice);
-      }
-    });
+    $(".ui.sgfield .ui.dropdown").dropdown();
   },
   components: {
     SelectComponent
