@@ -158,6 +158,7 @@ axios.get('http://192.168.0.101:8082/schedule/courseTypes')
   .finally(function () {
 
   });
+<<<<<<< HEAD
 //get coursewares
 axios.get("http://192.168.0.101:8082/schedule/courses")
   .then(function(response) {
@@ -169,3 +170,12 @@ axios.get("http://192.168.0.101:8082/schedule/courses")
   .finally(function() {
 
   });
+=======
+
+  $('.ui.modal').dimmer({
+    onHide: function() {
+      console.log('111');
+      // $(".page.dimmer > .ui.active.modal:nth-last-child(2)").modal('hide');
+    }
+  });
+>>>>>>> aa46a705d5b95ed5f9068cb28e17444d941fe252

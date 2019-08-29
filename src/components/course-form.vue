@@ -25,6 +25,7 @@
           v-bind:itemsArray="roomModels"
           v-bind:isRequired="true"
           v-on:onNewOption="onNewOption"
+          v-on:onChangeOption="onChangeOption"
         />
         <SelectComponent
           label="班级"
@@ -60,9 +61,9 @@
 </template>
 
 <script>
-import SelectComponent from './form-components/select-component.vue';
-import InputComponent from './form-components/input-component.vue';
-import Courseware from './courseware-table.vue';
+import SelectComponent from "./form-components/select-component.vue";
+import InputComponent from "./form-components/input-component.vue";
+import Courseware from "./courseware-table.vue";
 
 export default {
   name: "CourseForm",
@@ -98,11 +99,22 @@ export default {
     Courseware
   },
   methods: {
+    onChangeOption: function(name, index) {
+      console.log(index);
+    },
     onNewOption: function(name) {
       console.log(name);
-      $('.ui.modal:not(.period-course)').dimmer('show');
-      $('.ui.modal.period-course').dimmer('hide');
-      $('.ui.modal.period-course').modal({ autofocus: false, allowMultiple: true }).modal('show');
+      $(".ui.modal:not(.period-course)").dimmer("show");
+      $(".ui.modal.period-course").dimmer("hide");
+      $(".ui.modal.period-course")
+        .modal({
+          autofocus: false,
+          allowMultiple: true,
+          onHide: function() {
+            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer("hide");
+          }
+        })
+        .modal("show");
     },
     onSubmit: function() {
       $(".ui.form").form({
@@ -125,10 +137,11 @@ export default {
     }
   }
 };
+
+
 </script>
 
 <style scoped>
-
 .ui.modal > .fa-times {
   width: 72px;
   height: 72px;

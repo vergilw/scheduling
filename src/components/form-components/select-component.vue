@@ -40,6 +40,7 @@
           v-for="(item, index) in itemsArray[0]"
           v-bind:key="item.id"
           v-bind:data-value="index"
+          v-on:click="$emit('onChangeOption', name, index)"
         >{{ item.name }}</div>
         <div v-if="newText" v-on:click="$emit('onNewOption', name)" class="new">
           <i class="fas fa-plus"></i>
@@ -62,11 +63,6 @@ export default {
   },
   mounted: function() {
     $(".field .ui.dropdown").dropdown();
-  },
-  methods: {
-    onClickNewOption: function() {
-      console.log('aha');
-    }
   }
 };
 </script>
