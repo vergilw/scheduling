@@ -50,7 +50,7 @@
           name="note"
           v-bind:value="limitCapacity"
         />
-        <Courseware  label="子课程" name="courseware" v-bind:itemsArray="coursewareModels"></Courseware>
+        <Courseware  label="子课程" name="courseware" v-bind:itemArray="coursewareModels"></Courseware>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
@@ -88,7 +88,7 @@ export default {
         this.$store.state.minorCourseTypeModels
       ];
     },
-        coursewareModels: function() {
+    coursewareModels: function() {
       return [this.$store.state.coursewareModels];
     },
   },

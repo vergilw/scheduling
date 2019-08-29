@@ -1,77 +1,98 @@
 <template>
-  <div class="ui sgfield" id="kss">
-    <div class="header">{{label}}</div>
-    <div v-for="(items,index) in itemsArray" v-bind:key="index" class="ui sginput">
-        <select class="ui dropdown" v-on:change="showCourseware()" v-model.lazy="selected">
-            <option value=""></option>
-            <option v-for="item in items" v-bind:value="item" v-bind:key="item.id">
-                {{item.name}}
-            </option>
-        </select>
-    </div>
+  <div class="ui sgfield">
+    <!-- <div class="header">{{label}}</div>
+    <div v-if="itemArray" class="ui sginput">
+      <select class="ui dropdown" v-on:change="showCourseware()" v-model="selected">
+        <option value></option>
+        <option v-for="item in itemArray" v-bind:value="item" v-bind:key="item.id">{{item.name}}</option>
+      </select>
+    </div> -->
+    <SelectComponent v-bind:label="label"
+          v-bind:name="name"
+          v-bind:itemsArray="itemArray"
+          v-bind:isRequired="true" />
 
-    <div class="ui config sgfield">
-        <a v-on:click="closeSgfield"><i class="fas fa-times"></i></a>
-        <a href="#"><i class="icon primary edit"></i></a>
-        <table>
-          <tbody>
-            <tr>
-              <td>课程名称</td>
-              <td>{{ selected.name }}</td>
-            </tr>
-            <tr>
-              <td>文件资料</td>
-              <td><a v-bind:href="selected.file" v-bind:download="selected.file">{{ selected.file }}</a></td>
-            </tr>
-            <tr>
-              <td>配课老师</td>
-              <td>{{ selected.teacher }}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div v-if="selected" class="ui config sgfield">
+      <a v-on:click="closeSgfield">
+        <i class="fas fa-times"></i>
+      </a>
+      <a href="#">
+        <i class="icon primary edit"></i>
+      </a>
+      <table>
+        <tbody>
+          <tr>
+            <td>课程名称</td>
+            <td>{{ selected.name }}</td>
+          </tr>
+          <tr>
+            <td>文件资料</td>
+            <td>
+              <a
+                v-bind:href="selected.file"
+                v-bind:download="selected.file"
+              >{{ selected.file['name'] }}</a>
+            </td>
+          </tr>
+          <tr>
+            <td>配课老师</td>
+            <td>{{ selected.teacher }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
+import SelectComponent from './form-components/select-component.vue';
 
 export default {
   name: "CoursewareTable",
-  data(){
-    return{
-      selected:""
-    }
+  data() {
+    return {
+      index: null
+    };
   },
+
   props: {
     label: String,
-    itemsArray: Array
+    itemArray: Array,
+    name: String,
+    isRequired: Boolean
   },
   methods: {
-    closeSgfield:function(){
-      $(".ui.config.sgfield").css("display","none");
+    closeSgfield: function() {
+      $(".ui.config.sgfield").css("display", "none");
       $(".ui.sgfield > .ui.sginput > .ui.dropdown > .text").html("请选择");
       $(".ui.sgfield > .ui.sginput > .ui.dropdown option").val("");
     },
-    showCourseware(){
-        $(".ui.config.sgfield").css("display","block");
-      }
+    showCourseware() {
+      $(".ui.config.sgfield").css("display", "block");
+    }
   },
-
   mounted: function() {
-    $('.ui.dropdown').dropdown();
+    $(".ui.sgfield .ui.dropdown").dropdown({
+      onChange: function(value, text, $choice) {
+        console.log($choice);
+      }
+    });
+  },
+  components: {
+    SelectComponent
   }
-}
+};
 </script>
 
 <style scoped>
-.ui.config.sgfield  {
+.ui.config.sgfield {
   width: 100%;
   min-width: 320px;
   background: #f6f8fa;
   border-radius: 4px;
   position: relative;
   margin-top: 20px;
-  display: none;
+  /* display: none; */
 }
 
 .ui.config.sgfield > a > svg {
