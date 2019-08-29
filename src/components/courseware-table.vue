@@ -1,75 +1,146 @@
 <template>
   <div class="ui sgfield">
-    <div class="header">子课程</div>
-    <div class="ui sginput">
-        <select class="ui dropdown" v-on:change="showCourseware()">
-            <option value="">请选择</option>
-            <option value="course">
-                关节活动课
-            </option>
-            <option value="course1">1</option>
-        </select>
+    <!-- <div class="header">{{label}}</div>
+    <div v-if="itemArray" class="ui sginput">
+      <select class="ui dropdown" v-on:change="showCourseware()" v-model="selected">
+        <option value></option>
+        <option v-for="item in itemArray" v-bind:value="item" v-bind:key="item.id">{{item.name}}</option>
+      </select>
+    </div>-->
+    <SelectComponent
+      v-bind:label="label"
+      v-bind:name="name"
+      newText="新增子课程"
+      v-bind:itemsArray="itemArray"
+      v-bind:isRequired="true"
+      v-on:onNewOption="onNewOption"
+      v-on:onChangeOption="onChangeOption"
+    />
+    <div v-if="index != null" class="ui config sgfield">
+      <a v-on:click="closeSgfield">
+        <i class="fas fa-times"></i>
+      </a>
+      <a href="#">
+        <i class="icon primary edit"></i>
+      </a>
+      <table>
+        <tbody>
+          <tr>
+            <td>课程名称</td>
+            <td>{{ itemArray[index].name }}</td>
+          </tr>
+          <tr>
+            <td>文件资料</td>
+            <td>
+              <a
+                v-bind:href="itemArray[index].file.url"
+                v-bind:download="itemArray[index].file.name"
+              >{{ itemArray[index].file.name }}</a>
+            </td>
+          </tr>
+          <tr>
+            <td>配课老师</td>
+            <td>{{ itemArray[index].teacher.name }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="ui config sgfield">
-        <a v-on:click="closeSgfield"><i class="fas fa-times"></i></a>
-        <a href="#"><i class="icon primary edit"></i></a>
-        <table>
-          <tbody>
-            <tr>
-              <td>课程名称</td>
-              <td>{{coursewareTable.name}}</td>
-            </tr>
-            <tr>
-              <td>文件资料</td>
-              <td><a href="#" download="#">{{coursewareTable.file}}</a></td>
-            </tr>
-            <tr>
-              <td>配课老师</td>
-              <td>{{coursewareTable.teacher}}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="inline fields">
+      <div class="ui sgfield">
+        <div class="header">媒体资料</div>
+        <div class="ui file sgfield">
+          <div class="ui inverted button">+添加文件</div>
+          <input type="file" id="mediaFile" v-on:click="showMediaFile">
+          <div class="description" id="mediaFileUrl">未选择任何文件</div>
+        </div>
+      </div>
+      <div class="ui sgfield">
+        <div class="header">文件</div>
+        <div class="ui file sgfield">
+          <div class="ui inverted button">+添加文件</div>
+          <input type="file" id="file" v-on:click="showFile">
+          <div class="description" id="fileUrl">未选择任何文件</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import SelectComponent from "./form-components/select-component.vue";
+
 export default {
   name: "CoursewareTable",
-  // data() {
-  //   return {
-  //     url: coursewareTable.url
-  //   }
-  // },
+  data: function() {
+    return {
+      index: null
+    }
+  },
   props: {
-    "courseware-table":Object
+    label: String,
+    itemArray: Array,
+    name: String,
+    isRequired: Boolean
   },
   methods: {
-    closeSgfield:function(){
-      $(".ui.config.sgfield").css("display","none");
-      $(".ui.sgfield > .ui.sginput > .ui.dropdown > .text").html("请选择");
-      $(".ui.sgfield > .ui.sginput > .ui.dropdown option").val("0");
+    closeSgfield: function() {
+      $(".ui.config.sgfield").css("display", "none");
     },
-    showCourseware(){
-        $(".ui.config.sgfield").css("display","block");
-      }
-  },
-      mounted: function() {
-    $('.ui.dropdown').dropdown();
+    onChangeOption: function(name, index) {
+      console.log(index);
+      this.index = index;
+      $(".ui.config.sgfield").css("display", "block");
+    },
+    onNewOption: function(name) {
+      console.log(name);
+      $(".ui.modal:not(.period-course)").dimmer("show");
+      $(".ui.modal.period-course").dimmer("hide");
+      $(".ui.modal.period-course")
+        .modal({
+          autofocus: false,
+          allowMultiple: true,
+          onHide: function() {
+            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer("hide");
+          }
+        })
+        .modal("show");
+    },
+    showMediaFile: function(){
+      var file = $('#mediaFile'),
+      aim = $('#mediaFileUrl');
+      file.on('change', function( e ){
+          var name = e.currentTarget.files[0].name;
+          aim.text( name ).css("color","#4a90e2");
+      });
+    },
+    showFile: function(){
+      var file = $('#file'),
+      aim = $('#fileUrl');
+      file.on('change', function( e ){
+          var name = e.currentTarget.files[0].name;
+          aim.text( name ).css("color","#4a90e2");
+      });
     }
-}
+  },
+  mounted: function() {
+    $(".ui.sgfield .ui.dropdown").dropdown();
+  },
+  components: {
+    SelectComponent
+  }
+};
 </script>
 
 <style scoped>
-.ui.config.sgfield  {
+.ui.config.sgfield {
   width: 100%;
   min-width: 320px;
   background: #f6f8fa;
   border-radius: 4px;
   position: relative;
   margin-top: 20px;
-  display: none;
+  /* display: none; */
 }
 
 .ui.config.sgfield > a > svg {
@@ -120,4 +191,5 @@ export default {
   padding-left: 10px;
   color: #4b525a;
 }
+
 </style>

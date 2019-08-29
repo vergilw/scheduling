@@ -7,10 +7,12 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'semantic-ui-css/semantic';
 const axios = require('axios');
 import Sortable from 'sortablejs';
+import ApiConfig from './api/api.config.js';
 
 import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
 import CourseForm from './components/course-form.vue';
+import CoursePeriodForm from './components/course-period-form.vue';
 
 
 var dateFormat = require('dateformat');
@@ -35,6 +37,7 @@ const store = new Vuex.Store({
     teacherModels: null,
     majorCourseTypeModels: null,
     minorCourseTypeModels: null,
+    coursewareModels: null,
     courseConfigModels: null,
     isLoading: false
   },
@@ -57,9 +60,12 @@ const store = new Vuex.Store({
     teacherModelsUpdated(state, models) {
       state.teacherModels = models;
     },
-    courseTypesModelsUpdated(state, {majorModels, minorModels}) {
+    courseTypesModelsUpdated(state, { majorModels, minorModels }) {
       state.majorCourseTypeModels = majorModels;
       state.minorCourseTypeModels = minorModels;
+    },
+    coursewareModelsUpdated(state, models) {
+      state.coursewareModels = models;
     },
     courseConfigModelsUpdated(state, models) {
       state.courseConfigModels = models;
@@ -87,12 +93,18 @@ var courseForm = new Vue({
   render: h => h(CourseForm),
 });
 
+var coursePeriodForm = new Vue({
+  el: '#course-period-form',
+  store,
+  render: h => h(CoursePeriodForm),
+});
+
 //get courses
 store.state.isLoading = true;
-axios.get('http://192.168.0.115:3000/schedule/index')
+axios.get(ApiConfig.hostname + '/schedule/index')
   .then(function (response) {
 
-    setTimeout(function() {
+    setTimeout(function () {
       store.commit('scheduleModelsUpdated', response['data']);
       store.state.isLoading = false;
     }, 2000);
@@ -105,7 +117,7 @@ axios.get('http://192.168.0.115:3000/schedule/index')
   });
 
 //get rooms
-axios.get('http://192.168.0.122/schedule/rooms')
+axios.get(ApiConfig.hostname + '/schedule/rooms')
   .then(function (response) {
     store.commit('roomModelsUpdated', response['data']);
   })
@@ -117,7 +129,7 @@ axios.get('http://192.168.0.122/schedule/rooms')
   });
 
 //get crowds
-axios.get('http://192.168.0.122/schedule/crowds')
+axios.get(ApiConfig.hostname + '/schedule/crowds')
   .then(function (response) {
     store.commit('crowdModelsUpdated', response['data']);
   })
@@ -129,7 +141,7 @@ axios.get('http://192.168.0.122/schedule/crowds')
   });
 
 //get teachers
-axios.get('http://192.168.0.122/schedule/teachers')
+axios.get(ApiConfig.hostname + '/schedule/teachers')
   .then(function (response) {
     store.commit('teacherModelsUpdated', response['data']);
   })
@@ -141,7 +153,7 @@ axios.get('http://192.168.0.122/schedule/teachers')
   });
 
 //get courseTypes
-axios.get('http://192.168.0.122/schedule/courseTypes')
+axios.get(ApiConfig.hostname + '/schedule/courseTypes')
   .then(function (response) {
     store.commit('courseTypesModelsUpdated', { majorModels: response['data']['major'], minorModels: response['data']['minor'] });
   })
@@ -151,9 +163,27 @@ axios.get('http://192.168.0.122/schedule/courseTypes')
   .finally(function () {
 
   });
+//get coursewares
+axios.get(ApiConfig.hostname + "/schedule/courses")
+  .then(function(response) {
+    store.commit("coursewareModelsUpdated", response["data"]);
+  })
+  .catch(function(error) {
+    console.log(error);
+  })
+  .finally(function() {
+
+  });
+
+  $('.ui.modal').dimmer({
+    onHide: function() {
+      console.log('111');
+      // $(".page.dimmer > .ui.active.modal:nth-last-child(2)").modal('hide');
+    }
+  });
 
 //get courseConfig
-axios.get('http://192.168.0.122/schedule/courseConfig')
+axios.get(ApiConfig.hostname + '/schedule/courseConfig')
     .then(function (response) {
       store.commit('courseConfigModelsUpdated', response['data']);
     })
