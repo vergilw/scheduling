@@ -35,6 +35,7 @@ const store = new Vuex.Store({
     teacherModels: null,
     majorCourseTypeModels: null,
     minorCourseTypeModels: null,
+    courseConfigModels: null,
     isLoading: false
   },
   mutations: {
@@ -59,7 +60,10 @@ const store = new Vuex.Store({
     courseTypesModelsUpdated(state, {majorModels, minorModels}) {
       state.majorCourseTypeModels = majorModels;
       state.minorCourseTypeModels = minorModels;
-    }
+    },
+    courseConfigModelsUpdated(state, models) {
+      state.courseConfigModels = models;
+    },
   }
 })
 
@@ -85,10 +89,10 @@ var courseForm = new Vue({
 
 //get courses
 store.state.isLoading = true;
-axios.get('http://192.168.0.109/schedule/index')
+axios.get('http://192.168.0.115:3000/schedule/index')
   .then(function (response) {
 
-    setTimeout(function () {
+    setTimeout(function() {
       store.commit('scheduleModelsUpdated', response['data']);
       store.state.isLoading = false;
     }, 2000);
@@ -147,3 +151,15 @@ axios.get('http://192.168.0.122/schedule/courseTypes')
   .finally(function () {
 
   });
+
+//get courseConfig
+axios.get('http://192.168.0.122/schedule/courseConfig')
+    .then(function (response) {
+      store.commit('courseConfigModelsUpdated', response['data']);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(function () {
+
+    });

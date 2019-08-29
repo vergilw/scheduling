@@ -14,6 +14,9 @@
         <InputComponent label="限制人数" name="limitCapacity" v-bind:value="limitCapacity" />
         <InputComponent v-bind:isMultipleLines=true label="备注" name="limitCapacity" v-bind:value="limitCapacity" />
         <Courseware v-bind:coursewareTable="{name:'关节活动课',file: '关节活动课.docx',url: 'image/404.png',teacher: '橙子老师',}"></Courseware>
+        <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate"/>
+        <CourseConfig label="人员配置" :itemArray="courseConfigModels"/>
+
       </form>
     </div>
   </div>
@@ -23,13 +26,17 @@
 import SelectComponent from './form-components/select-component.vue';
 import InputComponent from './form-components/input-component.vue';
 import Courseware from './courseware-table.vue';
+import DateInterval from './date-interval.vue'
+import CourseConfig from './course-config.vue'
 
 export default {
   name: "CourseForm",
   data: function() {
     return {
       courseTitle: null,
-      limitCapacity: null
+      limitCapacity: null,
+      startDate: null,
+      endDate: null,
     }
   },
   computed: {
@@ -44,13 +51,18 @@ export default {
     },
     courseTypeModels: function() {
       return [this.$store.state.majorCourseTypeModels, this.$store.state.minorCourseTypeModels];
-    }
+    },
+    courseConfigModels: function() {
+      return this.$store.state.courseConfigModels;
+    },
   },
   components: {
     SelectComponent,
     InputComponent,
-    Courseware
-  }
+    Courseware,
+    DateInterval,
+    CourseConfig,
+  },
 };
 </script>
 
