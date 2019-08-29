@@ -92,7 +92,7 @@ var coursePeriodForm = new Vue({
 
 //get courses
 store.state.isLoading = true;
-axios.get('http://192.168.0.109/schedule/index')
+axios.get('http://192.168.0.122/schedule/index')
   .then(function (response) {
 
     setTimeout(function () {
@@ -153,4 +153,11 @@ axios.get('http://192.168.0.122/schedule/courseTypes')
   })
   .finally(function () {
 
+  });
+
+  $('.ui.modal').dimmer({
+    onHide: function() {
+      console.log('111');
+      // $(".page.dimmer > .ui.active.modal:nth-last-child(2)").modal('hide');
+    }
   });
