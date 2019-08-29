@@ -12,11 +12,9 @@
       v-bind:name="name"
       v-bind:itemsArray="itemArray"
       v-bind:isRequired="true"
-      v-bind:index="index"
-      v-bind:onChangeOption="onChangeOption"
+      v-on:onChangeOption="onChangeOption"
     />
-
-    <div v-if="index" class="ui config sgfield">
+    <div v-if="index != null" class="ui config sgfield">
       <a v-on:click="closeSgfield">
         <i class="fas fa-times"></i>
       </a>
@@ -27,20 +25,20 @@
         <tbody>
           <tr>
             <td>课程名称</td>
-            <td>{{ itemArray[index].name }}</td>
+            <td>{{ itemArray[0][index].name }}</td>
           </tr>
           <tr>
             <td>文件资料</td>
             <td>
               <a
-                v-bind:href="selected.file"
-                v-bind:download="selected.file"
-              >{{ itemArray[index].file['name'] }}</a>
+                v-bind:href="itemArray[0][index].file"
+                v-bind:download="itemArray[0][index].file"
+              >{{ itemArray[0][index].file }}</a>
             </td>
           </tr>
           <tr>
             <td>配课老师</td>
-            <td>{{ itemArray[index].teacher }}</td>
+            <td>{{ itemArray[0][index].teacher }}</td>
           </tr>
         </tbody>
       </table>
@@ -53,12 +51,11 @@ import SelectComponent from "./form-components/select-component.vue";
 
 export default {
   name: "CoursewareTable",
-  data() {
+  data: function() {
     return {
       index: null
-    };
+    }
   },
-
   props: {
     label: String,
     itemArray: Array,
@@ -76,6 +73,10 @@ export default {
     },
     showCourseware() {
       $(".ui.config.sgfield").css("display", "block");
+    },
+    onChangeOption: function(name, index) {
+      console.log(index);
+      this.index = index;
     }
 
   },
