@@ -10,7 +10,8 @@
     <SelectComponent v-bind:label="label"
           v-bind:name="name"
           v-bind:itemsArray="itemArray"
-          v-bind:isRequired="true" />
+          v-bind:isRequired="true"
+          v-bind:onChangeOption="onChangeOption" />
 
     <div v-if="selected" class="ui config sgfield">
       <a v-on:click="closeSgfield">
@@ -69,6 +70,9 @@ export default {
     },
     showCourseware() {
       $(".ui.config.sgfield").css("display", "block");
+    },
+    onChangeOption: function(name, index) {
+      console.log(index);
     }
   },
   mounted: function() {
