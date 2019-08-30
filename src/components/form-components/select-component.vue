@@ -65,6 +65,12 @@ export default {
     isRequired: Boolean,
     newText: String
   },
+  methods:{
+    changeValue:function(value){
+      $(".field > .ui.dropdown > .text").html(value);
+      $(".field > .ui.dropdown .item").removeClass("active selected");
+    }
+  },
   updated: function() {
     $(".field .ui.dropdown").dropdown();
   }
