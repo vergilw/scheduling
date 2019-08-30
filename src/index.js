@@ -165,31 +165,31 @@ axios.get(ApiConfig.hostname + '/schedule/courseTypes')
   });
 //get coursewares
 axios.get(ApiConfig.hostname + "/schedule/courses")
-  .then(function(response) {
+  .then(function (response) {
     store.commit("coursewareModelsUpdated", response["data"]);
   })
-  .catch(function(error) {
+  .catch(function (error) {
     console.log(error);
   })
-  .finally(function() {
+  .finally(function () {
 
   });
 
-  $('.ui.modal').dimmer({
-    onHide: function() {
-      console.log('111');
-      // $(".page.dimmer > .ui.active.modal:nth-last-child(2)").modal('hide');
-    }
-  });
+// $('.ui.modal:not(.page)').dimmer({
+//   onHide: function () {
+//     console.log($(".page.dimmer > .ui.active.modal:last-child"));
+//     // $(".page.dimmer > .ui.active.modal:last-child").modal('hide');
+//   }
+// });
 
 //get courseConfig
 axios.get(ApiConfig.hostname + '/schedule/courseConfig')
-    .then(function (response) {
-      store.commit('courseConfigModelsUpdated', response['data']);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .finally(function () {
+  .then(function (response) {
+    store.commit('courseConfigModelsUpdated', response['data']);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+  .finally(function () {
 
-    });
+  });

@@ -41,14 +41,13 @@
         />
         <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note" />
         <Courseware label="子课程" name="courseware" v-bind:itemArray="coursewareModels"></Courseware>
-          <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate"/>
-          <CourseConfig label="人员配置" :itemArray="courseConfigModels"/>
+        <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate" />
+        <CourseConfig label="人员配置" :itemArray="courseConfigModels" />
 
-          <div class="ui error message"></div>
+        <div class="ui error message"></div>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
-
       </form>
       <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
         <div class="ui loader"></div>
@@ -64,7 +63,6 @@ import Courseware from "./courseware-table.vue";
 import DateInterval from "./date-interval.vue";
 import CourseConfig from "./course-config.vue";
 
-
 export default {
   name: "CourseForm",
   data: function() {
@@ -73,8 +71,8 @@ export default {
       note: null,
       isLoading: false,
       startDate: null,
-      endDate: null,
-    }
+      endDate: null
+    };
   },
   computed: {
     roomModels: function() {
@@ -95,32 +93,37 @@ export default {
     coursewareModels: function() {
       return this.$store.state.coursewareModels;
     },
-      courseConfigModels: function() {
-          return this.$store.state.courseConfigModels;
-      },
+    courseConfigModels: function() {
+      return this.$store.state.courseConfigModels;
+    }
   },
   components: {
     SelectComponent,
     InputComponent,
     Courseware,
-      DateInterval,
-      CourseConfig,
+    DateInterval,
+    CourseConfig
   },
   methods: {
     onChangeOption: function(name, index) {
       console.log(index);
     },
     onNewOption: function(name) {
-      $(".ui.modal:not(.period-course)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.period-course)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.period-course):last-child").dimmer({
+        onHide: function() {
+          $(".ui.modal.period-course").modal('hide');
+        }
+      });
       $(".ui.modal.period-course").dimmer("hide");
+
+      var element = this.$el;
       $(".ui.modal.period-course")
         .modal({
           autofocus: false,
           allowMultiple: true,
-          onHide: function() {
-            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer(
-              "hide"
-            );
+          onHidden: function() {
+            $(element).dimmer("hide");
           }
         })
         .modal("show");
