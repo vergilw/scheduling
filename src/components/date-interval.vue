@@ -1,0 +1,34 @@
+<template>
+    <div class="interval field">
+        <label class="header">{{label}}</label>
+        <div class="inline fields">
+            <date-component date-holder="选择开始时间" :value="startDate"></date-component>
+            <span class="span">-</span>
+            <date-component date-holder="选择结束时间" :value="endDate"></date-component>
+        </div>
+    </div>
+</template>
+
+<script>
+  import DateComponent from './form-components/date-component.vue'
+
+  export default {
+    name: 'DateInterval',
+    props: {
+        label: String,
+        startDate: String,
+        endDate: String
+    },
+    components: {
+      'date-component': DateComponent
+    }
+  };
+</script>
+
+<style scoped>
+
+    .span {
+        margin: 5px;
+    }
+
+</style>

@@ -41,10 +41,14 @@
         />
         <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note" />
         <Courseware label="子课程" name="courseware" v-bind:itemArray="coursewareModels"></Courseware>
-        <div class="ui error message"></div>
+          <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate"/>
+          <CourseConfig label="人员配置" :itemArray="courseConfigModels"/>
+
+          <div class="ui error message"></div>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
+
       </form>
       <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
         <div class="ui loader"></div>
@@ -57,6 +61,9 @@
 import SelectComponent from "./form-components/select-component.vue";
 import InputComponent from "./form-components/input-component.vue";
 import Courseware from "./courseware-table.vue";
+import DateInterval from "./date-interval.vue";
+import CourseConfig from "./course-config.vue";
+
 
 export default {
   name: "CourseForm",
@@ -64,8 +71,10 @@ export default {
     return {
       courseTitle: null,
       note: null,
-      isLoading: false
-    };
+      isLoading: false,
+      startDate: null,
+      endDate: null,
+    }
   },
   computed: {
     roomModels: function() {
@@ -85,12 +94,17 @@ export default {
     },
     coursewareModels: function() {
       return this.$store.state.coursewareModels;
-    }
+    },
+      courseConfigModels: function() {
+          return this.$store.state.courseConfigModels;
+      },
   },
   components: {
     SelectComponent,
     InputComponent,
-    Courseware
+    Courseware,
+      DateInterval,
+      CourseConfig,
   },
   methods: {
     onChangeOption: function(name, index) {

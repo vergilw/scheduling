@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     majorCourseTypeModels: null,
     minorCourseTypeModels: null,
     coursewareModels: null,
+    courseConfigModels: null,
     isLoading: false
   },
   mutations: {
@@ -66,8 +67,11 @@ const store = new Vuex.Store({
     coursewareModelsUpdated(state, models) {
       state.coursewareModels = models;
     },
+    courseConfigModelsUpdated(state, models) {
+      state.courseConfigModels = models;
+    },
   }
-});
+})
 
 
 var weekHeader = new Vue({
@@ -177,3 +181,15 @@ axios.get(ApiConfig.hostname + "/schedule/courses")
       // $(".page.dimmer > .ui.active.modal:nth-last-child(2)").modal('hide');
     }
   });
+
+//get courseConfig
+axios.get(ApiConfig.hostname + '/schedule/courseConfig')
+    .then(function (response) {
+      store.commit('courseConfigModelsUpdated', response['data']);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(function () {
+
+    });
