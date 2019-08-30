@@ -12,10 +12,14 @@
           v-bind:isRequired="true"
         />
         <FileComponent/>
+        <div class="ui error message"></div>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
       </form>
+      <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
+        <div class="ui loader"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +32,7 @@ export default {
   name: "SubcourseForm",
   data: function() {
     return {
+      isLoading: false,
     };
   },
   components: {
@@ -46,8 +51,6 @@ export default {
         }
         obj.isLoading = false;
       }, 2000);
-
-      console.log(this.courseTitle);
     }
   },
   updated: function() {
