@@ -15,6 +15,7 @@
       v-bind:isRequired="true"
       v-on:onNewOption="onNewOption"
       v-on:onChangeOption="onChangeOption"
+      ref="child"
     />
     <div v-if="index != null" class="ui config sgfield">
       <a v-on:click="closeSgfield">
@@ -50,7 +51,7 @@
       <div class="ui sgfield">
         <div class="header">媒体资料</div>
         <div class="ui file sgfield">
-          <div class="ui inverted button">+添加文件</div>
+          <div class="ui inverted button"><i class="fas fa-plus"></i>添加文件</div>
           <input type="file" id="mediaFile" v-on:click="showMediaFile">
           <div class="description" id="mediaFileUrl">未选择任何文件</div>
         </div>
@@ -58,7 +59,7 @@
       <div class="ui sgfield">
         <div class="header">文件</div>
         <div class="ui file sgfield">
-          <div class="ui inverted button">+添加文件</div>
+          <div class="ui inverted button"><i class="fas fa-plus"></i>添加文件</div>
           <input type="file" id="file" v-on:click="showFile">
           <div class="description" id="fileUrl">未选择任何文件</div>
         </div>
@@ -74,7 +75,8 @@ export default {
   name: "CoursewareTable",
   data: function() {
     return {
-      index: null
+      index: null,
+      value: ""
     }
   },
   props: {
@@ -84,13 +86,17 @@ export default {
     isRequired: Boolean
   },
   methods: {
-    closeSgfield: function() {
-      $(".ui.config.sgfield").css("display", "none");
-    },
     onChangeOption: function(name, index) {
       console.log(index);
       this.index = index;
       $(".ui.config.sgfield").css("display", "block");
+    },
+    closeSgfield: function(index) {
+      $(".ui.config.sgfield").css("display", "none");
+      // this.index=null;
+      // console.log(this.index);
+      // $(".field > .ui.dropdown > .text").html("");
+      this.$refs.child.changeValue(this.value);
     },
     onNewOption: function(name) {
       console.log(name);
@@ -111,7 +117,13 @@ export default {
       aim = $('#mediaFileUrl');
       file.on('change', function( e ){
           var name = e.currentTarget.files[0].name;
-          aim.text( name ).css("color","#4a90e2");
+          if(name.length>20){
+           var str = name.substr(0,20)+"...";
+            aim.text( str ).css("color","#4a90e2");
+          }else{
+            aim.text( name ).css("color","#4a90e2");
+          }
+
       });
     },
     showFile: function(){
@@ -119,7 +131,12 @@ export default {
       aim = $('#fileUrl');
       file.on('change', function( e ){
           var name = e.currentTarget.files[0].name;
-          aim.text( name ).css("color","#4a90e2");
+          if(name.length>20){
+           var str = name.substr(0,20)+"...";
+            aim.text( str ).css("color","#4a90e2");
+          }else{
+            aim.text( name ).css("color","#4a90e2");
+          }
       });
     }
   },
@@ -128,7 +145,12 @@ export default {
   },
   components: {
     SelectComponent
-  }
+  },
+  // updated: function(){
+  //   $(".ui.config.sgfield > a > svg").click(function(){
+  //     alert(11);
+  //   })
+  // }
 };
 </script>
 
@@ -148,7 +170,7 @@ export default {
   color: #9199a3;
   font-size: 14px;
   position: absolute;
-  right: 12px;
+  right: 14px;
 }
 
 .ui.config.sgfield > a > i {
@@ -192,4 +214,10 @@ export default {
   color: #4b525a;
 }
 
+.ui.file.sgfield > .description {
+  width: 50%;
+}
+.ui.file.sgfield > .ui.button {
+  width: 115px;
+}
 </style>
