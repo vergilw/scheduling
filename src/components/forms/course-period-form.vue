@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import SelectComponent from "./form-components/select-component.vue";
-import InputComponent from "./form-components/input-component.vue";
+import SelectComponent from "../form-components/select-component.vue";
+import InputComponent from "../form-components/input-component.vue";
 
 export default {
   name: "CourseForm",
@@ -45,13 +45,13 @@ export default {
   },
   computed: {
     roomModels: function() {
-      return this.$store.state.roomModels;
+      return this.$store.state.global.roomModels;
     },
     crowdModels: function() {
-      return this.$store.state.crowdModels;
+      return this.$store.state.global.crowdModels;
     },
     teacherModels: function() {
-      return this.$store.state.teacherModels;
+      return this.$store.state.global.teacherModels;
     }
   },
   components: {
@@ -60,7 +60,24 @@ export default {
   },
   methods: {
     onNewOption: function(name) {
-      console.log(name);
+      $(".ui.active.dimmable.modal:not(.room)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.room):last-child").dimmer({
+        onHide: function() {
+          $(".ui.modal.room").modal('hide');
+        }
+      });
+      $(".ui.modal.room").dimmer("hide");
+
+      var element = this.$el;
+      $(".ui.modal.room")
+        .modal({
+          autofocus: false,
+          allowMultiple: true,
+          onHidden: function() {
+            $(element).dimmer("hide");
+          }
+        })
+        .modal("show");
     },
     onSubmit: function() {
       //   $(".ui.form").form({

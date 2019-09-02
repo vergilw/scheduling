@@ -9,13 +9,11 @@
         <InputComponent
           label="教室名称"
           name="name"
-          v-bind:value="courseTitle"
           v-bind:isRequired="true"
         />
         <InputComponent
           label="限制人数"
           name="name"
-          v-bind:value="courseTitle"
           v-bind:isRequired="true"
         />
         <div class="action">
@@ -27,33 +25,19 @@
 </template>
 
 <script>
-import SelectComponent from "./form-components/select-component.vue";
-import InputComponent from "./form-components/input-component.vue";
+import SelectComponent from "../form-components/select-component.vue";
+import InputComponent from "../form-components/input-component.vue";
 
 export default {
-  name: "CourseForm",
+  name: "RoomForm",
   data: function() {
     return {};
-  },
-  computed: {
-    roomModels: function() {
-      return this.$store.state.roomModels;
-    },
-    crowdModels: function() {
-      return this.$store.state.crowdModels;
-    },
-    teacherModels: function() {
-      return this.$store.state.teacherModels;
-    }
   },
   components: {
     SelectComponent,
     InputComponent
   },
   methods: {
-    onNewOption: function(name) {
-      console.log(name);
-    },
     onSubmit: function() {
       //   $(".ui.form").form({
       //     fields: {

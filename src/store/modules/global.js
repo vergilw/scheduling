@@ -36,7 +36,7 @@ const actions = {
     },
     getCourseTypes({ state, commit, rootState }) {
         globalApi.getCourseTypes(response => {
-            commit('courseTypeModelsUpdated', response['data']);
+            commit('courseTypeModelsUpdated', { 'majorModels': response['data']['major'], 'minorModels': response['data']['minor'] });
         }, error => {
 
         })
