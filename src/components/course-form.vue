@@ -110,7 +110,7 @@ export default {
     },
     onNewOption: function(name) {
       $(".ui.active.dimmable.modal:not(.period-course)").dimmer("show");
-      $(".ui.active.dimmable.modal:not(.period-course):last-child").dimmer({
+      $(".ui.active.dimmable.course.modal").dimmer({
         onHide: function() {
           $(".ui.modal.period-course").modal('hide');
         }

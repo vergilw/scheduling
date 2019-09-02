@@ -72,7 +72,10 @@ export default {
     onNewOption: function(name) {
       console.log(name);
       $(".ui.active.dimmable.modal:not(.period-subcourse)").dimmer("show");
-      $(".ui.active.dimmable.modal:not(.period-subcourse):last-child").dimmer({
+      $(".ui.modal.period-subcourse > svg").click(function(){
+          $(".ui.active.dimmable.modal:not(.period-subcourse)").dimmer("hide");
+      });
+      $(".ui.active.dimmable.course.modal").dimmer({
         onHide:function(){
           $(".ui.modal.period-subcourse").modal('hide');
         }

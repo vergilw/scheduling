@@ -45,13 +45,13 @@ export default {
   },
   computed: {
     roomModels: function() {
-      return this.$store.state.roomModels;
+      return this.$store.state.global.roomModels;
     },
     crowdModels: function() {
-      return this.$store.state.crowdModels;
+      return this.$store.state.global.crowdModels;
     },
     teacherModels: function() {
-      return this.$store.state.teacherModels;
+      return this.$store.state.global.teacherModels;
     }
   },
   components: {
