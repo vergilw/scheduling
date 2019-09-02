@@ -1,12 +1,5 @@
 <template>
   <div class="field">
-    <!-- <div class="header">{{label}}</div>
-    <div v-if="itemArray" class="ui sginput">
-      <select class="ui dropdown" v-on:change="showCourseware()" v-model="selected">
-        <option value></option>
-        <option v-for="item in itemArray" v-bind:value="item" v-bind:key="item.id">{{item.name}}</option>
-      </select>
-    </div>-->
     <SelectComponent
       v-bind:label="label"
       v-bind:name="name"
