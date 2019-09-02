@@ -71,15 +71,15 @@ export default {
   name: "TableHeader",
   computed: {
     weekStart: function() {
-      return new Date(this.$store.state.weekStart.getTime());
+      return new Date(this.$store.state.schedule.weekStart.getTime());
     },
     dateRange: function() {
       return (
-        dateFormat(this.$store.state.weekStart, "yyyy.mm.dd") +
+        dateFormat(this.$store.state.schedule.weekStart, "yyyy.mm.dd") +
         " - " +
         dateFormat(
           new Date(
-            this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6
+            this.$store.state.schedule.weekStart.getTime() + 3600 * 24 * 1000 * 6
           ),
           "yyyy.mm.dd"
         )
@@ -88,14 +88,16 @@ export default {
   },
   methods: {
     rangeBack() {
-      this.$store.commit("dateRangeBack");
+      this.$store.commit("schedule/dateRangeBack");
     },
     rangeFront() {
-      this.$store.commit("dateRangeFront");
+      this.$store.commit("schedule/dateRangeFront");
     },
     addCourse() {
-      $('.ui.modal.course').dimmer('hide');
-      $(".ui.modal.course").modal({ autofocus: false, allowMultiple: true }).modal("show");
+      $(".ui.modal.course").dimmer("hide");
+      $(".ui.modal.course")
+        .modal({ autofocus: false, allowMultiple: true })
+        .modal("show");
     }
   },
   mounted: function() {
