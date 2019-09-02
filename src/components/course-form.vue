@@ -76,25 +76,25 @@ export default {
   },
   computed: {
     roomModels: function() {
-      return this.$store.state.roomModels;
+      return this.$store.state.global.roomModels;
     },
     crowdModels: function() {
-      return this.$store.state.crowdModels;
+      return this.$store.state.global.crowdModels;
     },
     teacherModels: function() {
-      return this.$store.state.teacherModels;
+      return this.$store.state.global.teacherModels;
     },
     courseTypeModels: function() {
       return [
-        this.$store.state.majorCourseTypeModels,
-        this.$store.state.minorCourseTypeModels
+        this.$store.state.global.majorCourseTypeModels,
+        this.$store.state.global.minorCourseTypeModels
       ];
     },
     coursewareModels: function() {
-      return this.$store.state.coursewareModels;
+      return this.$store.state.global.coursewareModels;
     },
     courseConfigModels: function() {
-      return this.$store.state.courseConfigModels;
+      return this.$store.state.global.courseConfigModels;
     }
   },
   components: {

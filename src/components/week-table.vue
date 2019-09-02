@@ -126,7 +126,7 @@
       </tr>
     </tbody>
 
-    <div class="ui inverted dimmer" v-bind:class="{active: this.$store.state.isLoading}">
+    <div class="ui inverted dimmer" v-bind:class="{active: this.$store.state.schedule.scheduleLoading}">
       <div class="ui loader"></div>
     </div>
   </table>
@@ -137,65 +137,14 @@ import Course from "./course-card.vue";
 var dateFormat = require("dateformat");
 import Sortable from "sortablejs";
 
-// $(document).ready(function() {
-//   var courseContainerElements = $(
-//     "table > tbody > tr > td  > .content:not(:eq(0))"
-//   );
-//   for (var i = 0; i < courseContainerElements.length; ++i) {
-//     Sortable.create(courseContainerElements[i], {
-//       group: "course-group",
-//       animation: 150
-//     });
-//   }
-// });
-
 export default {
   name: "WeekTable",
   computed: {
     weekStart: function() {
-      return new Date(this.$store.state.weekStart.getTime());
+      return new Date(this.$store.state.schedule.weekStart.getTime());
     },
-    // dates: function() {
-    //   return [
-    //     dateFormat(this.$store.state.weekStart, "周一(mm月dd日)"),
-    //     dateFormat(
-    //       new Date(this.$store.state.weekStart.getTime() + 3600 * 24 * 1000),
-    //       "周二(mm月dd日)"
-    //     ),
-    //     dateFormat(
-    //       new Date(
-    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 2
-    //       ),
-    //       "周三(mm月dd日)"
-    //     ),
-    //     dateFormat(
-    //       new Date(
-    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 3
-    //       ),
-    //       "周四(mm月dd日)"
-    //     ),
-    //     dateFormat(
-    //       new Date(
-    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 4
-    //       ),
-    //       "周五(mm月dd日)"
-    //     ),
-    //     dateFormat(
-    //       new Date(
-    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 5
-    //       ),
-    //       "周六(mm月dd日)"
-    //     ),
-    //     dateFormat(
-    //       new Date(
-    //         this.$store.state.weekStart.getTime() + 3600 * 24 * 1000 * 6
-    //       ),
-    //       "周日(mm月dd日)"
-    //     )
-    //   ];
-    // },
     scheduleModels: function() {
-      return this.$store.state.scheduleModels;
+      return this.$store.state.schedule.scheduleModels;
     }
   },
   methods: {
@@ -227,6 +176,14 @@ export default {
   },
   components: {
     Course
+  },
+  created: function() {
+    this.$store.dispatch('schedule/getSchedule');
+    this.$store.dispatch('global/getRooms');
+    this.$store.dispatch('global/getCrowds');
+    this.$store.dispatch('global/getTeachers');
+    this.$store.dispatch('global/getCourseTypes');
+    this.$store.dispatch('global/getCoursewares');
   }
 };
 </script>
