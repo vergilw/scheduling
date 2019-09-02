@@ -1875,7 +1875,7 @@ cyclist@~0.2.2:
 
 "dappore-ui@git+https://github.com/dappore/dappore-ui.git":
   version "1.0.0"
-  resolved "git+https://github.com/dappore/dappore-ui.git#37e224d6c4feb60fc600e3722f80b7189742de3b"
+  resolved "git+https://github.com/dappore/dappore-ui.git#bd79b463c59fce7d3ac668c2feaa05f5704a817f"
   dependencies:
     "@fortawesome/fontawesome-free" "^5.9.0"
     jquery "^3.4.1"

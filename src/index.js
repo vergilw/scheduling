@@ -14,6 +14,7 @@ import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
 import CourseForm from './components/course-form.vue';
 import CoursePeriodForm from './components/course-period-form.vue';
+import subcourseForm from './components/subcourse-form.vue';
 
 require('./index.css');
 
@@ -48,3 +49,8 @@ var coursePeriodForm = new Vue({
   render: h => h(CoursePeriodForm),
 });
 
+var SubcourseForm = new Vue({
+  el: "#subcourse-form",
+  store,
+  render: h => h(subcourseForm)
+});
