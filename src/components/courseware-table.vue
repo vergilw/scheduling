@@ -14,7 +14,7 @@
       <a v-on:click="closeSgfield">
         <i class="fas fa-times"></i>
       </a>
-      <a href="#">
+      <a href="">
         <i class="icon primary edit"></i>
       </a>
       <table>
@@ -71,14 +71,20 @@ export default {
     },
     onNewOption: function(name) {
       console.log(name);
-      $(".ui.modal:not(.period-subcourse)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.period-subcourse)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.period-subcourse):last-child").dimmer({
+        onHide:function(){
+          $(".ui.modal.period-subcourse").modal('hide');
+        }
+      });
       $(".ui.modal.period-subcourse").dimmer("hide");
+      var element = this.$el;
       $(".ui.modal.period-subcourse")
         .modal({
           autofocus: false,
           allowMultiple: true,
-          onHide: function() {
-            $(".page.dimmer > .ui.active.modal:nth-last-child(2)").dimmer("hide");
+          onHideen: function() {
+            $(element).dimmer("hide");
           }
         })
         .modal("show");
