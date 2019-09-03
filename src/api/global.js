@@ -55,7 +55,7 @@ export default {
     },
 
     getCoursewares(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/courses')
+        axios.get(apiConfig.hostname + '/schedule/coursewares')
             .then(function (response) {
                 successCallback(response);
             })

@@ -2,7 +2,8 @@
   <div class="field" v-bind:class="{ required : isRequired }">
     <label>{{ label }}</label>
     <textarea v-if="isMultipleLines && isMultipleLines === true" rows="4"></textarea>
-    <input v-else type="text" v-bind:name="name" v-bind:placeholder="placeholder" v-bind:value="value" />
+    <input v-else type="text" v-bind:name="name" v-bind:placeholder="placeholder"  v-model="getVal" />
+    <span>{{getVal}}</span>
   </div>
 </template>
 
@@ -13,9 +14,21 @@ export default {
     isMultipleLines: Boolean,
     label: String,
     name: String,
-    value: String,
     placeholder: String,
-    isRequired: Boolean
+    isRequired: Boolean,
+    value: String,
+  },
+  computed:{
+    getVal: {
+      get:function () {
+        // return this.value;
+        return this.$store.state.global.name;
+      },
+      set:function (newVal) {
+        // this.$emit('input',val);
+        this.$store.commit('updateVal', newVal)
+      }
+    },
   }
 };
 </script>

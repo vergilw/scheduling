@@ -1,14 +1,15 @@
 import globalApi from '../../api/global.js';
 
 const state = {
-    roomModels: null,
-    crowdModels: null,
-    teacherModels: null,
-    majorCourseTypeModels: null,
-    minorCourseTypeModels: null,
-    coursewareModels: null,
-    courseConfigModels: null,
-}
+  roomModels: null,
+  crowdModels: null,
+  teacherModels: null,
+  majorCourseTypeModels: null,
+  minorCourseTypeModels: null,
+  coursewareModels: null,
+  courseConfigModels: null,
+  name:null,
+};
 
 const getters = {}
 

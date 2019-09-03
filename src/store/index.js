@@ -12,5 +12,10 @@ export default new Vuex.Store({
         global,
         schedule
     },
-    strict: debug
+    strict: debug,
+    mutations: {
+        updateVal(state, name) {
+            state.global.name = name;
+        }
+    }
 })

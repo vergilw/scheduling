@@ -2,7 +2,7 @@
   <div class="ui modal dimmable period-subcourse">
     <i class="fas fa-times close icon"></i>
     <div class="header">
-      <div class="title">添加子课程</div>
+      <div class="title">添加课件</div>
     </div>
     <div class="scrolling content">
       <form class="ui form">
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import InputComponent from "./form-components/input-component.vue";
-import FileComponent from "./form-components/file-component.vue";
+import InputComponent from "../form-components/input-component.vue";
+import FileComponent from "../form-components/file-component.vue";
 
 export default {
-  name: "SubcourseForm",
+  name: "LessionForm",
   data: function() {
     return {
       isLoading: false,
