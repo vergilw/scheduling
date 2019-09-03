@@ -17,7 +17,7 @@
       <div class="action">
         <div class="ui button" v-on:click="addCourse">
           <i class="fas fa-plus"></i>
-          添加课程
+          批量添加课程
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@
           v-on:onNewOption="onNewOption"
         />
         <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate" />
-        <CourseConfig label="人员配置" :itemArray="courseConfigModels" />
+        <CourseConfig label="课程时间配置" :itemArray="courseConfigModels" />
 
         <div class="ui error message"></div>
         <div class="action">
