@@ -6,52 +6,23 @@
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <InputComponent
-          label="课程标题"
-          name="name"
-          v-bind:value="courseTitle"
-          v-bind:isRequired="true"
-        />
+        <InputComponent label="课程名称" name="name" v-bind:isRequired="true" />
         <SelectComponent
-          label="课类"
+          label="课程类型"
           name="type"
           v-bind:itemsArray="courseTypeModels"
           v-bind:isRequired="true"
         />
         <SelectComponent
-          label="教室"
-          name="room"
-          newText="新增教室"
-          v-bind:itemsArray="roomModels"
-          v-bind:isRequired="true"
-          v-on:onNewOption="onNewOption"
-          v-on:onChangeOption="onChangeOption"
-        />
-        <SelectComponent
-          label="班级"
-          name="crowd"
-          v-bind:itemsArray="crowdModels"
+          label="消耗课时"
+          name="cost"
+          v-bind:itemsArray="costModels"
           v-bind:isRequired="true"
         />
-        <SelectComponent
-          label="老师"
-          name="teacher"
-          v-bind:itemsArray="teacherModels"
-          v-bind:isRequired="true"
-        />
-        <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note" />
-        <Courseware label="子课程" name="courseware" v-bind:itemArray="coursewareModels"></Courseware>
-        <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate" />
-        <CourseConfig label="人员配置" :itemArray="courseConfigModels" />
-
-        <div class="ui error message"></div>
         <div class="action">
           <div v-on:click="onSubmit" class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
-        <div class="ui loader"></div>
-      </div>
     </div>
   </div>
 </template>
@@ -59,140 +30,63 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
-import Courseware from "../courseware-table.vue";
-import DateInterval from "../date-interval.vue";
-import CourseConfig from "../course-config.vue";
 
 export default {
   name: "CourseForm",
   data: function() {
     return {
-      courseTitle: null,
-      note: null,
-      isLoading: false,
-      startDate: null,
-      endDate: null
-    };
+      costModels: [
+      {
+        'id': 1,
+        'name': "1课时/次"
+      },
+      {
+        'id': 2,
+        'name': "2课时/次"
+      },
+      {
+        'id': 3,
+        'name': "3课时/次"
+      },
+      {
+        'id': 4,
+        'name': "4课时/次"
+      },
+      {
+        'id': 5,
+        'name': "5课时/次"
+      }
+    ]
+    }
   },
   computed: {
-    roomModels: function() {
-      return this.$store.state.global.roomModels;
-    },
-    crowdModels: function() {
-      return this.$store.state.global.crowdModels;
-    },
-    teacherModels: function() {
-      return this.$store.state.global.teacherModels;
-    },
     courseTypeModels: function() {
-      return [
-        this.$store.state.global.majorCourseTypeModels,
-        this.$store.state.global.minorCourseTypeModels
-      ];
-    },
-    coursewareModels: function() {
-      return this.$store.state.global.coursewareModels;
-    },
-    courseConfigModels: function() {
-      return this.$store.state.global.courseConfigModels;
+      return this.$store.state.global.courseTypeModels;
+    }
+  },
+  methods: {
+    onSubmit: function() {
+      //   $(".ui.form").form({
+      //     fields: {
+      //       courseTitle: "empty",
+      //       type: "empty",
+      //       name: "empty",
+      //       room: "empty",
+      //       crowd: "empty",
+      //       teacher: "empty",
+      //       limitCapacity: "empty"
+      //     }
+      //   });
+      //   if ($(".ui.form").form("is valid")) {
+      //     console.log("true");
+      //   } else {
+      //     console.log("false");
+      //   }
     }
   },
   components: {
     SelectComponent,
-    InputComponent,
-    Courseware,
-    DateInterval,
-    CourseConfig
-  },
-  methods: {
-    onChangeOption: function(name, index) {
-      console.log(index);
-    },
-    onNewOption: function(name) {
-      $(".ui.active.dimmable.modal:not(.period-course)").dimmer("show");
-      $(".ui.active.dimmable.course.modal").dimmer({
-        onHide: function() {
-          $(".ui.modal.period-course").modal('hide');
-        }
-      });
-      $(".ui.modal.period-course").dimmer("hide");
-
-      var element = this.$el;
-      $(".ui.modal.period-course")
-        .modal({
-          autofocus: false,
-          allowMultiple: true,
-          onHidden: function() {
-            $(element).dimmer("hide");
-          }
-        })
-        .modal("show");
-    },
-    onSubmit: function() {
-      this.isLoading = true;
-      var obj = this;
-      setTimeout(function() {
-        if ($(".ui.form").form("is valid") == true) {
-          console.log("true");
-        } else {
-          console.log("false");
-        }
-        obj.isLoading = false;
-      }, 2000);
-
-      console.log(this.courseTitle);
-    }
-  },
-  updated: function() {
-    $(".ui.form").form({
-      fields: {
-        name: {
-          identifier: "name",
-          rules: [
-            {
-              type: "regExp[/^\\S{4,16}$/]",
-              prompt: "标题不能为空，长度4-16位"
-            }
-          ]
-        },
-        type: {
-          identifier: "type",
-          rules: [
-            {
-              type: "empty",
-              prompt: "课类不能为空"
-            }
-          ]
-        },
-        room: {
-          identifier: "room",
-          rules: [
-            {
-              type: "empty",
-              prompt: "教室不能为空"
-            }
-          ]
-        },
-        crowd: {
-          identifier: "crowd",
-          rules: [
-            {
-              type: "empty",
-              prompt: "班级不能为空"
-            }
-          ]
-        },
-        teacher: {
-          identifier: "teacher",
-          rules: [
-            {
-              type: "empty",
-              prompt: "老师不能为空"
-            }
-          ]
-        }
-      }
-    });
+    InputComponent
   }
 };
 </script>
@@ -230,5 +124,31 @@ export default {
   background-color: #00cddd;
   box-shadow: 0px 2px 11px 0px rgba(0, 205, 221, 0.2);
   border-radius: 4px;
+}
+
+@media only screen and (min-width: 1920px) {
+  .ui.modal:not(.fullscreen) {
+    width: 620px;
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .ui.modal:not(.fullscreen) {
+    width: 570px;
+    margin: 0;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .ui.modal:not(.fullscreen) {
+    width: 520px;
+    margin: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .ui.modal:not(.fullscreen) {
+    width: 35%;
+    margin: 0;
+  }
 }
 </style>

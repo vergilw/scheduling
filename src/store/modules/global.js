@@ -1,19 +1,26 @@
 import globalApi from '../../api/global.js';
 
 const state = {
-  roomModels: null,
-  crowdModels: null,
-  teacherModels: null,
-  majorCourseTypeModels: null,
-  minorCourseTypeModels: null,
-  coursewareModels: null,
-  courseConfigModels: null,
-  name:null,
-};
+    courseModels: null,
+    roomModels: null,
+    crowdModels: null,
+    teacherModels: null,
+    courseTypeModels: null,
+    coursewareModels: null,
+    courseConfigModels: null,
+    name:null,
+}
 
 const getters = {}
 
 const actions = {
+    getCourses({ state, commit, rootState }) {
+        globalApi.getCourses(response => {
+            commit('courseModelsUpdated', response['data']);
+        }, error => {
+
+        })
+    },
     getRooms({ state, commit, rootState }) {
         globalApi.getRooms(response => {
             commit('roomModelsUpdated', response['data']);
@@ -37,7 +44,7 @@ const actions = {
     },
     getCourseTypes({ state, commit, rootState }) {
         globalApi.getCourseTypes(response => {
-            commit('courseTypeModelsUpdated', { 'majorModels': response['data']['major'], 'minorModels': response['data']['minor'] });
+            commit('courseTypeModelsUpdated', response['data']);
         }, error => {
 
         })
@@ -52,6 +59,9 @@ const actions = {
 }
 
 const mutations = {
+    courseModelsUpdated(state, models) {
+        state.courseModels = models;
+    },
     roomModelsUpdated(state, models) {
         state.roomModels = models;
     },
@@ -61,9 +71,8 @@ const mutations = {
     teacherModelsUpdated(state, models) {
         state.teacherModels = models;
     },
-    courseTypeModelsUpdated(state, { majorModels, minorModels }) {
-        state.majorCourseTypeModels = majorModels;
-        state.minorCourseTypeModels = minorModels;
+    courseTypeModelsUpdated(state, models) {
+        state.courseTypeModels = models;
     },
     coursewareModelsUpdated(state, models) {
         state.coursewareModels = models;

@@ -1,5 +1,5 @@
 <template>
-  <div class="ui modal dimmable period-course">
+  <div class="ui modal dimmable course-period">
     <i class="fas fa-times close icon"></i>
     <div class="header">
       <div class="title">添加配置</div>

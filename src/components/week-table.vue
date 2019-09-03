@@ -43,6 +43,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="isExpired(0)" v-on:click="onNewCourseSchedule">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
         <td>
@@ -121,12 +125,19 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="isExpired(6)">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
       </tr>
     </tbody>
 
-    <div class="ui inverted dimmer" v-bind:class="{active: this.$store.state.schedule.scheduleLoading}">
+    <div
+      class="ui inverted dimmer"
+      v-bind:class="{active: this.$store.state.schedule.scheduleLoading}"
+    >
       <div class="ui loader"></div>
     </div>
   </table>
@@ -161,6 +172,12 @@ export default {
         this.weekStart.getTime() + 3600 * 24 * 1000 * additionalDays
       );
       return new Date() > comparedDate;
+    },
+    onNewCourseSchedule: function() {
+      $(".ui.modal.schedule").dimmer("hide");
+      $(".ui.modal.schedule")
+        .modal({ autofocus: false, allowMultiple: true })
+        .modal("show");
     }
   },
   updated: function() {
@@ -178,12 +195,13 @@ export default {
     Course
   },
   created: function() {
-    this.$store.dispatch('schedule/getSchedule');
-    this.$store.dispatch('global/getRooms');
-    this.$store.dispatch('global/getCrowds');
-    this.$store.dispatch('global/getTeachers');
-    this.$store.dispatch('global/getCourseTypes');
-    this.$store.dispatch('global/getCoursewares');
+    this.$store.dispatch("schedule/getSchedule");
+    this.$store.dispatch("global/getCourses");
+    this.$store.dispatch("global/getRooms");
+    this.$store.dispatch("global/getCrowds");
+    this.$store.dispatch("global/getTeachers");
+    this.$store.dispatch("global/getCourseTypes");
+    this.$store.dispatch("global/getCoursewares");
   }
 };
 </script>
@@ -235,6 +253,26 @@ export default {
 .ui.table > tbody > tr > td > .expired.content > .course {
   background-color: #f6f8fa;
   color: #9199a3;
+}
+
+.ui.table > tbody > tr > td > .content > .new {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 145px;
+  background-color: #f0f4f6;
+  font-size: 12px;
+	color: #9199a3;
+  cursor: pointer;
+}
+
+.ui.table > tbody > tr > td > .content > .new > svg {
+  margin: 20px auto;
+  font-size: 36px;
+  color: #d2d9df;
+  display: block;
+  text-align: center;
+  
 }
 
 /* unset */

@@ -94,8 +94,8 @@ export default {
       this.$store.commit("schedule/dateRangeFront");
     },
     addCourse() {
-      $(".ui.modal.course").dimmer("hide");
-      $(".ui.modal.course")
+      $(".ui.modal.schedules").dimmer("hide");
+      $(".ui.modal.schedules")
         .modal({ autofocus: false, allowMultiple: true })
         .modal("show");
     }
