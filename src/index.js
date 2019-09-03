@@ -12,10 +12,13 @@ import store from './store/index.js';
 
 import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
-import CourseForm from './components/forms/course-form.vue';
+import ScheduleForm from './components/forms/schedule-form.vue';
+import SchedulesForm from './components/forms/schedules-form.vue';
 import CoursePeriodForm from './components/forms/course-period-form.vue';
 import subcourseForm from './components/subcourse-form.vue';
+import CourseForm from './components/forms/course-form.vue';
 import RoomForm from './components/forms/room-form.vue';
+
 
 require('./index.css');
 
@@ -36,6 +39,18 @@ var weekTable = new Vue({
   el: '#week-table',
   store,
   render: h => h(WeekTable),
+});
+
+var schedulesForm = new Vue({
+  el: '#schedules-form',
+  store,
+  render: h => h(SchedulesForm),
+});
+
+var scheduleForm = new Vue({
+  el: '#schedule-form',
+  store,
+  render: h => h(ScheduleForm),
 });
 
 var courseForm = new Vue({

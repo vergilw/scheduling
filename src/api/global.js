@@ -2,6 +2,19 @@ import apiConfig from './api.config.js';
 const axios = require('axios');
 
 export default {
+    getCourses(successCallback, failureCallback) {
+        axios.get(apiConfig.hostname + '/schedule/courses')
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
+    },
+
     getRooms(successCallback, failureCallback) {
         axios.get(apiConfig.hostname + '/schedule/rooms')
             .then(function (response) {
@@ -55,7 +68,7 @@ export default {
     },
 
     getCoursewares(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/courses')
+        axios.get(apiConfig.hostname + '/schedule/coursewares')
             .then(function (response) {
                 successCallback(response);
             })
