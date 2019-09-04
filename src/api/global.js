@@ -67,8 +67,8 @@ export default {
             });
     },
 
-    getCoursewares(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/coursewares')
+    getClassTime(successCallback, failureCallback) {
+        axios.get(apiConfig.hostname + '/schedule/classtime')
             .then(function (response) {
                 successCallback(response);
             })

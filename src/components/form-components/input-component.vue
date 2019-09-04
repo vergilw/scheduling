@@ -2,7 +2,7 @@
   <div class="field" v-bind:class="{ required : isRequired }">
     <label>{{ label }}</label>
     <textarea v-if="isMultipleLines && isMultipleLines === true" rows="4"></textarea>
-    <input v-else type="text" v-bind:name="name" v-bind:placeholder="placeholder"  v-model="name"/>
+    <input v-else type="text" v-bind:name="name" v-bind:placeholder="placeholder" v-bind:value="value" v-on:input="$emit('input', $event.target.value)" />
   </div>
 </template>
 

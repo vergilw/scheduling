@@ -13,16 +13,31 @@
           v-bind:itemsArray="courseModels"
           v-bind:isRequired="true"
           v-on:onNewOption="onNewOption"
+          v-bind:value="courseIndex"
+          v-on:input="courseIndex = $event"
         />
-        <DateInterval label="时间区间" :startDate="startDate" :endDate="endDate" />
-        <CourseConfig label="人员配置" :itemArray="courseConfigModels" />
-
+        <InputComponent
+          label="限制人数"
+          name="capacity"
+          v-bind:isRequired="true"
+          v-bind:value="capacity"
+          v-on:input="capacity = $event"
+        />
+        <DateInterval
+          label="时间区间"
+          :startDate="startDate"
+          :endDate="endDate"
+        />
+        <CourseConfig
+          label="课程时间配置"
+          :itemArray="courseConfigModels"
+        />
         <div class="ui error message"></div>
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
+      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
         <div class="ui loader"></div>
       </div>
     </div>
@@ -38,46 +53,57 @@ import CourseConfig from "../course-config.vue";
 
 export default {
   name: "SchedulesForm",
-  data: function() {
-    return {
-      courseTitle: null,
-      note: null,
-      isLoading: false,
-      startDate: null,
-      endDate: null
-    };
-  },
   computed: {
+    formLoading: function() {
+      return this.$store.state.schedulesForm.formLoading;
+    },
     courseModels: function() {
       return this.$store.state.global.courseModels;
     },
-    roomModels: function() {
-      return this.$store.state.global.roomModels;
-    },
-    crowdModels: function() {
-      return this.$store.state.global.crowdModels;
-    },
-    teacherModels: function() {
-      return this.$store.state.global.teacherModels;
-    },
-    coursewareModels: function() {
-      return this.$store.state.global.coursewareModels;
-    },
     courseConfigModels: function() {
       return this.$store.state.global.courseConfigModels;
-    }
+    },
+
+    courseIndex: {
+      get() {
+        return this.$store.state.schedulesForm.courseIndex;
+      },
+      set(value) {
+        this.$store.commit("schedulesForm/updateCourseIndex", value);
+      }
+    },
+    capacity: {
+      get() {
+        return this.$store.state.schedulesForm.capacity;
+      },
+      set(value) {
+        this.$store.commit("schedulesForm/updateCapacity", value);
+      }
+    },
+    startDate: {
+      get() {
+        return this.$store.state.schedulesForm.startDate;
+      },
+      set(value) {
+        this.$store.commit("schedulesForm/updateStartDate", value);
+      }
+    },
+    endDate: {
+      get() {
+        return this.$store.state.schedulesForm.endDate;
+      },
+      set(value) {
+        this.$store.commit("schedulesForm/updateEndDate", value);
+      }
+    },
   },
   components: {
     SelectComponent,
     InputComponent,
-    Courseware,
     DateInterval,
     CourseConfig
   },
   methods: {
-    onChangeOption: function(name, index) {
-      console.log(index);
-    },
     onNewOption: function(name) {
       if (name === "course") {
         var element = this.$el;
@@ -98,73 +124,42 @@ export default {
             }
           })
           .modal("show");
-      } else if (name === "courseware") {
-        
       }
-    },
-    onSubmit: function() {
-      this.isLoading = true;
-      var obj = this;
-      setTimeout(function() {
-        if ($(".ui.form").form("is valid") == true) {
-          console.log("true");
-        } else {
-          console.log("false");
-        }
-        obj.isLoading = false;
-      }, 2000);
-
-      console.log(this.courseTitle);
     }
   },
   updated: function() {
-    $(".ui.form").form({
+    var component = this;
+    $(".ui.modal.schedules .ui.form").form({
       fields: {
-        name: {
-          identifier: "name",
-          rules: [
-            {
-              type: "regExp[/^\\S{4,16}$/]",
-              prompt: "标题不能为空，长度4-16位"
-            }
-          ]
-        },
-        type: {
-          identifier: "type",
+        course: {
+          identifier: "course",
           rules: [
             {
               type: "empty",
-              prompt: "课类不能为空"
+              prompt: "课程不能为空"
             }
           ]
         },
-        room: {
-          identifier: "room",
+        capacity: {
+          identifier: "capacity",
           rules: [
             {
-              type: "empty",
-              prompt: "教室不能为空"
-            }
-          ]
-        },
-        crowd: {
-          identifier: "crowd",
-          rules: [
-            {
-              type: "empty",
-              prompt: "班级不能为空"
-            }
-          ]
-        },
-        teacher: {
-          identifier: "teacher",
-          rules: [
-            {
-              type: "empty",
-              prompt: "老师不能为空"
+              type: "regExp[/^[1-9]{1}[0-9]*$/]",
+              prompt: "限制人数必须为有效数字"
             }
           ]
         }
+      },
+      onSuccess: function(event, fields) {
+        component.$store.commit("schedulesForm/updateFormLoading", true);
+
+        setTimeout(function() {
+          component.$store.commit("schedulesForm/updateFormLoading", false);
+        }, 2000);
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        return false;
       }
     });
   }

@@ -2,9 +2,12 @@ import scheduleApi from '../../api/schedule.js';
 
 const state = {
     formLoading: false,
-    title: null,
-    typeIndex: null,
-    costIndex: null
+    courseIndex: null,
+    roomIndex: null,
+    crowdIndex: null,
+    teacherIndex: null,
+    capacity: null,
+    note: null
 }
 
 const getters = {}
@@ -25,15 +28,24 @@ const mutations = {
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
     },
-    updateTitle(state, string) {
-        state.title = string;
+    updateCourseIndex(state, int) {
+        state.courseIndex = int;
     },
-    updateTypeIndex(state, int) {
-        state.typeIndex = int;
+    updateRoomIndex(state, int) {
+        state.roomIndex = int;
     },
-    updateCostIndex(state, int) {
-        state.costIndex = int;
-    }
+    updateCrowdIndex(state, int) {
+        state.crowdIndex = int;
+    },
+    updateTeacherIndex(state, int) {
+        state.teacherIndex = int;
+    },
+    updateCapacity(state, int) {
+        state.capacity = int;
+    },
+    updateNote(state, string) {
+        state.note = string;
+    },
 }
 
 export default {

@@ -35,7 +35,7 @@
     <label class="header">{{ label }}</label>
 
     <div class="ui selection dropdown">
-      <input type="hidden" v-bind:name="name" />
+      <input type="hidden" v-bind:name="name" v-bind:value="value" />
       <i class="dropdown icon"></i>
       <div class="default text"></div>
       <div class="menu">
@@ -44,7 +44,7 @@
           v-for="(item, index) in itemsArray"
           v-bind:key="index"
           v-bind:data-value="index"
-          v-on:click="$emit('onChangeOption', name, index)"
+          v-on:click="$emit('input', index); $emit('onChangeOption', name, index);"
         >{{ item.name }}</div>
         <div v-if="newText" v-on:click="$emit('onNewOption', name)" class="new">
           <i class="fas fa-plus"></i>
@@ -63,14 +63,15 @@ export default {
     name: String,
     itemsArray: Array,
     isRequired: Boolean,
-    newText: String
+    newText: String,
+    value: Number
   },
-  methods:{
-    changeValue:function(value){
-      $(".field > .ui.dropdown > .text").html(value);
-      $(".field > .ui.dropdown .item").removeClass("active selected");
-    }
-  },
+  // methods:{
+  //   changeValue:function(value){
+  //     $(".field > .ui.dropdown > .text").html(value);
+  //     $(".field > .ui.dropdown .item").removeClass("active selected");
+  //   }
+  // },
   updated: function() {
     $(".field .ui.dropdown").dropdown();
   }

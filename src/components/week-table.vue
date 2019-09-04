@@ -43,7 +43,7 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="isExpired(0)" v-on:click="onNewCourseSchedule">
+            <div class="new" v-if="!isExpired(0)" v-on:click="onNewCourseSchedule">
               <i class="fas fa-plus"></i>
               添加课程
             </div>
@@ -60,6 +60,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="!isExpired(1)" v-on:click="onNewCourseSchedule">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
         <td>
@@ -73,6 +77,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="!isExpired(2)" v-on:click="onNewCourseSchedule">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
         <td>
@@ -86,6 +94,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="!isExpired(3)" v-on:click="onNewCourseSchedule">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
         <td>
@@ -99,6 +111,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="!isExpired(4)" v-on:click="onNewCourseSchedule">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
         <td>
@@ -112,6 +128,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
+            <div class="new" v-if="!isExpired(5)" v-on:click="onNewCourseSchedule">
+              <i class="fas fa-plus"></i>
+              添加课程
+            </div>
           </div>
         </td>
         <td>
@@ -125,7 +145,7 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="isExpired(6)">
+            <div class="new" v-if="!isExpired(6)">
               <i class="fas fa-plus"></i>
               添加课程
             </div>
@@ -187,7 +207,8 @@ export default {
     for (var i = 0; i < courseContainerElements.length; ++i) {
       Sortable.create(courseContainerElements[i], {
         group: "course-group",
-        animation: 150
+        animation: 150,
+        draggable: '.course'
       });
     }
   },
@@ -201,7 +222,7 @@ export default {
     this.$store.dispatch("global/getCrowds");
     this.$store.dispatch("global/getTeachers");
     this.$store.dispatch("global/getCourseTypes");
-    this.$store.dispatch("global/getCoursewares");
+    this.$store.dispatch("global/getClassTime");
   }
 };
 </script>
@@ -272,7 +293,7 @@ export default {
   color: #d2d9df;
   display: block;
   text-align: center;
-  
+
 }
 
 /* unset */

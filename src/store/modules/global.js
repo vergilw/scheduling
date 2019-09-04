@@ -6,7 +6,7 @@ const state = {
     crowdModels: null,
     teacherModels: null,
     courseTypeModels: null,
-    coursewareModels: null,
+    classTimeModels: null,
     courseConfigModels: null,
     // name:null,
 }
@@ -49,9 +49,9 @@ const actions = {
 
         })
     },
-    getCoursewares({ state, commit, rootState }) {
-        globalApi.getCoursewares(response => {
-            commit('coursewareModelsUpdated', response['data']);
+    getClassTime({ state, commit, rootState }) {
+        globalApi.getClassTime(response => {
+            commit('classTimeModelsUpdated', response['data']);
         }, error => {
 
         })
@@ -74,8 +74,8 @@ const mutations = {
     courseTypeModelsUpdated(state, models) {
         state.courseTypeModels = models;
     },
-    coursewareModelsUpdated(state, models) {
-        state.coursewareModels = models;
+    classTimeModelsUpdated(state, models) {
+        state.classTimeModels = models;
     },
     courseConfigModelsUpdated(state, models) {
         state.courseConfigModels = models;

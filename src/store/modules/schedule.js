@@ -36,9 +36,6 @@ const mutations = {
     dateRangeFront(state) {
         state.weekStart = new Date(state.weekStart.getTime() + 3600 * 24 * 1000 * 7);
     },
-    scheduleModelsUpdated(state, models) {
-        state.scheduleModels = models;
-    },
 }
 
 export default {

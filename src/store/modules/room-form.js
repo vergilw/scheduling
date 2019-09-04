@@ -3,8 +3,7 @@ import scheduleApi from '../../api/schedule.js';
 const state = {
     formLoading: false,
     title: null,
-    typeIndex: null,
-    costIndex: null
+    capacity: null
 }
 
 const getters = {}
@@ -28,11 +27,8 @@ const mutations = {
     updateTitle(state, string) {
         state.title = string;
     },
-    updateTypeIndex(state, int) {
-        state.typeIndex = int;
-    },
-    updateCostIndex(state, int) {
-        state.costIndex = int;
+    updateCapacity(state, int) {
+        state.capacity = int;
     }
 }
 
