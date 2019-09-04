@@ -207,7 +207,8 @@ export default {
     for (var i = 0; i < courseContainerElements.length; ++i) {
       Sortable.create(courseContainerElements[i], {
         group: "course-group",
-        animation: 150
+        animation: 150,
+        draggable: '.course'
       });
     }
   },

@@ -6,23 +6,33 @@
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <InputComponent label="课程名称" name="name" v-bind:isRequired="true" />
+        <InputComponent label="课程名称" name="title" v-bind:isRequired="true" v-bind:value="title"
+          v-on:input="title = $event" />
         <SelectComponent
           label="课程类型"
           name="type"
           v-bind:itemsArray="courseTypeModels"
           v-bind:isRequired="true"
+          v-bind:value="typeIndex"
+          v-on:input="typeIndex = $event"
         />
         <SelectComponent
           label="消耗课时"
           name="cost"
           v-bind:itemsArray="costModels"
           v-bind:isRequired="true"
+          v-bind:value="costIndex"
+          v-on:input="costIndex = $event"
         />
+
+        <div class="ui error message"></div>
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
+      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
+        <div class="ui loader"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,33 +70,88 @@ export default {
     }
   },
   computed: {
+    formLoading: function() {
+      return this.$store.state.courseForm.formLoading;
+    },
     courseTypeModels: function() {
       return this.$store.state.global.courseTypeModels;
-    }
+    },
+
+    title: {
+      get() {
+        return this.$store.state.courseForm.title;
+      },
+      set(value) {
+        this.$store.commit("courseForm/updateTitle", value);
+      }
+    },
+    typeIndex: {
+      get() {
+        return this.$store.state.courseForm.typeIndex;
+      },
+      set(value) {
+        this.$store.commit("courseForm/updateTypeIndex", value);
+      }
+    },
+    costIndex: {
+      get() {
+        return this.$store.state.courseForm.costIndex;
+      },
+      set(value) {
+        this.$store.commit("courseForm/updateCostIndex", value);
+      }
+    },
   },
   methods: {
-    onSubmit: function() {
-      //   $(".ui.form").form({
-      //     fields: {
-      //       courseTitle: "empty",
-      //       type: "empty",
-      //       name: "empty",
-      //       room: "empty",
-      //       crowd: "empty",
-      //       teacher: "empty",
-      //       limitCapacity: "empty"
-      //     }
-      //   });
-      //   if ($(".ui.form").form("is valid")) {
-      //     console.log("true");
-      //   } else {
-      //     console.log("false");
-      //   }
-    }
   },
   components: {
     SelectComponent,
     InputComponent
+  },
+  updated: function() {
+    var component = this;
+    $(".ui.modal.course .ui.form").form({
+      fields: {
+        title: {
+          identifier: "title",
+          rules: [
+            {
+              type: "regExp[/^\\S{2,16}$/]",
+              prompt: "课程名称不能为空，长度2-16位"
+            }
+          ]
+        },
+        typeIndex: {
+          identifier: "type",
+          rules: [
+            {
+              type: "empty",
+              prompt: "课程类型不能为空"
+            }
+          ]
+        },
+        costIndex: {
+          identifier: "cost",
+          rules: [
+            {
+              type: "empty",
+              prompt: "消耗课时不能为空"
+            }
+          ]
+        },
+      },
+      onSuccess: function(event, fields) {
+        component.$store.commit("courseForm/updateFormLoading", true);
+
+        setTimeout(function() {
+          component.$store.commit("courseForm/updateFormLoading", false);
+        }, 2000);
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        return false;
+      }
+    });
   }
 };
 </script>

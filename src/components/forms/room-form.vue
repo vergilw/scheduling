@@ -8,54 +8,98 @@
       <form class="ui form">
         <InputComponent
           label="教室名称"
-          name="name"
+          name="title"
           v-bind:isRequired="true"
+          v-bind:value="title"
+          v-on:input="title = $event"
         />
         <InputComponent
           label="限制人数"
-          name="name"
+          name="capacity"
           v-bind:isRequired="true"
+          v-bind:value="capacity"
+          v-on:input="capacity = $event"
         />
+
+        <div class="ui error message"></div>
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
+      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
+        <div class="ui loader"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
 
 export default {
   name: "RoomForm",
-  data: function() {
-    return {};
+  computed: {
+    formLoading: function() {
+      return this.$store.state.roomForm.formLoading;
+    },
+
+    title: {
+      get() {
+        return this.$store.state.roomForm.title;
+      },
+      set(value) {
+        this.$store.commit("roomForm/updateTitle", value);
+      }
+    },
+    capacity: {
+      get() {
+        return this.$store.state.roomForm.capacity;
+      },
+      set(value) {
+        this.$store.commit("roomForm/updateCapacity", value);
+      }
+    }
   },
   components: {
-    SelectComponent,
     InputComponent
   },
-  methods: {
-    onSubmit: function() {
-      //   $(".ui.form").form({
-      //     fields: {
-      //       courseTitle: "empty",
-      //       type: "empty",
-      //       name: "empty",
-      //       room: "empty",
-      //       crowd: "empty",
-      //       teacher: "empty",
-      //       limitCapacity: "empty"
-      //     }
-      //   });
-      //   if ($(".ui.form").form("is valid")) {
-      //     console.log("true");
-      //   } else {
-      //     console.log("false");
-      //   }
-    }
+  updated: function() {
+    var component = this;
+    $(".ui.modal.room .ui.form").form({
+      fields: {
+        title: {
+          identifier: "title",
+          rules: [
+            {
+              type: "regExp[/^\\S{2,16}$/]",
+              prompt: "教室名称不能为空，长度2-16位"
+            }
+          ]
+        },
+        capacity: {
+          identifier: "capacity",
+          rules: [
+            {
+              type: "regExp[/^[1-9]{1}[0-9]*$/]",
+              prompt: "限制人数必须为有效数字"
+            }
+          ]
+        }
+      },
+      onSuccess: function(event, fields) {
+        console.log("t");
+        component.$store.commit("roomForm/updateFormLoading", true);
+
+        setTimeout(function() {
+          component.$store.commit("roomForm/updateFormLoading", false);
+        }, 2000);
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        console.log("f");
+        return false;
+      }
+    });
   }
 };
 </script>
@@ -75,7 +119,7 @@ export default {
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .ui.modal > .content > .ui.form {
@@ -120,5 +164,4 @@ export default {
     margin: 0;
   }
 }
-
 </style>

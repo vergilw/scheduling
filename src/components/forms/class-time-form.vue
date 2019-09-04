@@ -31,7 +31,7 @@ import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
 
 export default {
-  name: "CourseTime",
+  name: "ClassTimeForm",
   data: function() {
     return {
       weekdayModels: [

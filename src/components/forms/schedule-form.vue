@@ -13,6 +13,8 @@
           v-bind:itemsArray="courseModels"
           v-bind:isRequired="true"
           v-on:onNewOption="onNewOption"
+          v-bind:value="courseIndex"
+          v-on:input="courseIndex = $event"
         />
         <SelectComponent
           label="教室"
@@ -21,28 +23,41 @@
           v-bind:itemsArray="roomModels"
           v-bind:isRequired="true"
           v-on:onNewOption="onNewOption"
+          v-bind:value="roomIndex"
+          v-on:input="roomIndex = $event"
         />
         <SelectComponent
           label="班级"
           name="crowd"
           v-bind:itemsArray="crowdModels"
           v-bind:isRequired="true"
+          v-bind:value="crowdIndex"
+          v-on:input="crowdIndex = $event"
         />
         <SelectComponent
           label="老师"
           name="teacher"
           v-bind:itemsArray="teacherModels"
           v-bind:isRequired="true"
+          v-bind:value="teacherIndex"
+          v-on:input="teacherIndex = $event"
         />
-        <InputComponent label="限制人数" name="capacity" />
-        <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note" />
+        <InputComponent
+          label="限制人数"
+          name="capacity"
+          v-bind:isRequired="true"
+          v-bind:value="capacity"
+          v-on:input="capacity = $event"
+        />
+        <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note"
+          v-on:input="note = $event" />
 
         <div class="ui error message"></div>
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
+      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
         <div class="ui loader"></div>
       </div>
     </div>
@@ -55,16 +70,10 @@ import InputComponent from "../form-components/input-component.vue";
 
 export default {
   name: "ScheduleForm",
-  data: function() {
-    return {
-      courseTitle: null,
-      note: null,
-      isLoading: false,
-      startDate: null,
-      endDate: null
-    };
-  },
   computed: {
+    formLoading: function() {
+      return this.$store.state.scheduleForm.formLoading;
+    },
     courseModels: function() {
       return this.$store.state.global.courseModels;
     },
@@ -85,6 +94,55 @@ export default {
     },
     courseConfigModels: function() {
       return this.$store.state.global.courseConfigModels;
+    },
+
+    courseIndex: {
+      get() {
+        return this.$store.state.scheduleForm.courseIndex;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateCourseIndex", value);
+      }
+    },
+    roomIndex: {
+      get() {
+        return this.$store.state.scheduleForm.roomIndex;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateRoomIndex", value);
+      }
+    },
+    crowdIndex: {
+      get() {
+        return this.$store.state.scheduleForm.crowdIndex;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateCrowdIndex", value);
+      }
+    },
+    teacherIndex: {
+      get() {
+        return this.$store.state.scheduleForm.teacherIndex;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateTeacherIndex", value);
+      }
+    },
+    capacity: {
+      get() {
+        return this.$store.state.scheduleForm.capacity;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateCapacity", value);
+      }
+    },
+    note: {
+      get() {
+        return this.$store.state.scheduleForm.note;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateNote", value);
+      }
     }
   },
   components: {
@@ -132,40 +190,18 @@ export default {
           })
           .modal("show");
       }
-    },
-    onSubmit: function() {
-      this.isLoading = true;
-      var obj = this;
-      setTimeout(function() {
-        if ($(".ui.form").form("is valid") == true) {
-          console.log("true");
-        } else {
-          console.log("false");
-        }
-        obj.isLoading = false;
-      }, 2000);
-
-      console.log(this.courseTitle);
     }
   },
   updated: function() {
-    $(".ui.form").form({
+    var component = this;
+    $(".ui.modal.schedule .ui.form").form({
       fields: {
-        name: {
-          identifier: "name",
-          rules: [
-            {
-              type: "regExp[/^\\S{4,16}$/]",
-              prompt: "标题不能为空，长度4-16位"
-            }
-          ]
-        },
-        type: {
-          identifier: "type",
+        course: {
+          identifier: "course",
           rules: [
             {
               type: "empty",
-              prompt: "课类不能为空"
+              prompt: "课程不能为空"
             }
           ]
         },
@@ -195,7 +231,27 @@ export default {
               prompt: "老师不能为空"
             }
           ]
+        },
+        capacity: {
+          identifier: "capacity",
+          rules: [
+            {
+              type: "regExp[/^[1-9]{1}[0-9]*$/]",
+              prompt: "限制人数必须为有效数字"
+            }
+          ]
         }
+      },
+      onSuccess: function(event, fields) {
+        component.$store.commit("scheduleForm/updateFormLoading", true);
+
+        setTimeout(function() {
+          component.$store.commit("scheduleForm/updateFormLoading", false);
+        }, 2000);
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        return false;
       }
     });
   }
