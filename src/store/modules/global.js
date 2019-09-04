@@ -8,7 +8,7 @@ const state = {
     courseTypeModels: null,
     coursewareModels: null,
     courseConfigModels: null,
-    name:null,
+    // name:null,
 }
 
 const getters = {}

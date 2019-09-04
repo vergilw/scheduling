@@ -10,6 +10,7 @@
           label="标题"
           name="name"
           v-bind:isRequired="true"
+          v-model="xxx"
         />
         <FileComponent/>
         <div class="ui error message"></div>
@@ -38,6 +39,16 @@ export default {
   components: {
     InputComponent,
     FileComponent
+  },
+  computed:{
+    xxx: {
+      get() {
+        return this.$store.state.form.name;
+      },
+      set(value) {
+        this.$store.commit('updateName',value);
+      }
+    }
   },
   methods: {
     onSubmit: function() {
