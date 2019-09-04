@@ -1,32 +1,18 @@
 <template>
     <div class="field">
-        <a class="remove" @click="remove(id)"><i class="fas fa-times"></i></a>
+        <a class="remove" @click="remove()"><i class="fas fa-times"></i></a>
         <a class="edit" href="#"><i class="icon primary edit"></i></a>
         <table>
             <tbody>
-                <tr>
-                    <td>课节次</td>
-                    <td>
-                        <span v-for="item in courseConfig.time" :key="item.id">
-                            {{initCourseTime(item)}}
+                <tr v-for="(item, index) in courseConfig" :key="index">
+                    <td>{{item.key}}</td>
+                    <td v-if="item.value instanceof Array">
+                        <span v-for="(spanItem, spanIndex) in item.value" :key="spanIndex">
+                            {{spanItem}}
                         </span>
+                    <td v-else>
+                        {{item.value}}
                     </td>
-                </tr>
-                <tr>
-                    <td>教室</td>
-                    <td>{{courseConfig.room.name}}</td>
-                </tr>
-                <tr>
-                    <td>班级</td>
-                    <td>{{courseConfig.crowd.name}}</td>
-                </tr>
-                <tr>
-                    <td>学生</td>
-                    <td>{{courseConfig.students.count}}</td>
-                </tr>
-                <tr>
-                    <td>老师</td>
-                    <td>{{courseConfig.teacher.name}}</td>
                 </tr>
             </tbody>
         </table>
@@ -37,29 +23,24 @@
   export default {
     name: 'CourseConfigItem',
     props: {
-        courseConfig: Object,
+        courseConfig: Array,
         id: Number,
     },
     methods: {
-        initCourseTime: function(time) {
-            let intervals = "";
-            time['intervals'].forEach(function (interval) {
-                intervals += ("/" +　interval['duration']);
-            });
-            return time['week'] + intervals;
-        },
-        remove: function (id) {
-            let models = this.$store.state.courseConfigModels;
+        remove: function () {
+            let models = this.$store.state.global.courseConfigModels;
 
-            let deleteIndex = 0;
-            this.$store.state.courseConfigModels.forEach(function (model, index) {
-                if(model.id === id) {
-                    deleteIndex = index;
-                }
-            });
-            models.splice(deleteIndex, 1);
+            // let deleteIndex = 0;
+            // this.$store.state.courseConfigModels.forEach(function (model, index) {
+            //     if(model.id === id) {
+            //         deleteIndex = index;
+            //     }
+            // });
+            // models.splice(deleteIndex, 1);
 
-            this.$store.commit('courseConfigModelsUpdated', models);
+            models.splice(0, 1);
+
+            this.$store.commit('global/courseConfigModelsUpdated', models);
         }
     }
   };

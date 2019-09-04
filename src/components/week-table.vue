@@ -293,7 +293,7 @@ export default {
   color: #d2d9df;
   display: block;
   text-align: center;
-  
+
 }
 
 /* unset */
