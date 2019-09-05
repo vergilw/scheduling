@@ -22,14 +22,14 @@ const actions = {
     },
     getRooms({ state, commit, rootState }) {
         globalApi.getRooms(response => {
-            commit('roomModelsUpdated', response['data']);
+            commit('roomModelsUpdated', response['data']['rooms']);
         }, error => {
 
         })
     },
     getCrowds({ state, commit, rootState }) {
         globalApi.getCrowds(response => {
-            commit('crowdModelsUpdated', response['data']);
+            commit('crowdModelsUpdated', response['data']['crowds']);
         }, error => {
 
         })
@@ -43,7 +43,7 @@ const actions = {
     },
     getCourseTypes({ state, commit, rootState }) {
         globalApi.getCourseTypes(response => {
-            commit('courseTypeModelsUpdated', response['data']);
+            commit('courseTypeModelsUpdated', response['data']['course_taxons']);
         }, error => {
 
         })

@@ -1,3 +1,3 @@
 export default {
-  hostname: "http://192.168.0.122"
+  hostname: "http://localhost:3001"
 };
