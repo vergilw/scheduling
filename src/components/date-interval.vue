@@ -2,9 +2,9 @@
     <div class="interval field">
         <label class="header">{{label}}</label>
         <div class="inline fields">
-            <date-component date-holder="选择开始时间" :value="startDate"></date-component>
+            <date-component date-holder="选择开始时间" :value="start" @input="start = $event"></date-component>
             <span class="span">-</span>
-            <date-component date-holder="选择结束时间" :value="endDate"></date-component>
+            <date-component date-holder="选择结束时间" :value="end" @input="end = $event"></date-component>
         </div>
     </div>
 </template>
@@ -19,9 +19,27 @@
         startDate: String,
         endDate: String
     },
+    computed: {
+        start: {
+            get() {
+
+            },
+            set(value) {
+                this.$emit('inputStartDate', value);
+            }
+        },
+        end: {
+            get() {
+
+            },
+            set(value) {
+                this.$emit('inputEndDate', value);
+            }
+        }
+    },
     components: {
       'date-component': DateComponent
-    }
+    },
   };
 </script>
 

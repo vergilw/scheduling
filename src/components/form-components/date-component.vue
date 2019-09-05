@@ -6,6 +6,7 @@
       onblur="this.type='text'"
       :placeholder="dateHolder"
       :value="value"
+      @input="$emit('input', $event.target.value)"
     />
   </div>
 </template>
