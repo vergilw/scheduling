@@ -1,4 +1,5 @@
 import globalApi from '../../api/global.js';
+const axios = require('axios');
 
 const state = {
     courseModels: null,
@@ -22,14 +23,14 @@ const actions = {
     },
     getRooms({ state, commit, rootState }) {
         globalApi.getRooms(response => {
-            commit('roomModelsUpdated', response['data']);
+            commit('roomModelsUpdated', response['data']['rooms']);
         }, error => {
 
         })
     },
     getCrowds({ state, commit, rootState }) {
         globalApi.getCrowds(response => {
-            commit('crowdModelsUpdated', response['data']);
+            commit('crowdModelsUpdated', response['data']['crowds']);
         }, error => {
 
         })
@@ -43,14 +44,14 @@ const actions = {
     },
     getCourseTypes({ state, commit, rootState }) {
         globalApi.getCourseTypes(response => {
-            commit('courseTypeModelsUpdated', response['data']);
+            commit('courseTypeModelsUpdated', response['data']['course_taxons']);
         }, error => {
 
         })
     },
     getClassTime({ state, commit, rootState }) {
         globalApi.getClassTime(response => {
-            commit('classTimeModelsUpdated', response['data']);
+            commit('classTimeModelsUpdated', response['data']['time_items']);
         }, error => {
 
         })
@@ -58,6 +59,11 @@ const actions = {
 }
 
 const mutations = {
+    configRequestDefaults(state, {authToken, organToken}) {
+        axios.defaults.headers.common['Auth_Token'] = authToken;
+        axios.defaults.headers.common['Organ_Token'] = organToken;
+        axios.defaults.headers.common['accept'] = 'application/vnd.inee.v1+json';
+    },
     courseModelsUpdated(state, models) {
         state.courseModels = models;
     },

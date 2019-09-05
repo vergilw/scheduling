@@ -102,8 +102,27 @@ export default {
   },
   mounted: function() {
     $(".ui.dropdown").dropdown();
+  },
+  created: function() {
+    var url = window.location.search;
+    var authToken = getParameterByName('auth_token');
+    var organToken = getParameterByName('organ_token');
+    console.log(authToken);
+
+    this.$store.commit('global/configRequestDefaults', {'authToken': authToken, 'organToken': organToken});
   }
 };
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 </script>
 
 <style scoped>

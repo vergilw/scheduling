@@ -7,8 +7,10 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'semantic-ui-css/semantic';
 
 import Sortable from 'sortablejs';
-
+const axios = require('axios');
 import store from './store/index.js';
+
+import apiConfig from './api/api.config.js';
 
 import TableHeader from './components/table-header.vue';
 import WeekTable from './components/week-table.vue';
@@ -21,6 +23,8 @@ import RoomForm from './components/forms/room-form.vue';
 
 
 require('./index.css');
+
+axios.defaults.baseURL = apiConfig.hostname;
 
 var now = new Date;
 var checkedDate = new Date;
