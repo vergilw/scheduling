@@ -6,6 +6,7 @@ import scheduleForm from './modules/schedule-form.js'
 import schedulesForm from './modules/schedules-form.js'
 import courseForm from './modules/course-form.js'
 import roomForm from './modules/room-form.js'
+import lessionForm from "./modules/lession-form.js";
 
 
 Vue.use(Vuex)
@@ -19,12 +20,8 @@ export default new Vuex.Store({
         scheduleForm,
         schedulesForm,
         courseForm,
-        roomForm
+        roomForm,
+        lessionForm
     },
     strict: debug,
-    // mutations: {
-    //     updateVal(state, name) {
-    //         state.global.name = name;
-    //     }
-    // }
 })

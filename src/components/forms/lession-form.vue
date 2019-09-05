@@ -8,16 +8,33 @@
       <form class="ui form">
         <InputComponent
           label="标题"
-          name="name"
+          name="title"
           v-bind:isRequired="true"
+          v-bind:value="title"
+          v-on:input="title = $event"
         />
-        <FileComponent/>
+        <div class="field">
+          <div class="inline fields">
+            <FileComponent
+            label="文件"
+            name="file_title"
+            v-bind:value="file_title"
+            v-on:input="file_title = $event"
+            />
+            <MediaFileComponent
+            label="媒体文件"
+            name="media_title"
+            v-bind:value="media_title"
+            v-on:input="media_title = $event"
+            />
+          </div>
+        </div>
         <div class="ui error message"></div>
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: isLoading}">
+      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
         <div class="ui loader"></div>
       </div>
     </div>
@@ -27,35 +44,46 @@
 <script>
 import InputComponent from "../form-components/input-component.vue";
 import FileComponent from "../form-components/file-component.vue";
+import MediaFileComponent from "../form-components/mediaFile-component.vue";
 
 export default {
   name: "LessionForm",
-  data: function() {
-    return {
-      isLoading: false,
-    };
-  },
   components: {
     InputComponent,
-    FileComponent
+    FileComponent,
+    MediaFileComponent
   },
   computed:{
-  },
-  methods: {
-    onSubmit: function() {
-      this.isLoading = true;
-      var obj = this;
-      setTimeout(function() {
-        if ($(".ui.form").form("is valid") == true) {
-          console.log("true");
-        } else {
-          console.log("false");
-        }
-        obj.isLoading = false;
-      }, 2000);
-    }
+    title: {
+      get() {
+        return this.$store.state.lessionForm.title
+      },
+      set(value) {
+        this.$store.commit('lessionForm/updateTitle',value);
+      }
+    },
+    formLoading: function(){
+      return this.$store.state.roomForm.formLoading;
+    },
+    file_title: {
+      get(){
+        return this.$store.state.lessionForm.file_title
+      },
+      set(value) {
+        this.$store.commit('lessionForm/updateFileTitle',value);
+      }
+    },
+    media_title: {
+      get(){
+        return this.$store.state.lessionForm.media_title
+      },
+      set(value) {
+        this.$store.commit('lessionForm/updateMediaFileTitle',value);
+      }
+    },
   },
   updated: function() {
+    var component = this;
     $(".ui.form").form({
       fields: {
         name: {
@@ -67,6 +95,15 @@ export default {
             }
           ]
         },
+      },
+      onSuccess: function(event, fields) {
+        console.log(212121);
+        component.$store.commit("lessionForm/updateFormLoading", true);
+
+        setTimeout(function(){
+          component.$store.commit("lessionForm/updateFormLoading",false);
+        },2000);
+        return false;
       }
     });
   }
