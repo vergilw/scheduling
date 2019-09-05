@@ -69,7 +69,7 @@ export default {
     },
 
     getClassTime(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/classtime')
+        axios.get(apiConfig.hostname + '/admin/time_items/default', config)
             .then(function (response) {
                 successCallback(response);
             })

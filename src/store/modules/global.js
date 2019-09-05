@@ -50,7 +50,7 @@ const actions = {
     },
     getClassTime({ state, commit, rootState }) {
         globalApi.getClassTime(response => {
-            commit('classTimeModelsUpdated', response['data']);
+            commit('classTimeModelsUpdated', response['data']['time_items']);
         }, error => {
 
         })
