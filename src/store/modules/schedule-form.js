@@ -5,6 +5,7 @@ const state = {
     courseIndex: null,
     roomIndex: null,
     crowdIndex: null,
+    studentIDs: null,
     teacherIndex: null,
     capacity: null,
     note: null
