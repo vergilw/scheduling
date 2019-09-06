@@ -27,6 +27,8 @@
           label="时间区间"
           :startDate="startDate"
           :endDate="endDate"
+          @inputStartDate="startDate = $event"
+          @inputEndDate="endDate = $event"
         />
         <CourseConfig
           label="课程时间配置"
@@ -125,7 +127,7 @@ export default {
           })
           .modal("show");
       }
-    }
+    },
   },
   updated: function() {
     var component = this;
