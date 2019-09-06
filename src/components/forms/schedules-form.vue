@@ -38,6 +38,9 @@
           v-on:onDeleteItem="onDeleteItem"
           v-on:onUpdateItem="onUpdateItem"
         />
+
+        <CourseTimeConfig/>
+
         <div class="ui error message"></div>
         <div class="action">
           <div class="ui submit button">确定</div>
@@ -56,6 +59,7 @@ import InputComponent from "../form-components/input-component.vue";
 import Courseware from "../courseware-table.vue";
 import DateInterval from "../date-interval.vue";
 import ItemsComponent from "../form-components/items-component.vue";
+import CourseTimeConfig from "../course-time-config.vue";
 
 export default {
   name: "SchedulesForm",
@@ -107,7 +111,8 @@ export default {
     SelectComponent,
     InputComponent,
     DateInterval,
-    ItemsComponent
+    ItemsComponent,
+    CourseTimeConfig,
   },
   methods: {
     onNewOption: function(name) {
