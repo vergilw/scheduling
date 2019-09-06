@@ -1,5 +1,4 @@
 import apiConfig from './api.config.js';
-import config from './header'
 const axios = require('axios');
 
 export default {
@@ -17,7 +16,7 @@ export default {
     },
 
     getRooms(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/rooms', config)
+        axios.get(apiConfig.hostname + '/admin/rooms')
             .then(function (response) {
                 successCallback(response);
             })
@@ -30,7 +29,7 @@ export default {
     },
 
     getCrowds(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/crowds', config)
+        axios.get(apiConfig.hostname + '/admin/crowds')
             .then(function (response) {
                 successCallback(response);
             })
@@ -56,7 +55,7 @@ export default {
     },
 
     getCourseTypes(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/course_taxons', config)
+        axios.get(apiConfig.hostname + '/admin/course_taxons')
             .then(function (response) {
                 successCallback(response);
             })
@@ -69,7 +68,7 @@ export default {
     },
 
     getClassTime(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/time_items/default', config)
+        axios.get(apiConfig.hostname + '/admin/time_items/default')
             .then(function (response) {
                 successCallback(response);
             })

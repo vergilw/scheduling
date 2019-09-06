@@ -107,9 +107,10 @@ export default {
     var url = window.location.search;
     var authToken = getParameterByName('auth_token');
     var organToken = getParameterByName('organ_token');
-    console.log(authToken);
 
-    this.$store.commit('global/configRequestDefaults', {'authToken': authToken, 'organToken': organToken});
+    if (authToken !== null && organToken !== null) {
+      this.$store.commit('global/configRequestDefaults', {'authToken': authToken, 'organToken': organToken});
+    }
   }
 };
 

@@ -21,10 +21,13 @@ import LessionForm from "./components/forms/lession-form.vue";
 import CourseForm from './components/forms/course-form.vue';
 import RoomForm from './components/forms/room-form.vue';
 
+import TempToken from './api/header.js';
 
 require('./index.css');
 
 axios.defaults.baseURL = apiConfig.hostname;
+
+store.commit('global/configRequestDefaults', {'authToken': TempToken.headers["Auth-Token"], 'organToken': TempToken.headers["Organ-Token"]});
 
 var now = new Date;
 var checkedDate = new Date;
