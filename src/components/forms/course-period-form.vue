@@ -13,21 +13,27 @@
           v-bind:itemsArray="roomModels"
           v-bind:isRequired="true"
           v-on:onNewOption="onNewOption"
+          v-bind:value="roomIndex"
+          v-on:input="roomIndex = $event"
         />
         <SelectComponent
           label="班级"
           name="crowd"
           v-bind:itemsArray="crowdModels"
           v-bind:isRequired="true"
+          v-bind:value="crowdIndex"
+          v-on:input="crowdIndex = $event"
         />
         <SelectComponent
           label="老师"
           name="teacher"
           v-bind:itemsArray="teacherModels"
           v-bind:isRequired="true"
+          v-bind:value="teacherIndex"
+          v-on:input="teacherIndex = $event"
         />
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
     </div>
@@ -52,6 +58,31 @@ export default {
     },
     teacherModels: function() {
       return this.$store.state.global.teacherModels;
+    },
+
+    roomIndex: {
+      get() {
+        return this.$store.state.coursePeriodForm.roomIndex;
+      },
+      set(value) {
+        this.$store.commit("coursePeriodForm/updateRoomIndex", value);
+      }
+    },
+    crowdIndex: {
+      get() {
+        return this.$store.state.coursePeriodForm.crowdIndex;
+      },
+      set(value) {
+        this.$store.commit("coursePeriodForm/updateCrowdIndex", value);
+      }
+    },
+    teacherIndex: {
+      get() {
+        return this.$store.state.coursePeriodForm.teacherIndex;
+      },
+      set(value) {
+        this.$store.commit("coursePeriodForm/updateTeacherIndex", value);
+      }
     }
   },
   components: {
@@ -63,7 +94,7 @@ export default {
       $(".ui.active.dimmable.modal:not(.room)").dimmer("show");
       $(".ui.active.dimmable.modal:not(.room):last-child").dimmer({
         onHide: function() {
-          $(".ui.modal.room").modal('hide');
+          $(".ui.modal.room").modal("hide");
         }
       });
       $(".ui.modal.room").dimmer("hide");
@@ -78,25 +109,71 @@ export default {
           }
         })
         .modal("show");
-    },
-    onSubmit: function() {
-      //   $(".ui.form").form({
-      //     fields: {
-      //       courseTitle: "empty",
-      //       type: "empty",
-      //       name: "empty",
-      //       room: "empty",
-      //       crowd: "empty",
-      //       teacher: "empty",
-      //       limitCapacity: "empty"
-      //     }
-      //   });
-      //   if ($(".ui.form").form("is valid")) {
-      //     console.log("true");
-      //   } else {
-      //     console.log("false");
-      //   }
     }
+  },
+  updated: function() {
+    var component = this;
+    $(".ui.modal.course-period .ui.form").form({
+      fields: {
+        room: {
+          identifier: "room",
+          rules: [
+            {
+              type: "empty",
+              prompt: "教室不能为空"
+            }
+          ]
+        },
+        crowd: {
+          identifier: "crowd",
+          rules: [
+            {
+              type: "empty",
+              prompt: "班级不能为空"
+            }
+          ]
+        },
+        teacher: {
+          identifier: "teacher",
+          rules: [
+            {
+              type: "empty",
+              prompt: "老师不能为空"
+            }
+          ]
+        }
+      },
+      onSuccess: function(event, fields) {
+        var itemData = [
+          {
+            key: '教室',
+            value: component.$store.state.global.roomModels[component.$store.state.coursePeriodForm.roomIndex].name,
+            data: component.$store.state.coursePeriodForm.roomIndex
+          },
+          {
+            key: '班级',
+            value: component.$store.state.global.crowdModels[component.$store.state.coursePeriodForm.crowdIndex].name,
+            data: component.$store.state.coursePeriodForm.crowdIndex
+          },
+          {
+            key: '老师',
+            value: component.$store.state.global.teacherModels[component.$store.state.coursePeriodForm.teacherIndex].name,
+            data: component.$store.state.coursePeriodForm.teacherIndex
+          }
+        ]
+        component.$store.commit("schedulesForm/updatePeriodItem", {positionIndex: component.$store.state.coursePeriodForm.positionIndex, itemData: itemData});
+
+        $(".ui.modal.course-period").modal("hide");
+
+        component.$store.commit("coursePeriodForm/reset");
+        $(".ui.modal.course-period .ui.form").form('clear');
+
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        return false;
+      }
+    });
   }
 };
 </script>
@@ -116,7 +193,7 @@ export default {
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .ui.modal > .content > .ui.form {
@@ -161,5 +238,4 @@ export default {
     margin: 0;
   }
 }
-
 </style>

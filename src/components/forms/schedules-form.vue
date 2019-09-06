@@ -30,9 +30,13 @@
           @inputStartDate="startDate = $event"
           @inputEndDate="endDate = $event"
         />
-        <CourseConfig
+        <ItemsComponent
+          name="period"
           label="课程时间配置"
-          :itemArray="courseConfigModels"
+          :itemsArray="courseConfigModels"
+          v-on:onNewItem="onNewItem"
+          v-on:onDeleteItem="onDeleteItem"
+          v-on:onUpdateItem="onUpdateItem"
         />
         <div class="ui error message"></div>
         <div class="action">
@@ -51,7 +55,7 @@ import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
 import Courseware from "../courseware-table.vue";
 import DateInterval from "../date-interval.vue";
-import CourseConfig from "../course-config.vue";
+import ItemsComponent from "../form-components/items-component.vue";
 
 export default {
   name: "SchedulesForm",
@@ -63,7 +67,7 @@ export default {
       return this.$store.state.global.courseModels;
     },
     courseConfigModels: function() {
-      return this.$store.state.global.courseConfigModels;
+      return this.$store.state.schedulesForm.periodItems;
     },
 
     courseIndex: {
@@ -103,7 +107,7 @@ export default {
     SelectComponent,
     InputComponent,
     DateInterval,
-    CourseConfig
+    ItemsComponent
   },
   methods: {
     onNewOption: function(name) {
@@ -128,6 +132,69 @@ export default {
           .modal("show");
       }
     },
+    onNewItem: function(name) {
+      if (name == "period") {
+        var element = this.$el;
+        var component = this;
+
+        $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
+        $(element).dimmer({
+          onHide: function() {
+            $(".ui.modal.course-period").modal("hide");
+          }
+        });
+
+        $(".ui.modal.course-period")
+          .modal({
+            autofocus: false,
+            allowMultiple: true,
+            onHidden: function() {
+              $(element).dimmer("hide");
+              component.$store.commit("coursePeriodForm/reset");
+              $(".ui.modal.course-period .ui.form").form('clear');
+            }
+          })
+          .modal("show");
+      }
+    },
+    onDeleteItem: function(name, index) {
+      if (name == "period") {
+        this.$store.commit("schedulesForm/deletePeriodItem", index);
+      }
+    },
+    onUpdateItem: function(name, index) {
+      if (name == "period") {
+        var itemData = {
+          positionIndex: index,
+          roomIndex: this.$store.state.schedulesForm.periodItems[index][0].data,
+          crowdIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
+          teacherIndex: this.$store.state.schedulesForm.periodItems[index][2].data
+        }
+        this.$store.commit("coursePeriodForm/assign", itemData);
+
+        var element = this.$el;
+        var component = this;
+
+        $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
+        $(element).dimmer({
+          onHide: function() {
+            $(".ui.modal.course-period").modal("hide");
+          }
+        });
+
+        $(".ui.modal.course-period")
+          .modal({
+            autofocus: false,
+            allowMultiple: true,
+            onHidden: function() {
+              $(element).dimmer("hide");
+              component.$store.commit("coursePeriodForm/reset");
+              $(".ui.modal.course-period .ui.form").form('clear');
+            }
+          })
+          .modal("show");
+      }
+    }
   },
   updated: function() {
     var component = this;
