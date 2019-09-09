@@ -13,7 +13,10 @@
     import ConfigComponent from "./form-components/config-component.vue";
 
     export default {
-        name: 'CourseTimeConfig',
+        name: 'CourseConfig',
+        props: {
+            name: String
+        },
         computed: {
             courseConfigModels: function() {
                 return this.$store.state.schedulesForm.periodItems;

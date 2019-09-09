@@ -17,7 +17,8 @@
     props: {
         label: String,
         startDate: String,
-        endDate: String
+        endDate: String,
+        name: String
     },
     computed: {
         start: {
