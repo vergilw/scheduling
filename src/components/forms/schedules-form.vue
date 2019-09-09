@@ -25,21 +25,24 @@
         />
         <DateInterval
           label="时间区间"
+          name="date"
           :startDate="startDate"
           :endDate="endDate"
           @inputStartDate="startDate = $event"
           @inputEndDate="endDate = $event"
         />
-        <ItemsComponent
-          name="period"
-          label="课程时间配置"
-          :itemsArray="courseConfigModels"
-          v-on:onNewItem="onNewItem"
-          v-on:onDeleteItem="onDeleteItem"
-          v-on:onUpdateItem="onUpdateItem"
-        />
+<!--        <ItemsComponent-->
+<!--          name="period"-->
+<!--          label="课程时间配置"-->
+<!--          :itemsArray="courseConfigModels"-->
+<!--          v-on:onNewItem="onNewItem"-->
+<!--          v-on:onDeleteItem="onDeleteItem"-->
+<!--          v-on:onUpdateItem="onUpdateItem"-->
+<!--        />-->
 
-        <CourseTimeConfig/>
+        <CourseConfig
+          name="courseConfig"
+        />
 
         <div class="ui error message"></div>
         <div class="action">
@@ -59,7 +62,7 @@ import InputComponent from "../form-components/input-component.vue";
 import Courseware from "../courseware-table.vue";
 import DateInterval from "../date-interval.vue";
 import ItemsComponent from "../form-components/items-component.vue";
-import CourseTimeConfig from "../course-time-config.vue";
+import CourseConfig from "../course-config.vue";
 
 export default {
   name: "SchedulesForm",
@@ -112,7 +115,7 @@ export default {
     InputComponent,
     DateInterval,
     ItemsComponent,
-    CourseTimeConfig,
+    CourseConfig,
   },
   methods: {
     onNewOption: function(name) {

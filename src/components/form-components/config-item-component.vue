@@ -1,10 +1,14 @@
 <template>
-    <div class="field">
-        <a class="remove" @click="$emit('remove', id)"><i class="fas fa-times"></i></a>
-        <a class="edit" @click="$emit('edit', id)"><i class="icon primary edit"></i></a>
+    <div class="ui config sgfield">
+        <a class="remove" @click="$emit('remove', index)">
+            <i class="fas fa-times"></i>
+        </a>
+        <a class="edit" @click="$emit('edit', index)">
+            <i class="icon primary edit"></i>
+        </a>
         <table>
             <tbody>
-                <tr v-for="(item, index) in configArr" :key="index">
+                <tr v-for="(item, intemIndex) in courseConfig" :key="intemIndex">
                     <td>{{item.key}}</td>
                     <td v-if="item.value instanceof Array">
                         <span v-for="(spanItem, spanIndex) in item.value" :key="spanIndex">
@@ -23,22 +27,23 @@
   export default {
     name: 'ConfigItemComponent',
     props: {
-        configArr: Array,
-        id: Number,
+        courseConfig: Array,
+        index: Number,
     },
   };
 </script>
 
 <style scoped>
 
-    .remove {
+    .ui.config.sgfield > a.remove > svg {
         position: absolute;
-        top: 6px;
-        right: 16px;
+        right: 14px;
+        top: 10px;
+        color: #9199a3;
     }
 
-    td:last-child {
-        vertical-align: text-top;
+    .ui.config.sgfield > a.edit > i {
+        bottom: 10px;
     }
 
 </style>
