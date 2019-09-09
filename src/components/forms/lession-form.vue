@@ -17,13 +17,15 @@
           <div class="inline fields">
             <FileComponent
             label="文件"
+            id="file"
             name="file_title"
             v-bind:value="file_title"
             v-on:input="file_title = $event"
             />
-            <MediaFileComponent
+            <FileComponent
             label="媒体文件"
             name="media_title"
+            id="media_file"
             v-bind:value="media_title"
             v-on:input="media_title = $event"
             />
@@ -59,7 +61,7 @@ export default {
         return this.$store.state.lessionForm.title
       },
       set(value) {
-        this.$store.commit('lessionForm/updateTitle',value);
+        this.$store.commit('updateTitle',value);
       }
     },
     formLoading: function(){
@@ -70,7 +72,7 @@ export default {
         return this.$store.state.lessionForm.file_title
       },
       set(value) {
-        this.$store.commit('lessionForm/updateFileTitle',value);
+        this.$store.commit('updateTitle',value);
       }
     },
     media_title: {
@@ -78,7 +80,7 @@ export default {
         return this.$store.state.lessionForm.media_title
       },
       set(value) {
-        this.$store.commit('lessionForm/updateMediaFileTitle',value);
+        this.$store.commit('updateMediaFileTitle',value);
       }
     },
   },
@@ -98,10 +100,10 @@ export default {
       },
       onSuccess: function(event, fields) {
         console.log(212121);
-        component.$store.commit("lessionForm/updateFormLoading", true);
+        component.$store.commit("updateFormLoading", true);
 
         setTimeout(function(){
-          component.$store.commit("lessionForm/updateFormLoading",false);
+          component.$store.commit("updateFormLoading",false);
         },2000);
         return false;
       }

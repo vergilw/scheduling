@@ -1,9 +1,9 @@
 <template>
       <div class="ui sgfield">
         <div class="header">{{label}}</div>
-        <div class="ui file sgfield">
+        <div class="ui file sgfield" :id="id">
           <div class="ui inverted button"><i class="fas fa-plus"></i> 添加文件</div>
-          <input type="file" v-bind:name="name" v-bind:value="value" v-on:input="$emit('input',$event.target.value)" id="file" v-on:click="showFile">
+          <input type="file" class="file" v-bind:name="name" v-bind:value="value" v-on:input="$emit('input',$event.target.value)" v-on:click="showFile">
           <div class="description" id="fileUrl">未选择任何文件</div>
         </div>
       </div>
@@ -15,20 +15,36 @@ export default {
     label:String,
     name:String,
     value:String,
+    id: String
   },
   methods: {
     showFile: function(){
-      var file = $('#file'),
-      aim = $('#fileUrl');
-      file.on('change', function( e ){
-          var name = e.currentTarget.files[0].name;
-          if(name.length>20){
-           var str = name.substr(0,20)+"...";
-            aim.text( str ).css("color","#4a90e2");
-          }else{
-            aim.text( name ).css("color","#4a90e2");
-          }
-      });
+        if(this.id == 'file') {
+            let file = $('#file > input'),
+                aim = $('#file > .description');
+            aim = $('#file > .description');
+            file.on('change', function( e ){
+                let name = e.currentTarget.files[0].name;
+                if(name.length>20){
+                    let str = name.substr(0,20)+"...";
+                    aim.text( str ).css("color","#4a90e2");
+                }else{
+                    aim.text( name ).css("color","#4a90e2");
+                }
+            });
+        } else if(this.id == 'media_file') {
+            let file = $('#media_file > input'),
+                aim = $('#media_file > .description');
+            file.on('change', function( e ){
+                let name = e.currentTarget.files[0].name;
+                if(name.length>20){
+                    let str = name.substr(0,20)+"...";
+                    aim.text( str ).css("color","#4a90e2");
+                }else{
+                    aim.text( name ).css("color","#4a90e2");
+                }
+            });
+        }
     }
   }
 }
