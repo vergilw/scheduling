@@ -6,7 +6,7 @@ import scheduleForm from './modules/schedule-form.js'
 import schedulesForm from './modules/schedules-form.js'
 import courseForm from './modules/course-form.js'
 import roomForm from './modules/room-form.js'
-import lessionForm from "./modules/lession-form.js";
+import lessonForm from "./modules/lesson-form.js";
 import coursePeriodForm from "./modules/course-period-form.js";
 import transferStudentForm from "./modules/transfer-student-form.js";
 
@@ -22,7 +22,7 @@ export default new Vuex.Store({
         schedulesForm,
         courseForm,
         roomForm,
-        lessionForm,
+        lessonForm,
         coursePeriodForm,
         transferStudentForm
     },

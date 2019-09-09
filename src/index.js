@@ -17,7 +17,7 @@ import WeekTable from './components/week-table.vue';
 import ScheduleForm from './components/forms/schedule-form.vue';
 import SchedulesForm from './components/forms/schedules-form.vue';
 import CoursePeriodForm from './components/forms/course-period-form.vue';
-import LessionForm from "./components/forms/lession-form.vue";
+import LessonForm from "./components/forms/lesson-form.vue";
 import CourseForm from './components/forms/course-form.vue';
 import RoomForm from './components/forms/room-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
@@ -73,10 +73,10 @@ var coursePeriodForm = new Vue({
   render: h => h(CoursePeriodForm),
 });
 
-var lessionForm = new Vue({
-  el: "#lession-form",
+var lessonForm = new Vue({
+  el: "#lesson-form",
   store,
-  render: h => h(LessionForm),
+  render: h => h(LessonForm),
 });
 
 var roomForm = new Vue({

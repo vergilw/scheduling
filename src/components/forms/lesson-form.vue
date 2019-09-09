@@ -28,14 +28,6 @@
             id="media_file"
             v-bind:value="media_title"
             v-on:input="media_title = $event"
-            id="media_file"
-            />
-            <FileComponent
-            id="file"
-            label="文件"
-            name="file_title"
-            v-bind:value="file_title"
-            v-on:input="file_title = $event"
             />
           </div>
         </div>
@@ -56,7 +48,7 @@ import InputComponent from "../form-components/input-component.vue";
 import FileComponent from "../form-components/file-component.vue";
 
 export default {
-  name: "LessionForm",
+  name: "LessonForm",
   components: {
     InputComponent,
     FileComponent,
@@ -64,7 +56,7 @@ export default {
   computed:{
     title: {
       get() {
-        return this.$store.state.lessionForm.title
+        return this.$store.state.lessonForm.title
       },
       set(value) {
         this.$store.commit('updateTitle',value);
@@ -75,15 +67,15 @@ export default {
     },
     file_title: {
       get(){
-        return this.$store.state.lessionForm.file_title
+        return this.$store.state.lessonForm.file_title
       },
       set(value) {
-        this.$store.commit('updateTitle',value);
+        this.$store.commit('updateFileTitle',value);
       }
     },
     media_title: {
       get(){
-        return this.$store.state.lessionForm.media_title
+        return this.$store.state.lessonForm.media_title
       },
       set(value) {
         this.$store.commit('updateMediaFileTitle',value);
