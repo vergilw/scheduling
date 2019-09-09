@@ -78,5 +78,18 @@ export default {
             .finally(function () {
 
             });
+    },
+
+    getStudents(crowdID, successCallback, failureCallback) {
+        axios.get('/admin/crowds/' + crowdID)
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
     }
 }

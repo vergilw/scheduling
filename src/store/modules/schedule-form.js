@@ -5,7 +5,7 @@ const state = {
     courseIndex: null,
     roomIndex: null,
     crowdIndex: null,
-    studentIDs: null,
+    transferStudentItems: null,
     teacherIndex: null,
     capacity: null,
     note: null
@@ -46,6 +46,11 @@ const mutations = {
     },
     updateNote(state, string) {
         state.note = string;
+    },
+    deleteTransferStudentItem(state, positionIndex) {
+        if (positionIndex !== null) {
+            state.transferStudentItems.splice(positionIndex, 1);
+        }
     },
 }
 

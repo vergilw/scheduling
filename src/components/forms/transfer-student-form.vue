@@ -1,5 +1,5 @@
 <template>
-  <div class="ui modal dimmable student">
+  <div class="ui modal dimmable transfer-student">
     <i class="fas fa-times close icon"></i>
     <div class="header">
       <div class="title">添加临时学生</div>
@@ -28,35 +28,49 @@
           <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
-        <div class="ui loader"></div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import InputComponent from "../form-components/input-component.vue";
+import SelectComponent from "../form-components/select-component.vue";
 
 export default {
-  name: "StudentForm",
-  data: function() {
-      return {
-          crowdIndex: null,
-          studentIndex: null
-      }
-  },
+  name: "TransferStudentForm",
   computed: {
     crowdModels: function() {
       return this.$store.state.global.crowdModels;
-    }
+    },
+    studentModels: function() {
+      return this.$store.state.transferStudentForm.studentModels;
+    },
+
+    crowdIndex: {
+      get() {
+        return this.$store.state.transferStudentForm.crowdIndex;
+      },
+      set(value) {
+        this.$store.commit("transferStudentForm/updateCrowdIndex", value);
+        this.$store.dispatch("transferStudentForm/getStudents");
+      }
+    },
+    studentIndex: {
+      get() {
+        return this.$store.state.transferStudentForm.studentIndex;
+      },
+      set(value) {
+        this.$store.commit("scheduleForm/updateStudentIndex", value);
+      }
+    },
   },
   components: {
-    InputComponent
+    InputComponent,
+    SelectComponent
   },
   updated: function() {
     var component = this;
-    $(".ui.modal.room .ui.form").form({
+    $(".ui.modal.transfer-student .ui.form").form({
       fields: {
         crowd: {
           identifier: "crowd",
@@ -78,10 +92,10 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
-        component.$store.commit("roomForm/updateFormLoading", true);
+        component.$store.commit("transferStudentForm/updateStudentLoading", true);
 
         setTimeout(function() {
-          component.$store.commit("roomForm/updateFormLoading", false);
+          component.$store.commit("transferStudentForm/updateStudentLoading", false);
         }, 2000);
         return false;
       },
