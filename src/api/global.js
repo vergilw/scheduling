@@ -16,7 +16,7 @@ export default {
     },
 
     getRooms(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/rooms')
+        axios.get(apiConfig.hostname + '/admin/places')
             .then(function (response) {
                 successCallback(response);
             })
@@ -55,7 +55,7 @@ export default {
     },
 
     getCourseTypes(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/course_taxons')
+        axios.get(apiConfig.hostname + '/admin/event_taxons')
             .then(function (response) {
                 successCallback(response);
             })
