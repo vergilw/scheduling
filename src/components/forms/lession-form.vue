@@ -16,16 +16,18 @@
         <div class="field">
           <div class="inline fields">
             <FileComponent
-            label="文件"
-            name="file_title"
-            v-bind:value="file_title"
-            v-on:input="file_title = $event"
-            />
-            <MediaFileComponent
             label="媒体文件"
             name="media_title"
             v-bind:value="media_title"
             v-on:input="media_title = $event"
+            id="media_file"
+            />
+            <FileComponent
+            id="file"
+            label="文件"
+            name="file_title"
+            v-bind:value="file_title"
+            v-on:input="file_title = $event"
             />
           </div>
         </div>
@@ -44,14 +46,12 @@
 <script>
 import InputComponent from "../form-components/input-component.vue";
 import FileComponent from "../form-components/file-component.vue";
-import MediaFileComponent from "../form-components/mediaFile-component.vue";
 
 export default {
   name: "LessionForm",
   components: {
     InputComponent,
     FileComponent,
-    MediaFileComponent
   },
   computed:{
     title: {
@@ -70,7 +70,7 @@ export default {
         return this.$store.state.lessionForm.file_title
       },
       set(value) {
-        this.$store.commit('lessionForm/updateFileTitle',value);
+        this.$store.commit('LessionForm/updateFileTitle',value);
       }
     },
     media_title: {
@@ -78,7 +78,7 @@ export default {
         return this.$store.state.lessionForm.media_title
       },
       set(value) {
-        this.$store.commit('lessionForm/updateMediaFileTitle',value);
+        this.$store.commit('LessionForm/updateMediaFileTitle',value);
       }
     },
   },
@@ -97,7 +97,6 @@ export default {
         },
       },
       onSuccess: function(event, fields) {
-        console.log(212121);
         component.$store.commit("lessionForm/updateFormLoading", true);
 
         setTimeout(function(){

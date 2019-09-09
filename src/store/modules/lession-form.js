@@ -1,8 +1,8 @@
 const state = {
   title: null,
-  formLoading:false,
-  file_title:null,
-  meida_title:null,
+  formLoading: false,
+  file_title: null,
+  Media_title: null,
 }
 
 const getters = {
@@ -20,11 +20,11 @@ const mutations = {
   updateFormLoading(state,boolean) {
     state.formLoading = boolean;
   },
-  updateFormFileTitle(state,string) {
+  updateFileTitle(state,string) {
     state.file_title = string;
   },
-  updateFormMediaFileTitle(state,string) {
-    state.nedia_title=string;
+  updateMediaFileTitle(state,string) {
+    state.Media_title = string;
   }
 }
 
