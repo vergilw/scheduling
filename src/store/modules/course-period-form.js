@@ -25,14 +25,14 @@ const actions = {
 const mutations = {
     reset(state) {
         state.positionIndex = null;
-        state.periodItems = null;
+        state.periodItems = [];
         state.roomIndex = null;
         state.crowdIndex = null;
         state.teacherIndex = null;
     },
-    assign(state, {positionIndex, roomIndex, crowdIndex, teacherIndex}) {
+    assign(state, {positionIndex, periodItems, roomIndex, crowdIndex, teacherIndex}) {
         state.positionIndex = positionIndex;
-        // state.periodItems = null;
+        state.periodItems = periodItems;
         state.roomIndex = roomIndex;
         state.crowdIndex = crowdIndex;
         state.teacherIndex = teacherIndex;
@@ -45,6 +45,18 @@ const mutations = {
     },
     updateTeacherIndex(state, int) {
         state.teacherIndex = int;
+    },
+    updatePeriodItem(state, {positionIndex, itemData}) {
+        if (positionIndex === null) {
+            state.periodItems.push(itemData);
+        } else if (state.periodItems.indexOf(positionIndex) !== -1) {
+            state.periodItems[positionIndex] = itemData;
+        }
+    },
+    deletePeriodItem(state, positionIndex) {
+        if (positionIndex !== null) {
+            state.periodItems.splice(positionIndex, 1);
+        }
     },
 }
 

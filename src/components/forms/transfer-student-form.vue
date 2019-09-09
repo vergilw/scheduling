@@ -60,7 +60,7 @@ export default {
         return this.$store.state.transferStudentForm.studentIndex;
       },
       set(value) {
-        this.$store.commit("scheduleForm/updateStudentIndex", value);
+        this.$store.commit("transferStudentForm/updateStudentIndex", value);
       }
     },
   },

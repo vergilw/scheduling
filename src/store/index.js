@@ -8,6 +8,7 @@ import courseForm from './modules/course-form.js'
 import roomForm from './modules/room-form.js'
 import lessonForm from "./modules/lesson-form.js";
 import coursePeriodForm from "./modules/course-period-form.js";
+import classTimeForm from "./modules/class-time-form.js";
 import transferStudentForm from "./modules/transfer-student-form.js";
 
 Vue.use(Vuex)
@@ -24,6 +25,7 @@ export default new Vuex.Store({
         roomForm,
         lessonForm,
         coursePeriodForm,
+        classTimeForm,
         transferStudentForm
     },
     strict: debug,

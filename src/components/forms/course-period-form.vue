@@ -6,6 +6,7 @@
     </div>
     <div class="scrolling content">
       <form class="ui form">
+        <LessonPeriodConfig />
         <SelectComponent
           label="教室"
           name="room"
@@ -43,6 +44,7 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
+import LessonPeriodConfig from "../config-components/lesson-period-config.vue";
 
 export default {
   name: "CourseForm",
@@ -87,7 +89,8 @@ export default {
   },
   components: {
     SelectComponent,
-    InputComponent
+    InputComponent,
+    LessonPeriodConfig
   },
   methods: {
     onNewOption: function(name) {
@@ -144,8 +147,30 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
-          console.log("add config");
+        var periodItemValues = [];
+        var periodItemData = {};
+        for (var i=0; i<component.$store.state.coursePeriodForm.periodItems.length; i++) {
+          var weekdayIndex = component.$store.state.coursePeriodForm.periodItems[i][0].data;
+          var timeItemIndex = component.$store.state.coursePeriodForm.periodItems[i][1].data;
+          var weekdayString = component.$store.state.global.weekdayModels[weekdayIndex].name;
+          var timeItemString = component.$store.state.global.classTimeModels[timeItemIndex].name;
+          periodItemValues.push(weekdayString + ' ' + timeItemString);
+          
+          if (!('0' in periodItemData)) {
+            periodItemData['0'] = [timeItemIndex];
+          } else {
+            periodItemData['0'].push(timeItemIndex);
+          }
+          
+        }
+        
+
         var itemData = [
+          {
+            key: '课程时间',
+            value: periodItemValues,
+            data: component.$store.state.coursePeriodForm.periodItems
+          },
           {
             key: '教室',
             value: component.$store.state.global.roomModels[component.$store.state.coursePeriodForm.roomIndex].name,

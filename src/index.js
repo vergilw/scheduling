@@ -20,6 +20,7 @@ import CoursePeriodForm from './components/forms/course-period-form.vue';
 import LessonForm from "./components/forms/lesson-form.vue";
 import CourseForm from './components/forms/course-form.vue';
 import RoomForm from './components/forms/room-form.vue';
+import ClassTimeForm from './components/forms/class-time-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
 
 import TempToken from './api/header.js';
@@ -83,6 +84,12 @@ var roomForm = new Vue({
   el: "#room-form",
   store,
   render: h => h(RoomForm)
+});
+
+var classTimeForm = new Vue({
+  el: "#class-time-form",
+  store,
+  render: h => h(ClassTimeForm)
 });
 
 var transferStudentForm = new Vue({

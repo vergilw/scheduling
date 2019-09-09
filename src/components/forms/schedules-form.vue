@@ -31,14 +31,6 @@
           @inputStartDate="startDate = $event"
           @inputEndDate="endDate = $event"
         />
-<!--        <ItemsComponent-->
-<!--          name="period"-->
-<!--          label="课程时间配置"-->
-<!--          :itemsArray="courseConfigModels"-->
-<!--          v-on:onNewItem="onNewItem"-->
-<!--          v-on:onDeleteItem="onDeleteItem"-->
-<!--          v-on:onUpdateItem="onUpdateItem"-->
-<!--        />-->
 
         <CourseConfig
           name="courseConfig"
@@ -140,69 +132,6 @@ export default {
           .modal("show");
       }
     },
-    onNewItem: function(name) {
-      if (name == "period") {
-        var element = this.$el;
-        var component = this;
-
-        $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
-        $(element).dimmer({
-          onHide: function() {
-            $(".ui.modal.course-period").modal("hide");
-          }
-        });
-
-        $(".ui.modal.course-period")
-          .modal({
-            autofocus: false,
-            allowMultiple: true,
-            onHidden: function() {
-              $(element).dimmer("hide");
-              component.$store.commit("coursePeriodForm/reset");
-              $(".ui.modal.course-period .ui.form").form('clear');
-            }
-          })
-          .modal("show");
-      }
-    },
-    onDeleteItem: function(name, index) {
-      if (name == "period") {
-        this.$store.commit("schedulesForm/deletePeriodItem", index);
-      }
-    },
-    onUpdateItem: function(name, index) {
-      if (name == "period") {
-        var itemData = {
-          positionIndex: index,
-          roomIndex: this.$store.state.schedulesForm.periodItems[index][0].data,
-          crowdIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
-          teacherIndex: this.$store.state.schedulesForm.periodItems[index][2].data
-        }
-        this.$store.commit("coursePeriodForm/assign", itemData);
-
-        var element = this.$el;
-        var component = this;
-
-        $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
-        $(element).dimmer({
-          onHide: function() {
-            $(".ui.modal.course-period").modal("hide");
-          }
-        });
-
-        $(".ui.modal.course-period")
-          .modal({
-            autofocus: false,
-            allowMultiple: true,
-            onHidden: function() {
-              $(element).dimmer("hide");
-              component.$store.commit("coursePeriodForm/reset");
-              $(".ui.modal.course-period .ui.form").form('clear');
-            }
-          })
-          .modal("show");
-      }
-    }
   },
   updated: function() {
     var component = this;

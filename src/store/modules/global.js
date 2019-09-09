@@ -9,6 +9,36 @@ const state = {
     courseTypeModels: null,
     classTimeModels: null,
     courseConfigModels: null,
+    weekdayModels: [
+        {
+          id: 1,
+          name: "每周一"
+        },
+        {
+          id: 2,
+          name: "每周二"
+        },
+        {
+          id: 3,
+          name: "每周三"
+        },
+        {
+          id: 4,
+          name: "每周四"
+        },
+        {
+          id: 5,
+          name: "每周五"
+        },
+        {
+          id: 6,
+          name: "每周六"
+        },
+        {
+          id: 7,
+          name: "每周日"
+        }
+      ]
 }
 
 const getters = {}

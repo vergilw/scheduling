@@ -1,6 +1,6 @@
 <template>
     <ConfigComponent
-        label="课程时间配置"
+        label="课程安排配置"
         button="添加配置"
         :itemArray="courseConfigModels"
         @addConfig="addConfig"
@@ -95,8 +95,8 @@
                 //     .modal({ autofocus: false, allowMultiple: true })
                 //     .modal("show");
 
-                var element = this.$el;
-                var component = this;
+                var element = this.$parent.$el;
+                var component = this.$parent;
 
                 $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
                 $(element).dimmer({
@@ -121,16 +121,18 @@
                 this.$store.commit("schedulesForm/deletePeriodItem", index);
             },
             edit: function (index) {
+                console.log(this.$store.state.schedulesForm.periodItems[index][0].data);
                 var itemData = {
                     positionIndex: index,
-                    roomIndex: this.$store.state.schedulesForm.periodItems[index][0].data,
-                    crowdIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
-                    teacherIndex: this.$store.state.schedulesForm.periodItems[index][2].data
+                    periodItems: this.$store.state.schedulesForm.periodItems[index][0].data,
+                    roomIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
+                    crowdIndex: this.$store.state.schedulesForm.periodItems[index][2].data,
+                    teacherIndex: this.$store.state.schedulesForm.periodItems[index][3].data
                 }
                 this.$store.commit("coursePeriodForm/assign", itemData);
 
-                var element = this.$el;
-                var component = this;
+                var element = this.$parent.$el;
+                var component = this.$parent;
 
                 $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
                 $(element).dimmer({
