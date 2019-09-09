@@ -16,7 +16,7 @@
         name: 'CourseTimeConfig',
         computed: {
             courseConfigModels: function() {
-                return this.$store.state.global.courseConfigModels;
+                return this.$store.state.schedulesForm.periodItems;
             },
         },
         components: {
@@ -87,19 +87,66 @@
                 // models.push(item);
                 // this.$store.commit('global/courseConfigModelsUpdated', models);
 
-                $(".ui.modal.course-period").dimmer("hide");
+                // $(".ui.modal.course-period").dimmer("hide");
+                // $(".ui.modal.course-period")
+                //     .modal({ autofocus: false, allowMultiple: true })
+                //     .modal("show");
+
+                var element = this.$el;
+                var component = this;
+
+                $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
+                $(element).dimmer({
+                    onHide: function() {
+                        $(".ui.modal.course-period").modal("hide");
+                    }
+                });
+
                 $(".ui.modal.course-period")
-                    .modal({ autofocus: false, allowMultiple: true })
+                    .modal({
+                        autofocus: false,
+                        allowMultiple: true,
+                        onHidden: function() {
+                            $(element).dimmer("hide");
+                            component.$store.commit("coursePeriodForm/reset");
+                            $(".ui.modal.course-period .ui.form").form('clear');
+                        }
+                    })
                     .modal("show");
             },
-            remove: function (id) {
-                console.log("remove");
-                let models = this.$store.state.global.courseConfigModels;
-                models.splice(0, 1);
-                this.$store.commit('global/courseConfigModelsUpdated', models);
+            remove: function (index) {
+                this.$store.commit("schedulesForm/deletePeriodItem", index);
             },
-            edit: function (id) {
-                console.log('edit');
+            edit: function (index) {
+                var itemData = {
+                    positionIndex: index,
+                    roomIndex: this.$store.state.schedulesForm.periodItems[index][0].data,
+                    crowdIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
+                    teacherIndex: this.$store.state.schedulesForm.periodItems[index][2].data
+                }
+                this.$store.commit("coursePeriodForm/assign", itemData);
+
+                var element = this.$el;
+                var component = this;
+
+                $(".ui.active.dimmable.modal:not(.course-period)").dimmer("show");
+                $(element).dimmer({
+                    onHide: function() {
+                        $(".ui.modal.course-period").modal("hide");
+                    }
+                });
+
+                $(".ui.modal.course-period")
+                    .modal({
+                        autofocus: false,
+                        allowMultiple: true,
+                        onHidden: function() {
+                            $(element).dimmer("hide");
+                            component.$store.commit("coursePeriodForm/reset");
+                            $(".ui.modal.course-period .ui.form").form('clear');
+                        }
+                    })
+                    .modal("show");
             }
         }
     };

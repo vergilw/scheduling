@@ -144,6 +144,7 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
+          console.log("add config");
         var itemData = [
           {
             key: '教室',

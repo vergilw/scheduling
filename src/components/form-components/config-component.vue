@@ -1,16 +1,14 @@
 <template>
     <div class="interval field">
         <label class="header">{{label}}</label>
-        <div class="ui config sgfield">
-            <ConfigItemComponent
-            v-for="item in itemArray"
-            :course-config="construct(item)"
-            :id="item.id"
-            :key="item.id"
-            @remove="remove"
-            @edit="edit"
-            />
-        </div>
+        <ConfigItemComponent
+        v-for="(item, index) in itemArray"
+        :course-config="item"
+        :index="index"
+        :key="index"
+        @remove="remove"
+        @edit="edit"
+        />
         <div class="ui add sgfield" @click="$emit('addConfig')">+{{button}}</div>
     </div>
 </template>
@@ -29,35 +27,11 @@
             ConfigItemComponent
         },
         methods: {
-            remove: function(id) {
-                this.$emit('remove', id);
+            remove: function(index) {
+                this.$emit('remove', index);
             },
-            edit: function(id) {
-                this.$emit('edit', id);
-            },
-            construct: function(item) {
-                let arr = new Array();
-                let time = new Object();
-                time.key = item.time.key;
-                time.value = initCourseTime2(item.time.value);
-                arr.push(time);
-
-                let room = new Object();
-                room.key = item.room.key;
-                room.value = item.room.value;
-                arr.push(room);
-
-                let crowd = new Object();
-                crowd.key = item.crowd.key;
-                crowd.value = item.crowd.value;
-                arr.push(crowd);
-
-                let teacher = new Object();
-                teacher.key = item.teacher.key;
-                teacher.value = item.teacher.value;
-                arr.push(teacher);
-
-                return arr;
+            edit: function(index) {
+                this.$emit('edit', index);
             },
         }
     };

@@ -30,14 +30,14 @@
           @inputStartDate="startDate = $event"
           @inputEndDate="endDate = $event"
         />
-        <ItemsComponent
-          name="period"
-          label="课程时间配置"
-          :itemsArray="courseConfigModels"
-          v-on:onNewItem="onNewItem"
-          v-on:onDeleteItem="onDeleteItem"
-          v-on:onUpdateItem="onUpdateItem"
-        />
+<!--        <ItemsComponent-->
+<!--          name="period"-->
+<!--          label="课程时间配置"-->
+<!--          :itemsArray="courseConfigModels"-->
+<!--          v-on:onNewItem="onNewItem"-->
+<!--          v-on:onDeleteItem="onDeleteItem"-->
+<!--          v-on:onUpdateItem="onUpdateItem"-->
+<!--        />-->
 
         <CourseTimeConfig/>
 
