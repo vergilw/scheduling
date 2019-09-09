@@ -62,7 +62,7 @@ const mutations = {
     configRequestDefaults(state, {authToken, organToken}) {
         axios.defaults.headers.common['Auth_Token'] = authToken;
         axios.defaults.headers.common['Organ_Token'] = organToken;
-        axios.defaults.headers.common['accept'] = 'application/vnd.inee.v1+json';
+        axios.defaults.headers.common['Accept'] = 'application/vnd.inee.v1+json';
     },
     courseModelsUpdated(state, models) {
         state.courseModels = models;

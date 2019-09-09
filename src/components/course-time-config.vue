@@ -1,29 +1,26 @@
 <template>
-    <div class="interval field">
-        <label class="header">{{label}}</label>
-        <div class="ui config sgfield">
-            <CourseConfigItem
-            v-for="item in itemArray"
-            :course-config="construct(item)"
-            :id="item.id"
-            :key="item.id"
-            />
-        </div>
-        <div class="ui add sgfield" @click="addConfig()">+添加配置</div>
-    </div>
+    <ConfigComponent
+        label="课程时间配置"
+        button="添加配置"
+        :itemArray="courseConfigModels"
+        @addConfig="addConfig"
+        @remove="remove"
+        @edit="edit"
+    />
 </template>
 
 <script>
-    import CourseConfigItem from './course-config-item.vue'
+    import ConfigComponent from "./form-components/config-component.vue";
 
     export default {
-        name: 'CourseConfig',
-        props: {
-            label: String,
-            itemArray: Array
+        name: 'CourseTimeConfig',
+        computed: {
+            courseConfigModels: function() {
+                return this.$store.state.global.courseConfigModels;
+            },
         },
         components: {
-            CourseConfigItem
+            ConfigComponent
         },
         methods: {
             construct: function(item) {
@@ -94,6 +91,15 @@
                 $(".ui.modal.course-period")
                     .modal({ autofocus: false, allowMultiple: true })
                     .modal("show");
+            },
+            remove: function (id) {
+                console.log("remove");
+                let models = this.$store.state.global.courseConfigModels;
+                models.splice(0, 1);
+                this.$store.commit('global/courseConfigModelsUpdated', models);
+            },
+            edit: function (id) {
+                console.log('edit');
             }
         }
     };
@@ -117,13 +123,5 @@
 </script>
 
 <style scoped>
-
-    .field {
-        font-size: 14px;
-    }
-
-    .ui.add.sgfield {
-        cursor: pointer;
-    }
 
 </style>

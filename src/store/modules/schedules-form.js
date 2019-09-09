@@ -5,7 +5,8 @@ const state = {
     courseIndex: null,
     capacity: null,
     startDate: null,
-    endDate: null
+    endDate: null,
+    periodItems: []
 }
 
 const getters = {}
@@ -37,6 +38,18 @@ const mutations = {
     },
     updateEndDate(state, date) {
         state.endDate = date;
+    },
+    updatePeriodItem(state, {positionIndex, itemData}) {
+        if (positionIndex === null) {
+            state.periodItems.push(itemData);
+        } else if (state.periodItems.indexOf(positionIndex) !== -1) {
+            state.periodItems[positionIndex] = itemData;
+        }
+    },
+    deletePeriodItem(state, positionIndex) {
+        if (positionIndex !== null) {
+            state.periodItems.splice(positionIndex, 1);
+        }
     },
 }
 

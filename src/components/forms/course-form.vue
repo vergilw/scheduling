@@ -24,7 +24,7 @@
           v-bind:value="costIndex"
           v-on:input="costIndex = $event"
         />
-
+        <LessonConfig/>
         <div class="ui error message"></div>
         <div class="action">
           <div class="ui submit button">确定</div>
@@ -40,6 +40,7 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
+import LessonConfig from "../lesson-config.vue";
 
 export default {
   name: "CourseForm",
@@ -105,6 +106,7 @@ export default {
   methods: {
   },
   components: {
+    LessonConfig,
     SelectComponent,
     InputComponent
   },
