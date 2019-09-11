@@ -34,14 +34,7 @@
           v-bind:value="crowdIndex"
           v-on:input="crowdIndex = $event"
         />
-        <ItemsComponent
-          name="transfer-student"
-          label="临时学生"
-          :itemsArray="transferStudentModels"
-          v-on:onNewItem="onNewItem"
-          v-on:onDeleteItem="onDeleteItem"
-          v-on:onUpdateItem="onUpdateItem"
-        />
+        <TransferStudentsConfig />
         <SelectComponent
           label="老师"
           name="teacher"
@@ -49,13 +42,6 @@
           v-bind:isRequired="true"
           v-bind:value="teacherIndex"
           v-on:input="teacherIndex = $event"
-        />
-        <InputComponent
-          label="限制人数"
-          name="capacity"
-          v-bind:isRequired="true"
-          v-bind:value="capacity"
-          v-on:input="capacity = $event"
         />
         <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note"
           v-on:input="note = $event" />
@@ -75,7 +61,7 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
-import ItemsComponent from "../form-components/items-component.vue";
+import TransferStudentsConfig from "../config-components/transfer-students-config.vue";
 
 export default {
   name: "ScheduleForm",
@@ -94,15 +80,6 @@ export default {
     },
     teacherModels: function() {
       return this.$store.state.global.teacherModels;
-    },
-    courseTypeModels: function() {
-      return this.$store.state.global.courseTypeModels;
-    },
-    coursewareModels: function() {
-      return this.$store.state.global.coursewareModels;
-    },
-    transferStudentModels: function() {
-      return this.$store.state.scheduleForm.transferStudentItems;
     },
 
     courseIndex: {
@@ -137,14 +114,6 @@ export default {
         this.$store.commit("scheduleForm/updateTeacherIndex", value);
       }
     },
-    capacity: {
-      get() {
-        return this.$store.state.scheduleForm.capacity;
-      },
-      set(value) {
-        this.$store.commit("scheduleForm/updateCapacity", value);
-      }
-    },
     note: {
       get() {
         return this.$store.state.scheduleForm.note;
@@ -157,7 +126,7 @@ export default {
   components: {
     SelectComponent,
     InputComponent,
-    ItemsComponent
+    TransferStudentsConfig
   },
   methods: {
     onNewOption: function(name) {
@@ -201,69 +170,6 @@ export default {
           .modal("show");
       }
     },
-    onNewItem: function(name) {
-      if (name == "transfer-student") {
-        var element = this.$el;
-        var component = this;
-
-        $(".ui.active.dimmable.modal:not(.transfer-student)").dimmer("show");
-        $(element).dimmer({
-          onHide: function() {
-            $(".ui.modal.transfer-student").modal("hide");
-          }
-        });
-
-        $(".ui.modal.transfer-student")
-          .modal({
-            autofocus: false,
-            allowMultiple: true,
-            onHidden: function() {
-              $(element).dimmer("hide");
-              component.$store.commit("transferStudent/reset");
-              $(".ui.modal.transfer-student .ui.form").form('clear');
-            }
-          })
-          .modal("show");
-      }
-    },
-    onDeleteItem: function(name, index) {
-      if (name == "transfer-student") {
-        this.$store.commit("scheduleForm/deleteTransferStudentItem", index);
-      }
-    },
-    onUpdateItem: function(name, index) {
-      if (name == "transfer-student") {
-        var itemData = {
-          positionIndex: index,
-          roomIndex: this.$store.state.schedulesForm.periodItems[index][0].data,
-          crowdIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
-          teacherIndex: this.$store.state.schedulesForm.periodItems[index][2].data
-        }
-        this.$store.commit("transferStudent/assign", itemData);
-
-        var element = this.$el;
-        var component = this;
-
-        $(".ui.active.dimmable.modal:not(.transfer-student)").dimmer("show");
-        $(element).dimmer({
-          onHide: function() {
-            $(".ui.modal.transfer-student").modal("hide");
-          }
-        });
-
-        $(".ui.modal.transfer-student")
-          .modal({
-            autofocus: false,
-            allowMultiple: true,
-            onHidden: function() {
-              $(element).dimmer("hide");
-              component.$store.commit("transferStudent/reset");
-              $(".ui.modal.transfer-student .ui.form").form('clear');
-            }
-          })
-          .modal("show");
-      }
-    }
   },
   updated: function() {
     var component = this;
@@ -305,22 +211,9 @@ export default {
             }
           ]
         },
-        capacity: {
-          identifier: "capacity",
-          rules: [
-            {
-              type: "regExp[/^[1-9]{1}[0-9]*$/]",
-              prompt: "限制人数必须为有效数字"
-            }
-          ]
-        }
       },
       onSuccess: function(event, fields) {
-        component.$store.commit("scheduleForm/updateFormLoading", true);
-
-        setTimeout(function() {
-          component.$store.commit("scheduleForm/updateFormLoading", false);
-        }, 2000);
+        component.$store.dispatch("scheduleForm/putSchedule");
         return false;
       },
       onFailure: function(formErrors, fields) {

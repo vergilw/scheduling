@@ -13,5 +13,31 @@ export default {
             .finally(function () {
 
             });
+    },
+
+    putSchedules(params, successCallback, failureCallback) {
+        axios.get('/admin/plans', params)
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
+    },
+
+    putSchedule(params, successCallback, failureCallback) {
+        axios.get('/admin/plans', params)
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
     }
 }

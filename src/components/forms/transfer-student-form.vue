@@ -92,11 +92,26 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
-        component.$store.commit("transferStudentForm/updateStudentLoading", true);
+        var itemData = [
+          {
+            key: '班级',
+            value: component.$store.state.global.crowdModels[component.$store.state.transferStudentForm.crowdIndex].name,
+            data: component.$store.state.transferStudentForm.crowdIndex
+          },
+          {
+            key: '学生',
+            value: component.$store.state.transferStudentForm.studentModels[component.$store.state.transferStudentForm.studentIndex].name,
+            data: component.$store.state.transferStudentForm.studentIndex,
+            ext: component.$store.state.transferStudentForm.studentModels[component.$store.state.transferStudentForm.studentIndex].id
+          }
+        ]
+        component.$store.commit("scheduleForm/updateTransferStudentItem", {positionIndex: component.$store.state.transferStudentForm.positionIndex, itemData: itemData});
 
-        setTimeout(function() {
-          component.$store.commit("transferStudentForm/updateStudentLoading", false);
-        }, 2000);
+        $(".ui.modal.transfer-student").modal("hide");
+
+        component.$store.commit("transferStudentForm/reset");
+        $(".ui.modal.transfer-student .ui.form").form('clear');
+
         return false;
       },
       onFailure: function(formErrors, fields) {

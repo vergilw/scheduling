@@ -28,11 +28,11 @@
     </thead>
 
     <tbody v-if="scheduleModels && scheduleModels.length > 0">
-      <tr v-for="(timeItem, index) in scheduleModels[0]['time_items']" v-bind:key="timeItem['id']">
+      <tr v-for="(timeItem, index) in scheduleModels[0]['time_items']" v-bind:key="timeItem['id']" :time-item-id="timeItem['id']">
         <td>
           <div class="content">{{ timeRangeDateFormat(timeItem['start_at'], timeItem['end_at']) }}</div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[0].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(0)}"
@@ -49,7 +49,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[1].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(1)}"
@@ -66,7 +66,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[2].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(2)}"
@@ -83,7 +83,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[3].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(3)}"
@@ -100,7 +100,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[4].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(4)}"
@@ -117,7 +117,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[5].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(5)}"
@@ -134,7 +134,7 @@
             </div>
           </div>
         </td>
-        <td>
+        <td :date-value="scheduleModels[6].date">
           <div
             class="content"
             v-bind:class="{expired: isExpired(6)}"
@@ -193,7 +193,13 @@ export default {
       );
       return new Date() > comparedDate;
     },
-    onNewCourseSchedule: function() {
+    onNewCourseSchedule: function(event) {
+      
+      var element = $(event.target).parent().parent();
+      var date = new Date(element.attr('date-value'));
+      var timeItemID = element.parent().attr('time-item-id');
+      this.$store.commit("scheduleForm/updateScheduleTime", {date: date, timeItemID: timeItemID});
+
       $(".ui.modal.schedule").dimmer("hide");
       $(".ui.modal.schedule")
         .modal({ autofocus: false, allowMultiple: true })

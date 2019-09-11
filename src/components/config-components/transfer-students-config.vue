@@ -1,7 +1,7 @@
 <template>
   <ConfigComponent
-    label="课程时间配置"
-    button="添加配置"
+    label="临时学生"
+    button="添加其他班级学生"
     :itemArray="configModels"
     @addConfig="addConfig"
     @remove="remove"
@@ -16,7 +16,7 @@ export default {
   name: "CourseTimeConfig",
   computed: {
     configModels: function() {
-      return this.$store.state.coursePeriodForm.periodItems;
+      return this.$store.state.scheduleForm.transferStudentItems;
     }
   },
   components: {
@@ -27,54 +27,56 @@ export default {
       var element = this.$parent.$el;
       var component = this.$parent;
 
-      $(".ui.active.dimmable.modal:not(.class-time)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.transfer-student)").dimmer("show");
       $(element).dimmer({
         onHide: function() {
-          $(".ui.modal.class-time").modal("hide");
+          $(".ui.modal.transfer-student").modal("hide");
         }
       });
 
-      $(".ui.modal.class-time")
+      $(".ui.modal.transfer-student")
         .modal({
           autofocus: false,
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            component.$store.commit("classTimeForm/reset");
-            $(".ui.modal.class-time .ui.form").form("clear");
+            component.$store.commit("transferStudentForm/reset");
+            $(".ui.modal.transfer-student .ui.form").form("clear");
           }
         })
         .modal("show");
     },
     remove: function(index) {
-      this.$store.commit("coursePeriodForm/deletePeriodItem", index);
+      this.$store.commit("scheduleForm/deleteTransferStudentItem", index);
     },
     edit: function(index) {
+        console.log(this.$store.state.scheduleForm.transferStudentItems);
       var itemData = {
         positionIndex: index,
-        weekdayIndex: this.$store.state.coursePeriodForm.periodItems[index][0].data,
-        timeItemIndex: this.$store.state.coursePeriodForm.periodItems[index][1].data
+        crowdIndex: this.$store.state.scheduleForm.transferStudentItems[index][0].data,
+        studentIndex: this.$store.state.scheduleForm.transferStudentItems[index][1].data
       };
-      this.$store.commit("classTimeForm/assign", itemData);
+      this.$store.commit("transferStudentForm/assign", itemData);
+      this.$store.dispatch("transferStudentForm/getStudents");
 
       var element = this.$parent.$el;
       var component = this.$parent;
 
-      $(".ui.active.dimmable.modal:not(.class-time)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.transfer-student)").dimmer("show");
       $(element).dimmer({
         onHide: function() {
-          $(".ui.modal.class-time").modal("hide");
+          $(".ui.modal.transfer-student").modal("hide");
         }
       });
 
-      $(".ui.modal.class-time")
+      $(".ui.modal.transfer-student")
         .modal({
           autofocus: false,
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            component.$store.commit("classTimeForm/reset");
-            $(".ui.modal.class-time .ui.form").form("clear");
+            component.$store.commit("transferStudentForm/reset");
+            $(".ui.modal.transfer-student .ui.form").form("clear");
           }
         })
         .modal("show");

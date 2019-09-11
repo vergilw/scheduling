@@ -16,13 +16,6 @@
           v-bind:value="courseIndex"
           v-on:input="courseIndex = $event"
         />
-        <InputComponent
-          label="限制人数"
-          name="capacity"
-          v-bind:isRequired="true"
-          v-bind:value="capacity"
-          v-on:input="capacity = $event"
-        />
         <DateInterval
           label="时间区间"
           name="date"
@@ -31,7 +24,6 @@
           @inputStartDate="startDate = $event"
           @inputEndDate="endDate = $event"
         />
-
         <CourseConfig
           name="courseConfig"
         />
@@ -53,7 +45,6 @@ import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
 import Courseware from "../courseware-table.vue";
 import DateInterval from "../date-interval.vue";
-import ItemsComponent from "../form-components/items-component.vue";
 import CourseConfig from "../course-config.vue";
 
 export default {
@@ -77,14 +68,6 @@ export default {
         this.$store.commit("schedulesForm/updateCourseIndex", value);
       }
     },
-    capacity: {
-      get() {
-        return this.$store.state.schedulesForm.capacity;
-      },
-      set(value) {
-        this.$store.commit("schedulesForm/updateCapacity", value);
-      }
-    },
     startDate: {
       get() {
         return this.$store.state.schedulesForm.startDate;
@@ -106,7 +89,6 @@ export default {
     SelectComponent,
     InputComponent,
     DateInterval,
-    ItemsComponent,
     CourseConfig,
   },
   methods: {
@@ -145,23 +127,10 @@ export default {
               prompt: "课程不能为空"
             }
           ]
-        },
-        capacity: {
-          identifier: "capacity",
-          rules: [
-            {
-              type: "regExp[/^[1-9]{1}[0-9]*$/]",
-              prompt: "限制人数必须为有效数字"
-            }
-          ]
         }
       },
       onSuccess: function(event, fields) {
-        component.$store.commit("schedulesForm/updateFormLoading", true);
-
-        setTimeout(function() {
-          component.$store.commit("schedulesForm/updateFormLoading", false);
-        }, 2000);
+        component.$store.dispatch("schedulesForm/putSchedules");
         return false;
       },
       onFailure: function(formErrors, fields) {

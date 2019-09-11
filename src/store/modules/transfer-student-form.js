@@ -2,7 +2,7 @@ import globalApi from '../../api/global.js';
 
 const state = {
     formLoading: false,
-    transferStudentIndex: null,
+    positionIndex: null,
     crowdIndex: null,
     studentModels: null,
     studentIndex: null
@@ -14,7 +14,7 @@ const actions = {
     getStudents({ state, commit, rootState }) {
         commit('updateFormLoading', true);
         globalApi.getStudents(rootState.global.crowdModels[state.crowdIndex]['id'], response => {
-            commit('updateStudentModels', response['data']['crowd']['students']);
+            commit('updateStudentModels', response['data']['crowd']['members']);
             commit('updateFormLoading', false);
         }, error => {
 
@@ -24,20 +24,22 @@ const actions = {
 
 const mutations = {
     reset(state) {
-        state.transferStudentIndex = null;
+        state.positionIndex = null;
         state.crowdIndex = null;
         state.studentIndex = null;
     },
-    assign(state, {transferStudentIndex, crowdIndex, studentIndex}) {
-        state.transferStudentIndex = null;
-        state.crowdIndex = null;
-        state.studentIndex = null;
+    assign(state, {positionIndex, crowdIndex, studentIndex}) {
+        state.positionIndex = positionIndex;
+        state.crowdIndex = crowdIndex;
+        state.studentModels = null;
+        state.studentIndex = studentIndex;
     },
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
     },
     updateCrowdIndex(state, int) {
         state.crowdIndex = int;
+        state.studentIndex = null;
     },
     updateStudentIndex(state, int) {
         state.studentIndex = int;
