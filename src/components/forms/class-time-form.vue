@@ -11,15 +11,19 @@
           name="weekday"
           v-bind:itemsArray="weekdayModels"
           v-bind:isRequired="true"
+          v-bind:value="weekdayIndex"
+          v-on:input="weekdayIndex = $event"
         />
         <SelectComponent
           label="时间段"
           name="time"
           v-bind:itemsArray="classTimeModels"
           v-bind:isRequired="true"
+          v-bind:value="timeItemIndex"
+          v-on:input="timeItemIndex = $event"
         />
         <div class="action">
-          <div v-on:click="onSubmit" class="ui submit button">确定</div>
+          <div class="ui submit button">确定</div>
         </div>
       </form>
     </div>
@@ -32,68 +36,84 @@ import InputComponent from "../form-components/input-component.vue";
 
 export default {
   name: "ClassTimeForm",
-  data: function() {
-    return {
-      weekdayModels: [
-        {
-          id: 1,
-          name: "每周一"
-        },
-        {
-          id: 2,
-          name: "每周二"
-        },
-        {
-          id: 3,
-          name: "每周三"
-        },
-        {
-          id: 4,
-          name: "每周四"
-        },
-        {
-          id: 5,
-          name: "每周五"
-        },
-        {
-          id: 6,
-          name: "每周六"
-        },
-        {
-          id: 7,
-          name: "每周日"
-        }
-      ]
-    };
-  },
   computed: {
+    weekdayModels: function() {
+      return this.$store.state.global.weekdayModels;
+    },
     classTimeModels: function() {
       return this.$store.state.global.classTimeModels;
-    }
+    },
+
+    weekdayIndex: {
+      get() {
+        return this.$store.state.classTimeForm.weekdayIndex;
+      },
+      set(value) {
+        this.$store.commit("classTimeForm/updateWeekdayIndex", value);
+      }
+    },
+    timeItemIndex: {
+      get() {
+        return this.$store.state.classTimeForm.timeItemIndex;
+      },
+      set(value) {
+        this.$store.commit("classTimeForm/updateTimeItemIndex", value);
+      }
+    },
   },
   components: {
     SelectComponent,
     InputComponent
   },
-  methods: {
-    onSubmit: function() {
-      //   $(".ui.form").form({
-      //     fields: {
-      //       courseTitle: "empty",
-      //       type: "empty",
-      //       name: "empty",
-      //       room: "empty",
-      //       crowd: "empty",
-      //       teacher: "empty",
-      //       limitCapacity: "empty"
-      //     }
-      //   });
-      //   if ($(".ui.form").form("is valid")) {
-      //     console.log("true");
-      //   } else {
-      //     console.log("false");
-      //   }
-    }
+  updated: function() {
+    var component = this;
+    $(".ui.modal.class-time .ui.form").form({
+      fields: {
+        weekday: {
+          identifier: "weekday",
+          rules: [
+            {
+              type: "empty",
+              prompt: "周不能为空"
+            }
+          ]
+        },
+        time: {
+          identifier: "time",
+          rules: [
+            {
+              type: "empty",
+              prompt: "时间不能为空"
+            }
+          ]
+        }
+      },
+      onSuccess: function(event, fields) {
+        var itemData = [
+          {
+            key: '每周',
+            value: component.$store.state.global.weekdayModels[component.$store.state.classTimeForm.weekdayIndex].name,
+            data: component.$store.state.classTimeForm.weekdayIndex
+          },
+          {
+            key: '时间',
+            value: component.$store.state.global.classTimeModels[component.$store.state.classTimeForm.timeItemIndex].name,
+            data: component.$store.state.classTimeForm.timeItemIndex
+          }
+        ]
+        component.$store.commit("coursePeriodForm/updatePeriodItem", {positionIndex: component.$store.state.classTimeForm.positionIndex, itemData: itemData});
+
+        $(".ui.modal.class-time").modal("hide");
+
+        component.$store.commit("classTimeForm/reset");
+        $(".ui.modal.class-time .ui.form").form('clear');
+
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        return false;
+      }
+    });
   }
 };
 </script>
