@@ -50,13 +50,6 @@
           v-bind:value="teacherIndex"
           v-on:input="teacherIndex = $event"
         />
-        <InputComponent
-          label="限制人数"
-          name="capacity"
-          v-bind:isRequired="true"
-          v-bind:value="capacity"
-          v-on:input="capacity = $event"
-        />
         <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note"
           v-on:input="note = $event" />
 
@@ -135,14 +128,6 @@ export default {
       },
       set(value) {
         this.$store.commit("scheduleForm/updateTeacherIndex", value);
-      }
-    },
-    capacity: {
-      get() {
-        return this.$store.state.scheduleForm.capacity;
-      },
-      set(value) {
-        this.$store.commit("scheduleForm/updateCapacity", value);
       }
     },
     note: {
@@ -305,22 +290,9 @@ export default {
             }
           ]
         },
-        capacity: {
-          identifier: "capacity",
-          rules: [
-            {
-              type: "regExp[/^[1-9]{1}[0-9]*$/]",
-              prompt: "限制人数必须为有效数字"
-            }
-          ]
-        }
       },
       onSuccess: function(event, fields) {
-        component.$store.commit("scheduleForm/updateFormLoading", true);
-
-        setTimeout(function() {
-          component.$store.commit("scheduleForm/updateFormLoading", false);
-        }, 2000);
+        component.$store.dispatch("scheduleForm/putSchedule");
         return false;
       },
       onFailure: function(formErrors, fields) {

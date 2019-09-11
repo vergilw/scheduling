@@ -16,7 +16,20 @@ export default {
     },
 
     putSchedules(params, successCallback, failureCallback) {
-        axios.get('/schedule/index', params)
+        axios.get('/admin/plans', params)
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
+    },
+
+    putSchedule(params, successCallback, failureCallback) {
+        axios.get('/admin/plans', params)
             .then(function (response) {
                 successCallback(response);
             })

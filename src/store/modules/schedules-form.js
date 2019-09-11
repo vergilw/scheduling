@@ -5,7 +5,6 @@ var dateFormat = require("dateformat");
 const state = {
     formLoading: false,
     courseIndex: null,
-    capacity: null,
     startDate: null,
     endDate: null,
     periodItems: []
@@ -70,9 +69,6 @@ const mutations = {
     },
     updateCourseIndex(state, int) {
         state.courseIndex = int;
-    },
-    updateCapacity(state, int) {
-        state.capacity = int;
     },
     updateStartDate(state, date) {
         state.startDate = date;
