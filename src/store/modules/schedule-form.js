@@ -9,7 +9,7 @@ const state = {
     courseIndex: null,
     roomIndex: null,
     crowdIndex: null,
-    transferStudentItems: null,
+    transferStudentItems: [],
     teacherIndex: null,
     note: null
 }
@@ -28,6 +28,10 @@ const actions = {
         paramItem['plan_participants_attributes'] = [];
         paramItem['plan_participants_attributes'].push({ 'participant_type': 'Crowd', 'participant_id': rootState.global.crowdModels[state.crowdIndex].id });
         paramItem['plan_participants_attributes'].push({ 'participant_type': 'Member', 'participant_id': rootState.global.teacherModels[state.teacherIndex].id });
+        for (var i=0; i<state.transferStudentItems.length; i++) {
+            var studentID = state.transferStudentItems[i][1].ext;
+            paramItem['plan_participants_attributes'].push({ 'participant_type': 'Profile', 'participant_id': studentID });
+        }
 
         paramItem['place_id'] = rootState.global.roomModels[state.roomIndex].id;
         paramItem['planned_type'] = 'Event';
@@ -70,6 +74,13 @@ const mutations = {
     },
     updateNote(state, string) {
         state.note = string;
+    },
+    updateTransferStudentItem(state, { positionIndex, itemData }) {
+        if (positionIndex === null) {
+            state.transferStudentItems.push(itemData);
+        } else if (state.transferStudentItems.length > positionIndex) {
+            Vue.set(state.transferStudentItems, positionIndex, itemData);
+        }
     },
     deleteTransferStudentItem(state, positionIndex) {
         if (positionIndex !== null) {

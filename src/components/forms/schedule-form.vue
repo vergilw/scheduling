@@ -34,14 +34,7 @@
           v-bind:value="crowdIndex"
           v-on:input="crowdIndex = $event"
         />
-        <ItemsComponent
-          name="transfer-student"
-          label="临时学生"
-          :itemsArray="transferStudentModels"
-          v-on:onNewItem="onNewItem"
-          v-on:onDeleteItem="onDeleteItem"
-          v-on:onUpdateItem="onUpdateItem"
-        />
+        <TransferStudentsConfig />
         <SelectComponent
           label="老师"
           name="teacher"
@@ -68,7 +61,7 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
-import ItemsComponent from "../form-components/items-component.vue";
+import TransferStudentsConfig from "../config-components/transfer-students-config.vue";
 
 export default {
   name: "ScheduleForm",
@@ -87,15 +80,6 @@ export default {
     },
     teacherModels: function() {
       return this.$store.state.global.teacherModels;
-    },
-    courseTypeModels: function() {
-      return this.$store.state.global.courseTypeModels;
-    },
-    coursewareModels: function() {
-      return this.$store.state.global.coursewareModels;
-    },
-    transferStudentModels: function() {
-      return this.$store.state.scheduleForm.transferStudentItems;
     },
 
     courseIndex: {
@@ -142,7 +126,7 @@ export default {
   components: {
     SelectComponent,
     InputComponent,
-    ItemsComponent
+    TransferStudentsConfig
   },
   methods: {
     onNewOption: function(name) {
@@ -186,69 +170,6 @@ export default {
           .modal("show");
       }
     },
-    onNewItem: function(name) {
-      if (name == "transfer-student") {
-        var element = this.$el;
-        var component = this;
-
-        $(".ui.active.dimmable.modal:not(.transfer-student)").dimmer("show");
-        $(element).dimmer({
-          onHide: function() {
-            $(".ui.modal.transfer-student").modal("hide");
-          }
-        });
-
-        $(".ui.modal.transfer-student")
-          .modal({
-            autofocus: false,
-            allowMultiple: true,
-            onHidden: function() {
-              $(element).dimmer("hide");
-              component.$store.commit("transferStudent/reset");
-              $(".ui.modal.transfer-student .ui.form").form('clear');
-            }
-          })
-          .modal("show");
-      }
-    },
-    onDeleteItem: function(name, index) {
-      if (name == "transfer-student") {
-        this.$store.commit("scheduleForm/deleteTransferStudentItem", index);
-      }
-    },
-    onUpdateItem: function(name, index) {
-      if (name == "transfer-student") {
-        var itemData = {
-          positionIndex: index,
-          roomIndex: this.$store.state.schedulesForm.periodItems[index][0].data,
-          crowdIndex: this.$store.state.schedulesForm.periodItems[index][1].data,
-          teacherIndex: this.$store.state.schedulesForm.periodItems[index][2].data
-        }
-        this.$store.commit("transferStudent/assign", itemData);
-
-        var element = this.$el;
-        var component = this;
-
-        $(".ui.active.dimmable.modal:not(.transfer-student)").dimmer("show");
-        $(element).dimmer({
-          onHide: function() {
-            $(".ui.modal.transfer-student").modal("hide");
-          }
-        });
-
-        $(".ui.modal.transfer-student")
-          .modal({
-            autofocus: false,
-            allowMultiple: true,
-            onHidden: function() {
-              $(element).dimmer("hide");
-              component.$store.commit("transferStudent/reset");
-              $(".ui.modal.transfer-student .ui.form").form('clear');
-            }
-          })
-          .modal("show");
-      }
-    }
   },
   updated: function() {
     var component = this;

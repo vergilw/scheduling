@@ -45,7 +45,6 @@ import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
 import Courseware from "../courseware-table.vue";
 import DateInterval from "../date-interval.vue";
-import ItemsComponent from "../form-components/items-component.vue";
 import CourseConfig from "../course-config.vue";
 
 export default {
@@ -90,7 +89,6 @@ export default {
     SelectComponent,
     InputComponent,
     DateInterval,
-    ItemsComponent,
     CourseConfig,
   },
   methods: {
