@@ -1,4 +1,5 @@
 import scheduleApi from '../../api/schedule.js';
+import Vue from 'vue';
 
 const state = {
     positionIndex: null,
@@ -49,8 +50,8 @@ const mutations = {
     updatePeriodItem(state, {positionIndex, itemData}) {
         if (positionIndex === null) {
             state.periodItems.push(itemData);
-        } else if (state.periodItems.indexOf(positionIndex) !== -1) {
-            state.periodItems[positionIndex] = itemData;
+        } else if (state.periodItems.length > positionIndex) {
+            Vue.set(state.periodItems, positionIndex, itemData);
         }
     },
     deletePeriodItem(state, positionIndex) {

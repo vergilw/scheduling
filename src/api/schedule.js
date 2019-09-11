@@ -13,5 +13,18 @@ export default {
             .finally(function () {
 
             });
+    },
+
+    putSchedules(params, successCallback, failureCallback) {
+        axios.get('/schedule/index', params)
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
     }
 }

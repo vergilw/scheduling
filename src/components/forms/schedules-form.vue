@@ -157,6 +157,9 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
+        component.$store.dispatch("schedulesForm/putSchedules");
+        
+
         component.$store.commit("schedulesForm/updateFormLoading", true);
 
         setTimeout(function() {

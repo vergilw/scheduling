@@ -41,7 +41,7 @@ export default {
           onHidden: function() {
             $(element).dimmer("hide");
             component.$store.commit("classTimeForm/reset");
-            $(".ui.modal.course-period .ui.form").form("clear");
+            $(".ui.modal.class-time .ui.form").form("clear");
           }
         })
         .modal("show");
