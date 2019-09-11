@@ -155,15 +155,15 @@ export default {
           var weekdayString = component.$store.state.global.weekdayModels[weekdayIndex].name;
           var timeItemString = component.$store.state.global.classTimeModels[timeItemIndex].name;
           periodItemValues.push(weekdayString + ' ' + timeItemString);
-          
+
           if (!('0' in periodItemData)) {
             periodItemData['0'] = [timeItemIndex];
           } else {
             periodItemData['0'].push(timeItemIndex);
           }
-          
+
         }
-        
+
 
         var itemData = [
           {

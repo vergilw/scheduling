@@ -9,17 +9,18 @@
         <InputComponent
           label="教室名称"
           name="title"
+          v-bind:itemsArray="roomModels"
           v-bind:isRequired="true"
-          v-bind:value="title"
-          v-on:input="title = $event"
+          v-bind:value="roomIndex"
+          v-on:input="roomIndex = $event"
         />
-        <InputComponent
+        <!-- <InputComponent
           label="限制人数"
           name="capacity"
           v-bind:isRequired="true"
           v-bind:value="capacity"
           v-on:input="capacity = $event"
-        />
+        /> -->
 
         <div class="ui error message"></div>
         <div class="action">
@@ -43,12 +44,12 @@ export default {
       return this.$store.state.roomForm.formLoading;
     },
 
-    title: {
+    roomIndex: {
       get() {
-        return this.$store.state.roomForm.title;
+        return this.$store.state.roomForm.roomIndex;
       },
       set(value) {
-        this.$store.commit("roomForm/updateTitle", value);
+        this.$store.commit("roomForm/updateRoomIndex", value);
       }
     },
     capacity: {

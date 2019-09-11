@@ -2,7 +2,7 @@ import scheduleApi from '../../api/schedule.js';
 
 const state = {
     formLoading: false,
-    title: null,
+    roomIndex: null,
     capacity: null
 }
 
@@ -24,8 +24,8 @@ const mutations = {
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
     },
-    updateTitle(state, string) {
-        state.title = string;
+    updateRoomIndex(state, string) {
+        state.roomIndex = string;
     },
     updateCapacity(state, int) {
         state.capacity = int;
