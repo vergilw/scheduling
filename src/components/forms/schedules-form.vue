@@ -19,6 +19,7 @@
         <DateInterval
           label="时间区间"
           name="date"
+          :isRequired="true"
           :startDate="startDate"
           :endDate="endDate"
           @inputStartDate="startDate = $event"

@@ -2,6 +2,7 @@
     <ConfigComponent
         label="课程安排配置"
         button="添加配置"
+        :isRequired="true"
         :itemArray="courseConfigModels"
         @addConfig="addConfig"
         @remove="remove"
