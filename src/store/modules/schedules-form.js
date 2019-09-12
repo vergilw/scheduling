@@ -55,6 +55,8 @@ const actions = {
         scheduleApi.putSchedules({'plan': params[0]}, response => {
             console.log(response);
             commit('updateFormLoading', false);
+            dispatch("schedule/getSchedule");
+            
         }, error => {
             console.log(error);
         })
