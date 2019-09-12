@@ -27,8 +27,11 @@ const mutations = {
     state.file_sign_id = null;
     state.media_sign_id = null;
   },
-  assign() {
-
+  assign(state, {positionIndex, title, fileTitle, mediaTitle}) {
+    state.positionIndex = positionIndex;
+    state.title = title;
+    state.file_title = fileTitle;
+    state.media_title = mediaTitle;
   },
   updateTitle(state,string) {
     state.title = string;

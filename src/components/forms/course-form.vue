@@ -88,8 +88,6 @@ export default {
     InputComponent
   },
   updated: function() {
-    console.log("course form update...");
-
     var component = this;
     $(".ui.modal.course .ui.form").form({
       fields: {
@@ -122,7 +120,6 @@ export default {
         },
       },
       onSuccess: function(event, fields) {
-        console.log("course form onSuccess...");
         component.$store.dispatch("courseForm/putCourse");
         return false;
       },
