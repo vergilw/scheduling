@@ -67,7 +67,7 @@ const actions = {
     },
     getTeachers({ state, commit, rootState }) {
         globalApi.getTeachers(response => {
-            commit('teacherModelsUpdated', response['data']);
+            commit('teacherModelsUpdated', response['data']['members']);
         }, error => {
 
         })
