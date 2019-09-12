@@ -1,38 +1,31 @@
 <template>
-  <div class="ui modal dimmable course">
+  <div class="ui modal dimmable lesson-time">
     <i class="fas fa-times close icon"></i>
     <div class="header">
-      <div class="title">添加课程</div>
+      <div class="title">添加课程时间</div>
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <InputComponent label="课程名称" name="title" v-bind:isRequired="true" v-bind:value="title"
-          v-on:input="title = $event" />
         <SelectComponent
-          label="课程类型"
-          name="type"
-          v-bind:itemsArray="courseTypeModels"
+          label="每周几"
+          name="weekday"
+          v-bind:itemsArray="weekdayModels"
           v-bind:isRequired="true"
-          v-bind:value="typeIndex"
-          v-on:input="typeIndex = $event"
+          v-bind:value="weekdayIndex"
+          v-on:input="weekdayIndex = $event"
         />
         <SelectComponent
-          label="消耗课时"
-          name="cost"
-          v-bind:itemsArray="costModels"
+          label="时间段"
+          name="time"
+          v-bind:itemsArray="classTimeModels"
           v-bind:isRequired="true"
-          v-bind:value="costIndex"
-          v-on:input="costIndex = $event"
+          v-bind:value="timeItemIndex"
+          v-on:input="timeItemIndex = $event"
         />
-        <LessonConfig/>
-        <div class="ui error message"></div>
         <div class="action">
           <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
-        <div class="ui loader"></div>
-      </div>
     </div>
   </div>
 </template>
@@ -40,87 +33,81 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
-import LessonConfig from "../lesson-config.vue";
 
 export default {
-  name: "CourseForm",
+  name: "ClassTimeForm",
   computed: {
-    formLoading: function() {
-      return this.$store.state.courseForm.formLoading;
+    weekdayModels: function() {
+      return this.$store.state.global.weekdayModels;
     },
-    costModels: function() {
-      return this.$store.state.global.courseTypeModels;
-    },
-    courseTypeModels: function() {
-      return this.$store.state.global.courseTypeModels;
+    classTimeModels: function() {
+      return this.$store.state.global.classTimeModels;
     },
 
-    title: {
+    weekdayIndex: {
       get() {
-        return this.$store.state.courseForm.title;
+        return this.$store.state.classTimeForm.weekdayIndex;
       },
       set(value) {
-        this.$store.commit("courseForm/updateTitle", value);
+        this.$store.commit("classTimeForm/updateWeekdayIndex", value);
       }
     },
-    typeIndex: {
+    timeItemIndex: {
       get() {
-        return this.$store.state.courseForm.typeIndex;
+        return this.$store.state.classTimeForm.timeItemIndex;
       },
       set(value) {
-        this.$store.commit("courseForm/updateTypeIndex", value);
+        this.$store.commit("classTimeForm/updateTimeItemIndex", value);
       }
     },
-    costIndex: {
-      get() {
-        return this.$store.state.courseForm.costIndex;
-      },
-      set(value) {
-        this.$store.commit("courseForm/updateCostIndex", value);
-      }
-    },
-  },
-  methods: {
   },
   components: {
-    LessonConfig,
     SelectComponent,
     InputComponent
   },
   updated: function() {
     var component = this;
-    $(".ui.modal.course .ui.form").form({
+    $(".ui.modal.class-time .ui.form").form({
       fields: {
-        title: {
-          identifier: "title",
-          rules: [
-            {
-              type: "regExp[/^\\S{2,16}$/]",
-              prompt: "课程名称不能为空，长度2-16位"
-            }
-          ]
-        },
-        typeIndex: {
-          identifier: "type",
+        weekday: {
+          identifier: "weekday",
           rules: [
             {
               type: "empty",
-              prompt: "课程类型不能为空"
+              prompt: "周不能为空"
             }
           ]
         },
-        costIndex: {
-          identifier: "cost",
+        time: {
+          identifier: "time",
           rules: [
             {
               type: "empty",
-              prompt: "消耗课时不能为空"
+              prompt: "时间不能为空"
             }
           ]
-        },
+        }
       },
       onSuccess: function(event, fields) {
-        component.$store.dispatch("courseForm/putCourse");
+        var itemData = [
+          {
+            key: '每周',
+            value: component.$store.state.global.weekdayModels[component.$store.state.classTimeForm.weekdayIndex].name,
+            data: component.$store.state.classTimeForm.weekdayIndex
+          },
+          {
+            key: '时间',
+            value: component.$store.state.global.classTimeModels[component.$store.state.classTimeForm.timeItemIndex].name,
+            data: component.$store.state.classTimeForm.timeItemIndex
+          }
+        ]
+        component.$store.commit("coursePeriodForm/updatePeriodItem", {positionIndex: component.$store.state.classTimeForm.positionIndex, itemData: itemData});
+
+        $(".ui.modal.class-time").modal("hide");
+
+        component.$store.commit("classTimeForm/reset");
+        $(".ui.modal.class-time .ui.form").form('clear');
+
         return false;
       },
       onFailure: function(formErrors, fields) {

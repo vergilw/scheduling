@@ -46,7 +46,7 @@
                         allowMultiple: true,
                         onHidden: function() {
                             $(element).dimmer("hide");
-                            // component.$store.commit("classTimeForm/reset");
+                            component.$store.commit("lessonForm/reset");
                             $(".ui.modal.period-subcourse .ui.form").form("clear");
                         }
                     })
@@ -58,13 +58,35 @@
             },
             edit: function (index) {
                 console.log('lesson edit');
-                // var itemData = {
-                //     positionIndex: index,
-                //     weekdayIndex: this.$store.state.courseForm.lessonItems[index][0].data,
-                //     timeItemIndex: this.$store.state.courseForm.lessonItems[index][1].data
-                // };
-                // this.$store.commit("classTimeForm/assign", itemData);
+                var itemData = {
+                    positionIndex: index,
+                    title: this.$store.state.courseForm.lessonItems[index][0].value,
+                    fileTitle: this.$store.state.courseForm.lessonItems[index][1].value,
+                    mediaTitle: this.$store.state.courseForm.lessonItems[index][2].value,
+                };
+                this.$store.commit("lessonForm/assign", itemData);
 
+                var element = this.$parent.$el;
+                var component = this.$parent;
+
+                $(".ui.active.dimmable.modal:not(.period-subcourse)").dimmer("show");
+                $(element).dimmer({
+                    onHide: function() {
+                        $(".ui.modal.period-subcourse").modal("hide");
+                    }
+                });
+
+                $(".ui.modal.period-subcourse")
+                    .modal({
+                        autofocus: false,
+                        allowMultiple: true,
+                        onHidden: function() {
+                            $(element).dimmer("hide");
+                            component.$store.commit("lessonForm/reset");
+                            $(".ui.modal.period-subcourse .ui.form").form("clear");
+                        }
+                    })
+                    .modal("show");
             }
         }
     };
