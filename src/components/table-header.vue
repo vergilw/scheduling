@@ -114,7 +114,7 @@ export default {
   created: function() {
     var url = window.location.search;
     var authToken = getParameterByName("auth_token");
-    var organToken = getParameterByName("organ_token");
+    var organToken = getParameterByName("org_token");
 
     if (authToken !== null && organToken !== null) {
       this.$store.commit("global/configRequestDefaults", {
