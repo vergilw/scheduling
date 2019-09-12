@@ -48,6 +48,8 @@ const actions = {
             params.push(paramItem);
         }
 
+        console.log(params);
+
         commit('updateFormLoading', true);
         //FIXME: multiple param items
         scheduleApi.putSchedules({'plan': params[0]}, response => {
