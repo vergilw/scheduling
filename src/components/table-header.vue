@@ -15,10 +15,10 @@
       </form>
 
       <div class="action">
-        <!-- <div class="ui negative button" v-on:click="onSettings">
+        <div class="ui negative button" v-on:click="onSettings">
           <i class="fas fa-cog"></i>
           设置
-        </div> -->
+        </div>
         <div class="ui positive button" v-on:click="onNewSchedules">
           <i class="fas fa-plus"></i>
           批量添加课程
@@ -83,7 +83,8 @@ export default {
         " - " +
         dateFormat(
           new Date(
-            this.$store.state.schedule.weekStart.getTime() + 3600 * 24 * 1000 * 6
+            this.$store.state.schedule.weekStart.getTime() +
+              3600 * 24 * 1000 * 6
           ),
           "yyyy.mm.dd"
         )
@@ -104,7 +105,7 @@ export default {
         .modal("show");
     },
     onSettings() {
-      this.$router.push('settings');
+      this.$router.push("settings");
     }
   },
   mounted: function() {
@@ -112,33 +113,43 @@ export default {
   },
   created: function() {
     var url = window.location.search;
-    var authToken = getParameterByName('auth_token');
-    var organToken = getParameterByName('organ_token');
+    var authToken = getParameterByName("auth_token");
+    var organToken = getParameterByName("organ_token");
 
     if (authToken !== null && organToken !== null) {
-      this.$store.commit('global/configRequestDefaults', {'authToken': authToken, 'organToken': organToken});
+      this.$store.commit("global/configRequestDefaults", {
+        authToken: authToken,
+        organToken: organToken
+      });
+
+      this.$store.dispatch("schedule/getSchedule");
+      this.$store.dispatch("global/getCourses");
+      this.$store.dispatch("global/getRooms");
+      this.$store.dispatch("global/getCrowds");
+      this.$store.dispatch("global/getTeachers");
+      this.$store.dispatch("global/getCourseTypes");
+      this.$store.dispatch("global/getClassTime");
     }
   }
 };
 
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
 </script>
 
 <style scoped>
 .ui.sgheader > .search > .action > .negative.button {
-	border: solid 1px #dbe1e6;
+  border: solid 1px #dbe1e6;
   background-color: white;
   font-size: 14px;
-	color: #4b525a;
+  color: #4b525a;
   margin-right: 10px;
   box-shadow: unset;
 }

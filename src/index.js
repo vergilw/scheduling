@@ -31,7 +31,6 @@ import App from './app.vue';
 import Schedule from './schedule.vue';
 import Settings from './settings.vue';
 
-import TempToken from './api/header.js';
 
 require('./index.css');
 
@@ -39,7 +38,6 @@ Vue.use(VueRouter);
 
 axios.defaults.baseURL = apiConfig.hostname;
 
-store.commit('global/configRequestDefaults', {'authToken': TempToken.headers["Auth-Token"], 'organToken': TempToken.headers["Organ-Token"]});
 
 var now = new Date;
 var checkedDate = new Date;
