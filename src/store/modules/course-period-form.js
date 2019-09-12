@@ -60,13 +60,14 @@ const mutations = {
             state.periodItems.splice(positionIndex, 1);
         }
     },
-    updateRoomItem(state, itemData) {
-        if (state.roomModels.length == 0){
-            state.roomModels.push(itemData);
-        }else{
-            Vue.set(state.roomModels, 0, itemData);
-        }
-    },
+    // updateRoomItem(state, itemData) {
+    //     if (state.roomModels.length == 0){
+    //         state.roomModels.push(itemData);
+    //         console.log(itemData);
+    //     }else{
+    //         Vue.set(state.roomModels, 0, itemData);
+    //     }
+    // },
 }
 
 export default {

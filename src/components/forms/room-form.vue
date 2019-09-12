@@ -88,13 +88,14 @@ export default {
       onSuccess: function(event, fields) {
         console.log("t");
         component.$store.commit("roomForm/updateFormLoading", true);
-        var itemData =
-          {
-            id: "roomIndex",
-            name: component.$store.state.roomForm.title,
-          };
-        console.log(itemData);
-        component.$store.commit("coursePeriodForm/updateRoomItem",{itemData:itemData});
+        // var itemData =
+        // [
+        //   {
+        //     name: component.$store.state.roomForm.title,
+        //   }
+        // ];
+        // console.log(itemData);
+        // component.$store.commit("coursePeriodForm/updateRoomItem",itemData);
         setTimeout(function() {
           component.$store.commit("roomForm/updateFormLoading", false);
         }, 2000);
