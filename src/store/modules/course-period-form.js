@@ -6,7 +6,8 @@ const state = {
     periodItems: [],
     roomIndex: null,
     crowdIndex: null,
-    teacherIndex: null
+    teacherIndex: null,
+    roomItems: null,
 }
 
 const getters = {}
@@ -21,6 +22,7 @@ const actions = {
 
     //     })
     // }
+
 }
 
 const mutations = {

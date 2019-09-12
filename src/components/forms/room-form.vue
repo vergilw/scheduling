@@ -13,13 +13,13 @@
           v-bind:value="title"
           v-on:input="title = $event"
         />
-        <InputComponent
+        <!-- <InputComponent
           label="限制人数"
           name="capacity"
           v-bind:isRequired="true"
           v-bind:value="capacity"
           v-on:input="capacity = $event"
-        />
+        /> -->
 
         <div class="ui error message"></div>
         <div class="action">
@@ -42,7 +42,6 @@ export default {
     formLoading: function() {
       return this.$store.state.roomForm.formLoading;
     },
-
     title: {
       get() {
         return this.$store.state.roomForm.title;
@@ -88,11 +87,20 @@ export default {
       },
       onSuccess: function(event, fields) {
         console.log("t");
-        component.$store.commit("roomForm/updateFormLoading", true);
-
-        setTimeout(function() {
-          component.$store.commit("roomForm/updateFormLoading", false);
-        }, 2000);
+        // component.$store.commit("roomForm/updateFormLoading", true);
+        // let itemData =
+        // [
+        //   {
+        //     key: '教室名称',
+        //     value: component.$store.state.roomForm.title,
+        //   }
+        // ];
+        // console.log(itemData);
+        // component.$store.commit("coursePeriodForm/updateRoomItem",{index: component.$store.state.roomForm.positionIndex, itemData:itemData});
+        // setTimeout(function() {
+        //   component.$store.commit("roomForm/updateFormLoading", false);
+        // }, 2000);
+        component.$store.dispatch("roomForm/putRoom");
         return false;
       },
       onFailure: function(formErrors, fields) {
