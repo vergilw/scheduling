@@ -15,10 +15,10 @@
       </form>
 
       <div class="action">
-        <div class="ui negative button" v-on:click="onSettings">
+        <!-- <div class="ui negative button" v-on:click="onSettings">
           <i class="fas fa-cog"></i>
           设置
-        </div>
+        </div> -->
         <div class="ui positive button" v-on:click="onNewSchedules">
           <i class="fas fa-plus"></i>
           批量添加课程

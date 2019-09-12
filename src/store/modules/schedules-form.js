@@ -26,9 +26,9 @@ const actions = {
                 var timeItemIndex = state.periodItems[i][0].data[j][1].data;
                 
                 if (!(weekdayIndex.toString() in periodData)) {
-                    periodData[weekdayIndex.toString()] = [rootState.global.timeItemModels[timeItemIndex].id];
-                } else if (!periodData[weekdayIndex.toString()].includes(rootState.global.timeItemModels[timeItemIndex].id)) {
-                    periodData[weekdayIndex.toString()].push(rootState.global.timeItemModels[timeItemIndex].id);
+                    periodData[weekdayIndex.toString()] = [rootState.global.classTimeModels[timeItemIndex].id];
+                } else if (!periodData[weekdayIndex.toString()].includes(rootState.global.classTimeModels[timeItemIndex].id)) {
+                    periodData[weekdayIndex.toString()].push(rootState.global.classTimeModels[timeItemIndex].id);
                 }
             }
 
