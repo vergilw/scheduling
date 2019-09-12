@@ -67,7 +67,7 @@ const actions = {
     },
     getTeachers({ state, commit, rootState }) {
         globalApi.getTeachers(response => {
-            commit('teacherModelsUpdated', response['data']);
+            commit('teacherModelsUpdated', response['data']['members']);
         }, error => {
 
         })
@@ -90,8 +90,8 @@ const actions = {
 
 const mutations = {
     configRequestDefaults(state, {authToken, organToken}) {
-        axios.defaults.headers.common['Auth_Token'] = authToken;
-        axios.defaults.headers.common['Organ_Token'] = organToken;
+        axios.defaults.headers.common['Auth-Token'] = authToken;
+        axios.defaults.headers.common['Organ-Token'] = organToken;
         axios.defaults.headers.common['Accept'] = 'application/vnd.inee.v1+json';
     },
     courseModelsUpdated(state, models) {

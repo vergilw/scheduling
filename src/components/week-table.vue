@@ -221,15 +221,15 @@ export default {
   components: {
     Course
   },
-  created: function() {
-    this.$store.dispatch("schedule/getSchedule");
-    this.$store.dispatch("global/getCourses");
-    this.$store.dispatch("global/getRooms");
-    this.$store.dispatch("global/getCrowds");
-    this.$store.dispatch("global/getTeachers");
-    this.$store.dispatch("global/getCourseTypes");
-    this.$store.dispatch("global/getClassTime");
-  }
+  // created: function() {
+  //   this.$store.dispatch("schedule/getSchedule");
+  //   this.$store.dispatch("global/getCourses");
+  //   this.$store.dispatch("global/getRooms");
+  //   this.$store.dispatch("global/getCrowds");
+  //   this.$store.dispatch("global/getTeachers");
+  //   this.$store.dispatch("global/getCourseTypes");
+  //   this.$store.dispatch("global/getClassTime");
+  // }
 };
 </script>
 

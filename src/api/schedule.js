@@ -2,8 +2,8 @@ import apiConfig from './api.config.js';
 const axios = require('axios');
 
 export default {
-    getSchedule(successCallback, failureCallback) {
-        axios.get('/admin/plans')
+    getSchedule(params, successCallback, failureCallback) {
+        axios.get('/admin/plans', params)
             .then(function (response) {
                 successCallback(response);
             })
@@ -16,7 +16,7 @@ export default {
     },
 
     putSchedules(params, successCallback, failureCallback) {
-        axios.get('/admin/plans', params)
+        axios.post('/admin/plans', params)
             .then(function (response) {
                 successCallback(response);
             })
@@ -29,7 +29,7 @@ export default {
     },
 
     putSchedule(params, successCallback, failureCallback) {
-        axios.get('/admin/plans', params)
+        axios.post('/admin/plans', params)
             .then(function (response) {
                 successCallback(response);
             })
