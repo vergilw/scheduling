@@ -18,16 +18,18 @@
             <FileComponent
             label="文件"
             id="file"
-            name="file_title"
+            name="file"
             v-bind:value="file_title"
             v-on:input="file_title = $event"
+            @setSignId="setSignId"
             />
             <FileComponent
             label="媒体文件"
-            name="media_title"
+            name="media"
             id="media_file"
             v-bind:value="media_title"
             v-on:input="media_title = $event"
+            @setSignId="setSignId"
             />
           </div>
         </div>
@@ -78,13 +80,22 @@ export default {
         return this.$store.state.lessonForm.media_title
       },
       set(value) {
-        this.$store.commit('updateMediaFileTitle',value);
+        this.$store.commit('updateMediaTitle',value);
+      }
+    },
+  },
+  methods: {
+    setSignId: function (name, signId) {
+      if(name == "file") {
+        this.$store.commit('updateFileSignId',signId);
+      } else if(name == "media") {
+        this.$store.commit('updateMediaSignId',signId);
       }
     },
   },
   updated: function() {
     var component = this;
-    $(".ui.form").form({
+    $(".ui.modal.period-subcourse .ui.form").form({
       fields: {
         name: {
           identifier: "name",
@@ -98,11 +109,31 @@ export default {
       },
       onSuccess: function(event, fields) {
         console.log(212121);
-        component.$store.commit("updateFormLoading", true);
+        // component.$store.commit("updateFormLoading", true);
+        //
+        // setTimeout(function(){
+        //   component.$store.commit("updateFormLoading",false);
+        // },2000);
 
-        setTimeout(function(){
-          component.$store.commit("updateFormLoading",false);
-        },2000);
+        let itemData = [
+          {
+            key: "标题",
+            value: component.$store.state.lessonForm.title
+          },
+          {
+            key: "文件",
+            value: component.$store.state.lessonForm.file_title,
+            signId: component.$store.state.lessonForm.file_sign_id
+          },
+          {
+            key: "媒体资料",
+            value: component.$store.state.lessonForm.media_title,
+            signId: component.$store.state.lessonForm.media_sign_id
+          }
+        ];
+        component.$store.commit("courseForm/updateLessonItems",{index: component.$store.state.lessonForm.positionIndex, itemData: itemData});
+        $(".ui.modal.period-subcourse").modal("hide");
+
         return false;
       }
     });

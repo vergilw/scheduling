@@ -35,6 +35,10 @@
 
 <style scoped>
 
+    .edit, .remove {
+        cursor: pointer;
+    }
+
     .ui.config.sgfield > a.remove > svg {
         position: absolute;
         right: 14px;

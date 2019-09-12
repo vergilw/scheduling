@@ -16,7 +16,7 @@ export default {
   name: 'DateComponent',
   props: {
     dateHolder: String,
-    value: String
+    value: String,
   },
 };
 </script>

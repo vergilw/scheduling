@@ -16,8 +16,6 @@ const actions = {
     putSchedules({ state, commit, rootState }) {
         var params = [];
 
-        console.log(state.periodItems[0][0].data);
-
         var paramItem = {};
         for (var i = 0; i < state.periodItems.length; i++) {
             
@@ -49,8 +47,6 @@ const actions = {
 
             params.push(paramItem);
         }
-
-        console.log(params[0]);
 
         commit('updateFormLoading', true);
         //FIXME: multiple param items

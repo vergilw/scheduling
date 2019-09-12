@@ -1,5 +1,5 @@
 <template>
-    <div class="interval field">
+    <div class="interval field" :class="{required: isRequired}">
         <label class="header">{{label}}</label>
         <div class="inline fields">
             <date-component date-holder="选择开始时间" :value="start" @input="start = $event"></date-component>
@@ -18,7 +18,8 @@
         label: String,
         startDate: String,
         endDate: String,
-        name: String
+        name: String,
+        isRequired: Boolean
     },
     computed: {
         start: {

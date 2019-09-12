@@ -3,7 +3,7 @@ const axios = require('axios');
 
 export default {
     getCourses(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/courses')
+        axios.get(apiConfig.hostname + '/admin/events')
             .then(function (response) {
                 successCallback(response);
             })
@@ -16,7 +16,7 @@ export default {
     },
 
     getRooms(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/places')
+        axios.get('/admin/places')
             .then(function (response) {
                 successCallback(response);
             })
@@ -29,7 +29,7 @@ export default {
     },
 
     getCrowds(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/crowds')
+        axios.get('/admin/crowds')
             .then(function (response) {
                 successCallback(response);
             })
@@ -55,7 +55,7 @@ export default {
     },
 
     getCourseTypes(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/event_taxons')
+        axios.get('/admin/event_taxons')
             .then(function (response) {
                 successCallback(response);
             })
@@ -68,7 +68,7 @@ export default {
     },
 
     getClassTime(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/time_items/default')
+        axios.get('/admin/time_items/default')
             .then(function (response) {
                 successCallback(response);
             })
