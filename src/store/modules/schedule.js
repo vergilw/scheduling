@@ -13,7 +13,7 @@ const actions = {
     getSchedule({ state, commit, rootState }) {
         var rangeStart = dateFormat(state.weekStart, 'yyyy-mm-dd');
         var weekEnd = new Date(
-            state.weekStart.getTime() + 3600 * 24 * 1000 * additionalDays
+            state.weekStart.getTime() + 3600 * 24 * 1000 * 7
         );
         var rangeEnd = dateFormat(weekEnd, 'yyyy-mm-dd');
         var params = { 'start_on': rangeStart, 'finish_on': rangeEnd };
