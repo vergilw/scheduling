@@ -36,7 +36,7 @@ const actions = {
 
             paramItem['plan_participants_attributes'] = [];
             paramItem['plan_participants_attributes'].push({'participant_type': 'Crowd', 'participant_id': rootState.global.crowdModels[state.periodItems[i][2].data].id});
-            paramItem['plan_participants_attributes'].push({'participant_type': 'Member', 'participant_id': rootState.global.crowdModels[state.periodItems[i][3].data].id});
+            paramItem['plan_participants_attributes'].push({'participant_type': 'Member', 'participant_id': rootState.global.teacherModels[state.periodItems[i][3].data].id});
 
             paramItem['place_id'] = rootState.global.roomModels[state.periodItems[i][1].data].id;
             paramItem['planned_type'] = 'Event';
