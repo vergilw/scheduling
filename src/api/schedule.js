@@ -3,7 +3,7 @@ const axios = require('axios');
 
 export default {
     getSchedule(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/index')
+        axios.get('/admin/plans')
             .then(function (response) {
                 successCallback(response);
             })

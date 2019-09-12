@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import 'es6-promise/auto';
 import Vuex from 'vuex';
+import VueRouter from 'vue-router';
 import 'dappore-ui/dist/main.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -12,8 +13,6 @@ import store from './store/index.js';
 
 import apiConfig from './api/api.config.js';
 
-import TableHeader from './components/table-header.vue';
-import WeekTable from './components/week-table.vue';
 import ScheduleForm from './components/forms/schedule-form.vue';
 import SchedulesForm from './components/forms/schedules-form.vue';
 import CoursePeriodForm from './components/forms/course-period-form.vue';
@@ -23,9 +22,20 @@ import RoomForm from './components/forms/room-form.vue';
 import ClassTimeForm from './components/forms/class-time-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
 
+import RoomSetting from './components/settings/room-setting.vue';
+import ClassTimeSetting from './components/settings/class-time-setting.vue';
+import CourseTypeSetting from './components/settings/course-type-setting.vue';
+import CourseSetting from './components/settings/course-setting.vue';
+
+import App from './app.vue';
+import Schedule from './schedule.vue';
+import Settings from './settings.vue';
+
 import TempToken from './api/header.js';
 
 require('./index.css');
+
+Vue.use(VueRouter);
 
 axios.defaults.baseURL = apiConfig.hostname;
 
@@ -38,16 +48,37 @@ var weekStart = new Date(checkedDate.setDate(weekDays));
 weekStart.setHours(0, 0, 0, 0);
 store.commit('schedule/weekStartUpdated', weekStart);
 
-var weekHeader = new Vue({
-  el: '#week-header',
-  store,
-  render: h => h(TableHeader),
-});
+const routes = [
+  { path: '', component: Schedule},
+  { path: '/settings', component: Settings, children: [
+    {
+      path: '',
+      component: RoomSetting
+    },
+    {
+      path: 'classtime',
+      component: ClassTimeSetting
+    },
+    {
+      path: 'coursetype',
+      component: CourseTypeSetting
+    },
+    {
+      path: 'course',
+      component: CourseSetting
+    }
+  ]}
+]
 
-var weekTable = new Vue({
-  el: '#week-table',
+const router = new VueRouter({
+  routes
+})
+
+var app = new Vue({
+  el: '#app',
   store,
-  render: h => h(WeekTable),
+  router,
+  render: h => h(App),
 });
 
 var schedulesForm = new Vue({

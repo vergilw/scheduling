@@ -50,7 +50,6 @@ export default {
       this.$store.commit("scheduleForm/deleteTransferStudentItem", index);
     },
     edit: function(index) {
-        console.log(this.$store.state.scheduleForm.transferStudentItems);
       var itemData = {
         positionIndex: index,
         crowdIndex: this.$store.state.scheduleForm.transferStudentItems[index][0].data,

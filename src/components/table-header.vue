@@ -15,7 +15,11 @@
       </form>
 
       <div class="action">
-        <div class="ui button" v-on:click="addCourse">
+        <!-- <div class="ui negative button" v-on:click="onSettings">
+          <i class="fas fa-cog"></i>
+          设置
+        </div> -->
+        <div class="ui positive button" v-on:click="onNewSchedules">
           <i class="fas fa-plus"></i>
           批量添加课程
         </div>
@@ -93,11 +97,14 @@ export default {
     rangeFront() {
       this.$store.commit("schedule/dateRangeFront");
     },
-    addCourse() {
+    onNewSchedules() {
       $(".ui.modal.schedules").dimmer("hide");
       $(".ui.modal.schedules")
         .modal({ autofocus: false, allowMultiple: true })
         .modal("show");
+    },
+    onSettings() {
+      this.$router.push('settings');
     }
   },
   mounted: function() {
@@ -127,6 +134,15 @@ function getParameterByName(name, url) {
 </script>
 
 <style scoped>
+.ui.sgheader > .search > .action > .negative.button {
+	border: solid 1px #dbe1e6;
+  background-color: white;
+  font-size: 14px;
+	color: #4b525a;
+  margin-right: 10px;
+  box-shadow: unset;
+}
+
 .ui.sgheader > .filter {
   position: relative;
 }
