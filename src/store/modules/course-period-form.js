@@ -6,7 +6,8 @@ const state = {
     periodItems: [],
     roomIndex: null,
     crowdIndex: null,
-    teacherIndex: null
+    teacherIndex: null,
+    roomModels: [],
 }
 
 const getters = {}
@@ -60,7 +61,11 @@ const mutations = {
         }
     },
     updateRoomItem(state, itemData) {
-        Vue.set(state.roomModels,0,itemData);
+        if (state.roomModels.length == 0){
+            state.roomModels.push(itemData);
+        }else{
+            Vue.set(state.roomModels, 0, itemData);
+        }
     },
 }
 

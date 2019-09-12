@@ -9,7 +9,6 @@
         <InputComponent
           label="教室名称"
           name="title"
-          v-bind:itemsArray="roomModels"
           v-bind:isRequired="true"
           v-bind:value="title"
           v-on:input="title = $event"
@@ -42,9 +41,6 @@ export default {
   computed: {
     formLoading: function() {
       return this.$store.state.roomForm.formLoading;
-    },
-    roomModels: function(){
-      return this.$store.state.global.roomModels;
     },
     title: {
       get() {
@@ -90,15 +86,15 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
-        var itemData = [
-          {
-            value: 222,
-          }
-        ]
-        component.$store.commit("coursePeriodForm/updateRoomItem",itemData);
         console.log("t");
         component.$store.commit("roomForm/updateFormLoading", true);
-
+        var itemData =
+          {
+            id: "roomIndex",
+            name: component.$store.state.roomForm.title,
+          };
+        console.log(itemData);
+        component.$store.commit("coursePeriodForm/updateRoomItem",{itemData:itemData});
         setTimeout(function() {
           component.$store.commit("roomForm/updateFormLoading", false);
         }, 2000);
