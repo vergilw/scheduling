@@ -11,8 +11,8 @@
           name="title"
           v-bind:itemsArray="roomModels"
           v-bind:isRequired="true"
-          v-bind:value="roomIndex"
-          v-on:input="roomIndex = $event"
+          v-bind:value="title"
+          v-on:input="title = $event"
         />
         <!-- <InputComponent
           label="限制人数"
@@ -43,13 +43,15 @@ export default {
     formLoading: function() {
       return this.$store.state.roomForm.formLoading;
     },
-
-    roomIndex: {
+    roomModels: function(){
+      return this.$store.state.global.roomModels;
+    },
+    title: {
       get() {
-        return this.$store.state.roomForm.roomIndex;
+        return this.$store.state.roomForm.title;
       },
       set(value) {
-        this.$store.commit("roomForm/updateRoomIndex", value);
+        this.$store.commit("roomForm/updateTitle", value);
       }
     },
     capacity: {
@@ -88,6 +90,12 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
+        var itemData = [
+          {
+            value: 222,
+          }
+        ]
+        component.$store.commit("coursePeriodForm/updateRoomItem",itemData);
         console.log("t");
         component.$store.commit("roomForm/updateFormLoading", true);
 

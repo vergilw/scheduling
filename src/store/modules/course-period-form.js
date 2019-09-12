@@ -59,6 +59,9 @@ const mutations = {
             state.periodItems.splice(positionIndex, 1);
         }
     },
+    updateRoomItem(state, itemData) {
+        Vue.set(state.roomModels,0,itemData);
+    },
 }
 
 export default {
