@@ -1,5 +1,5 @@
 <template>
-    <div class="interval field">
+    <div class="interval field" :class="{required: isRequired}">
         <label class="header">{{label}}</label>
         <ConfigItemComponent
         v-for="(item, index) in itemArray"
@@ -9,7 +9,10 @@
         @remove="remove"
         @edit="edit"
         />
-        <div class="ui add sgfield" @click="$emit('addConfig')">+{{button}}</div>
+        <div class="ui add sgfield" @click="$emit('addConfig')">
+            <i class="fas fa-plus"></i>
+            {{button}}
+        </div>
     </div>
 </template>
 
@@ -21,6 +24,7 @@
         props: {
             label: String,
             button: String,
+            isRequired: Boolean,
             itemArray: Array
         },
         components: {
