@@ -1,9 +1,8 @@
-import apiConfig from './api.config.js';
 const axios = require('axios');
 
 export default {
     getCourses(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/admin/events')
+        axios.get('/admin/events')
             .then(function (response) {
                 successCallback(response);
             })
@@ -42,7 +41,7 @@ export default {
     },
 
     getTeachers(successCallback, failureCallback) {
-        axios.get(apiConfig.hostname + '/schedule/teachers')
+        axios.get('/admin/members')
             .then(function (response) {
                 successCallback(response);
             })
