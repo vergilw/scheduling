@@ -7,7 +7,7 @@ const state = {
     roomIndex: null,
     crowdIndex: null,
     teacherIndex: null,
-    roomModels: [],
+    roomItems: null,
 }
 
 const getters = {}
@@ -22,6 +22,7 @@ const actions = {
 
     //     })
     // }
+
 }
 
 const mutations = {
@@ -60,14 +61,6 @@ const mutations = {
             state.periodItems.splice(positionIndex, 1);
         }
     },
-    // updateRoomItem(state, itemData) {
-    //     if (state.roomModels.length == 0){
-    //         state.roomModels.push(itemData);
-    //         console.log(itemData);
-    //     }else{
-    //         Vue.set(state.roomModels, 0, itemData);
-    //     }
-    // },
 }
 
 export default {

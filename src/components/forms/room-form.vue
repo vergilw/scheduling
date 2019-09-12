@@ -87,18 +87,20 @@ export default {
       },
       onSuccess: function(event, fields) {
         console.log("t");
-        component.$store.commit("roomForm/updateFormLoading", true);
-        // var itemData =
+        // component.$store.commit("roomForm/updateFormLoading", true);
+        // let itemData =
         // [
         //   {
-        //     name: component.$store.state.roomForm.title,
+        //     key: '教室名称',
+        //     value: component.$store.state.roomForm.title,
         //   }
         // ];
         // console.log(itemData);
-        // component.$store.commit("coursePeriodForm/updateRoomItem",itemData);
-        setTimeout(function() {
-          component.$store.commit("roomForm/updateFormLoading", false);
-        }, 2000);
+        // component.$store.commit("coursePeriodForm/updateRoomItem",{index: component.$store.state.roomForm.positionIndex, itemData:itemData});
+        // setTimeout(function() {
+        //   component.$store.commit("roomForm/updateFormLoading", false);
+        // }, 2000);
+        component.$store.dispatch("roomForm/putRoom");
         return false;
       },
       onFailure: function(formErrors, fields) {
