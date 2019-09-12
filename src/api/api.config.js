@@ -1,3 +1,3 @@
 export default {
-  hostname: "http://192.168.0.122:8082"
+  hostname: "sg_staging.1314-edu.com"
 };
