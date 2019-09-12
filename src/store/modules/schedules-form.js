@@ -26,19 +26,19 @@ const actions = {
                 var timeItemIndex = state.periodItems[i][0].data[j][1].data;
                 
                 if (!(weekdayIndex.toString() in periodData)) {
-                    periodData[weekdayIndex.toString()] = [timeItemIndex];
-                } else if (!periodData[weekdayIndex.toString()].includes(timeItemIndex)) {
-                    periodData[weekdayIndex.toString()].push(timeItemIndex);
+                    periodData[weekdayIndex.toString()] = [rootState.global.timeItemModels[timeItemIndex].id];
+                } else if (!periodData[weekdayIndex.toString()].includes(rootState.global.timeItemModels[timeItemIndex].id)) {
+                    periodData[weekdayIndex.toString()].push(rootState.global.timeItemModels[timeItemIndex].id);
                 }
             }
 
             paramItem['repeat_days'] = periodData;
 
             paramItem['plan_participants_attributes'] = [];
-            paramItem['plan_participants_attributes'].push({'participant_type': 'Crowd', 'participant_id': state.periodItems[i][2].data});
-            paramItem['plan_participants_attributes'].push({'participant_type': 'Member', 'participant_id': state.periodItems[i][3].data});
+            paramItem['plan_participants_attributes'].push({'participant_type': 'Crowd', 'participant_id': rootState.global.crowdModels[state.periodItems[i][2].data].id});
+            paramItem['plan_participants_attributes'].push({'participant_type': 'Member', 'participant_id': rootState.global.crowdModels[state.periodItems[i][3].data].id});
 
-            paramItem['place_id'] = state.periodItems[i][1].data;
+            paramItem['place_id'] = rootState.global.roomModels[state.periodItems[i][1].data].id;
             paramItem['planned_type'] = 'Event';
             paramItem['planned_id'] = rootState.global.courseModels[state.courseIndex].id;
             paramItem['begin_on'] = dateFormat(state.startDate, "yyyy-mm-dd");
