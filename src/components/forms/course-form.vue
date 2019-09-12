@@ -44,35 +44,12 @@ import LessonConfig from "../lesson-config.vue";
 
 export default {
   name: "CourseForm",
-  data: function() {
-    return {
-      costModels: [
-      {
-        'id': 1,
-        'name': "1课时/次"
-      },
-      {
-        'id': 2,
-        'name': "2课时/次"
-      },
-      {
-        'id': 3,
-        'name': "3课时/次"
-      },
-      {
-        'id': 4,
-        'name': "4课时/次"
-      },
-      {
-        'id': 5,
-        'name': "5课时/次"
-      }
-    ]
-    }
-  },
   computed: {
     formLoading: function() {
       return this.$store.state.courseForm.formLoading;
+    },
+    costModels: function() {
+      return this.$store.state.global.courseTypeModels;
     },
     courseTypeModels: function() {
       return this.$store.state.global.courseTypeModels;

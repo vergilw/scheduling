@@ -46,7 +46,7 @@ const getters = {}
 const actions = {
     getCourses({ state, commit, rootState }) {
         globalApi.getCourses(response => {
-            commit('courseModelsUpdated', response['data']);
+            commit('courseModelsUpdated', response['data']['events']);
         }, error => {
 
         })
