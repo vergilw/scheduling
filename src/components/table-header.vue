@@ -94,9 +94,11 @@ export default {
   methods: {
     rangeBack() {
       this.$store.commit("schedule/dateRangeBack");
+      this.$store.dispatch("schedule/getSchedule");
     },
     rangeFront() {
       this.$store.commit("schedule/dateRangeFront");
+      this.$store.dispatch("schedule/getSchedule");
     },
     onNewSchedules() {
       $(".ui.modal.schedules").dimmer("hide");

@@ -39,6 +39,7 @@ Vue.use(VueRouter);
 axios.defaults.baseURL = apiConfig.hostname;
 
 
+
 var now = new Date;
 var checkedDate = new Date;
 var weekDays = checkedDate.getDate() - checkedDate.getDay() + 1;
@@ -78,6 +79,19 @@ var app = new Vue({
   router,
   render: h => h(App),
 });
+
+//FIXME: local debug
+store.commit("global/configRequestDefaults", {
+  authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjkwLCJzdWIiOiJhdXRoIiwiZXhwIjoxNTY4ODg5OTkzfQ.4AnApGg0DKRYL7y4lBrxviQPKmtutsW-3puiFbWc81U',
+  organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI4IDA5OjUwOjUxICswODAwIn0.eG8Z1Q2pkGrMOfpSVU-xv-ckI4GwasPfREhob22MxXA'
+});
+store.dispatch("schedule/getSchedule");
+store.dispatch("global/getCourses");
+store.dispatch("global/getRooms");
+store.dispatch("global/getCrowds");
+store.dispatch("global/getTeachers");
+store.dispatch("global/getCourseTypes");
+store.dispatch("global/getClassTime");
 
 var schedulesForm = new Vue({
   el: '#schedules-form',
