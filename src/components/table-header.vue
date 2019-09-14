@@ -6,10 +6,6 @@
           <input type="text" placeholder="输入搜索的关键词…" />
         </div>
 
-        <div class="ui input">
-          <input type="text" placeholder="输入搜索的关键词…" />
-        </div>
-
         <div class="ui submit button">搜索</div>
         <div class="ui reset button">重置</div>
       </form>
@@ -18,7 +14,7 @@
         <!-- <div class="ui negative button" v-on:click="onSettings">
           <i class="fas fa-cog"></i>
           设置
-        </div> -->
+        </div>-->
         <div class="ui positive button" v-on:click="onNewSchedules">
           <i class="fas fa-plus"></i>
           批量添加课程
@@ -26,31 +22,71 @@
       </div>
     </div>
 
-    <div class="filter">
+    <div v-if="teacherModels" class="filter">
       <div class="ui sgfilter">
-        <div class="header">状态：</div>
+        <div class="header">课程：</div>
         <div class="ui selection dropdown">
-          <input type="hidden" name="gender" />
+          <input type="hidden" name="course" />
           <i class="dropdown icon"></i>
-          <div class="default text">Gender</div>
+          <div class="default text">全部</div>
           <div class="menu">
-            <div class="item">all</div>
-            <div class="item">Male</div>
-            <div class="item">Female</div>
+            <div
+              v-for="(course, index) in courseModels"
+              :key="index"
+              class="item"
+              @click="onChangeFilter('course', index)"
+            >{{ course.name }}</div>
           </div>
         </div>
       </div>
 
-      <div class="ui sgfilter">
-        <div class="header">状态：</div>
+      <div v-if="crowdModels" class="ui sgfilter">
+        <div class="header">班级：</div>
         <div class="ui selection dropdown">
-          <input type="hidden" name="gender" />
+          <input type="hidden" name="crowd" />
           <i class="dropdown icon"></i>
-          <div class="default text">Gender</div>
+          <div class="default text">全部</div>
           <div class="menu">
-            <div class="item">all</div>
-            <div class="item">Male</div>
-            <div class="item">Female</div>
+            <div
+              v-for="(crowd, index) in crowdModels"
+              :key="index"
+              class="item"
+              @click="onChangeFilter('crowd', index)"
+            >{{ crowd.name }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="teacherModels" class="ui sgfilter">
+        <div class="header">老师：</div>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="teacher" />
+          <i class="dropdown icon"></i>
+          <div class="default text">全部</div>
+          <div class="menu">
+            <div
+              v-for="(teacher, index) in teacherModels"
+              :key="index"
+              class="item"
+              @click="onChangeFilter('teacher', index)"
+            >{{ teacher.name }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="roomModels" class="ui sgfilter">
+        <div class="header">教室：</div>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="room" />
+          <i class="dropdown icon"></i>
+          <div class="default text">全部</div>
+          <div class="menu">
+            <div
+              v-for="(room, index) in roomModels"
+              :key="index"
+              class="item"
+              @click="onChangeFilter('room', index)"
+            >{{ room.name }}</div>
           </div>
         </div>
       </div>
@@ -89,6 +125,18 @@ export default {
           "yyyy.mm.dd"
         )
       );
+    },
+    courseModels: function() {
+      return this.$store.state.global.courseModels;
+    },
+    roomModels: function() {
+      return this.$store.state.global.roomModels;
+    },
+    crowdModels: function() {
+      return this.$store.state.global.crowdModels;
+    },
+    teacherModels: function() {
+      return this.$store.state.global.teacherModels;
     }
   },
   methods: {
@@ -108,9 +156,20 @@ export default {
     },
     onSettings() {
       this.$router.push("settings");
+    },
+    onChangeFilter(name, index) {
+      if (name === "course") {
+        this.$store.commit("schedule/updateCourseIndex", index);
+      } else if (name === "crowd") {
+        this.$store.commit("schedule/updateCrowdIndex", index);
+      } else if (name === "teacher") {
+        this.$store.commit("schedule/updateTeacherIndex", index);
+      } else if (name === "room") {
+        this.$store.commit("schedule/updateRoomIndex", index);
+      }
     }
   },
-  mounted: function() {
+  updated: function() {
     $(".ui.dropdown").dropdown();
   },
   created: function() {
