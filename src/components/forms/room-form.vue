@@ -13,13 +13,13 @@
           v-bind:value="title"
           v-on:input="title = $event"
         />
-        <!-- <InputComponent
+        <InputComponent
           label="限制人数"
           name="capacity"
           v-bind:isRequired="true"
           v-bind:value="capacity"
           v-on:input="capacity = $event"
-        /> -->
+        />
 
         <div class="ui error message"></div>
         <div class="action">
@@ -73,14 +73,10 @@ export default {
               type: "regExp[/^\\S{2,16}$/]",
               prompt: "教室名称不能为空，长度2-16位"
             },
-            {
-              type: "empty",
-              prompt: "教室名称不能为空"
-            },
-            {
-              type: "regExp[^\n]*",
-              prompt: "教室名称不能有换行符"
-            }
+            // {
+            //   type: "regExp[/\s/]",
+            //   prompt: "教室名称不能有换行符"
+            // }
           ]
         },
         capacity: {
@@ -96,19 +92,25 @@ export default {
       onSuccess: function(event, fields) {
         console.log("t");
         // component.$store.commit("roomForm/updateFormLoading", true);
-        // let itemData =
-        // [
-        //   {
-        //     key: '教室名称',
-        //     value: component.$store.state.roomForm.title,
-        //   }
-        // ];
-        // console.log(itemData);
-        // component.$store.commit("coursePeriodForm/updateRoomItem",{index: component.$store.state.roomForm.positionIndex, itemData:itemData});
+        component.$store.dispatch("roomForm/putRoom");
         // setTimeout(function() {
         //   component.$store.commit("roomForm/updateFormLoading", false);
         // }, 2000);
-        component.$store.dispatch("roomForm/putRoom");
+        $(".ui.modal.room").modal("hide");
+
+        var itemData = [
+          {
+            key: '教室名称',
+            value: component.$store.state.roomForm.title
+          },
+          {
+            key: '限制人数',
+            value: component.$store.state.roomForm.capacity
+          }
+        ]
+        component.$store.commit("schedulesForm/updateRoomItem",{roomIndex:component.$store.state.roomForm.roomIndex, itemData: itemData});
+        component.$store.commit("roomForm/reset");
+        $(".ui.modal.room .ui.form").form('clear');
         return false;
       },
       onFailure: function(formErrors, fields) {
