@@ -28,7 +28,11 @@
     </thead>
 
     <tbody v-if="scheduleModels && scheduleModels.length > 0">
-      <tr v-for="(timeItem, index) in scheduleModels[0]['time_items']" v-bind:key="timeItem['id']" :time-item-id="timeItem['id']">
+      <tr
+        v-for="(timeItem, index) in scheduleModels[0]['time_items']"
+        v-bind:key="timeItem['id']"
+        :time-item-id="timeItem['id']"
+      >
         <td>
           <div class="content">{{ timeRangeDateFormat(timeItem['start_at'], timeItem['end_at']) }}</div>
         </td>
@@ -194,11 +198,15 @@ export default {
       return new Date() > comparedDate;
     },
     onNewCourseSchedule: function(event) {
-      
-      var element = $(event.target).parent().parent();
-      var date = new Date(element.attr('date-value'));
-      var timeItemID = element.parent().attr('time-item-id');
-      this.$store.commit("scheduleForm/updateScheduleTime", {date: date, timeItemID: timeItemID});
+      var element = $(event.target)
+        .parent()
+        .parent();
+      var date = new Date(element.attr("date-value"));
+      var timeItemID = element.parent().attr("time-item-id");
+      this.$store.commit("scheduleForm/updateScheduleTime", {
+        date: date,
+        timeItemID: timeItemID
+      });
 
       $(".ui.modal.schedule").dimmer("hide");
       $(".ui.modal.schedule")
@@ -214,13 +222,33 @@ export default {
       Sortable.create(courseContainerElements[i], {
         group: "course-group",
         animation: 150,
-        draggable: '.course'
+        draggable: ".course",
+        direction: 'vertical',
+        delayOnTouchOnly: true,
+        onChoose: function(/**Event*/ evt) {
+          console.log(evt.item); // element index within parent
+
+          // var element = $(event.target)
+          //   .parent()
+          //   .parent();
+          // var date = new Date(element.attr("date-value"));
+          // var timeItemID = element.parent().attr("time-item-id");
+          // this.$store.commit("scheduleForm/updateScheduleTime", {
+          //   date: date,
+          //   timeItemID: timeItemID
+          // });
+
+          $(".ui.modal.schedule").dimmer("hide");
+          $(".ui.modal.schedule")
+            .modal({ autofocus: false, allowMultiple: true })
+            .modal("show");
+        }
       });
     }
   },
   components: {
     Course
-  },
+  }
 };
 </script>
 
@@ -280,7 +308,7 @@ export default {
   height: 145px;
   background-color: #f0f4f6;
   font-size: 12px;
-	color: #9199a3;
+  color: #9199a3;
   cursor: pointer;
 }
 
@@ -290,7 +318,6 @@ export default {
   color: #d2d9df;
   display: block;
   text-align: center;
-
 }
 
 /* unset */

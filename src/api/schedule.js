@@ -4,12 +4,7 @@ const qs = require('qs');
 
 export default {
     getSchedule(params, successCallback, failureCallback) {
-        const config = {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
-        axios.get('/admin/plans', qs.stringify(params), config)
+        axios.get('/admin/plans', { params: params })
             .then(function (response) {
                 successCallback(response);
             })
