@@ -61,7 +61,7 @@ export default {
         return this.$store.state.lessonForm.title
       },
       set(value) {
-        this.$store.commit('updateTitle',value);
+        this.$store.commit('lessonForm/updateTitle',value);
       }
     },
     formLoading: function(){
