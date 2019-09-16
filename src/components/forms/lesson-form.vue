@@ -61,7 +61,7 @@ export default {
         return this.$store.state.lessonForm.title
       },
       set(value) {
-        this.$store.commit('updateTitle',value);
+        this.$store.commit('lessonForm/updateTitle',value);
       }
     },
     formLoading: function(){
@@ -69,27 +69,27 @@ export default {
     },
     file_title: {
       get(){
-        return this.$store.state.lessonForm.file_title
+        return this.$store.state.lessonForm.fileTitle
       },
       set(value) {
-        this.$store.commit('updateFileTitle',value);
+        this.$store.commit('lessonForm/updateFileTitle',value);
       }
     },
     media_title: {
       get(){
-        return this.$store.state.lessonForm.media_title
+        return this.$store.state.lessonForm.mediaTitle
       },
       set(value) {
-        this.$store.commit('updateMediaTitle',value);
+        this.$store.commit('lessonForm/updateMediaTitle',value);
       }
     },
   },
   methods: {
     setSignId: function (name, signId) {
       if(name == "file") {
-        this.$store.commit('updateFileSignId',signId);
+        this.$store.commit('lessonForm/updateFileSignId',signId);
       } else if(name == "media") {
-        this.$store.commit('updateMediaSignId',signId);
+        this.$store.commit('lessonForm/updateMediaSignId',signId);
       }
     },
   },
@@ -122,13 +122,13 @@ export default {
           },
           {
             key: "文件",
-            value: component.$store.state.lessonForm.file_title,
-            signId: component.$store.state.lessonForm.file_sign_id
+            value: component.$store.state.lessonForm.fileTitle,
+            signId: component.$store.state.lessonForm.fileSignId
           },
           {
             key: "媒体资料",
-            value: component.$store.state.lessonForm.media_title,
-            signId: component.$store.state.lessonForm.media_sign_id
+            value: component.$store.state.lessonForm.mediaTitle,
+            signId: component.$store.state.lessonForm.mediaSignId
           }
         ];
         component.$store.commit("courseForm/updateLessonItems",{index: component.$store.state.lessonForm.positionIndex, itemData: itemData});
