@@ -42,7 +42,7 @@
                             $(element).dimmer("hide");
                             component.$store.commit("lessonForm/reset");
                             $(".ui.modal.period-subcourse .ui.form").form("clear");
-                            $('.ui.sgfield > .ui.file.sgfield > .description').text("未选择任何文件").css("color","#9199a3");;
+                            $('.ui.sgfield > .ui.file.sgfield > .description').text("未选择任何文件").css("color","#9199a3");
                         }
                     })
                     .modal("show");
@@ -53,16 +53,22 @@
             },
             edit: function (index) {
                 console.log('lesson edit');
-                var itemData = {
+
+                let element = this.$parent.$el;
+                let component = this.$parent;
+
+                console.log('positionIndex: ' + index);
+                console.log('title: ' + this.$store.state.courseForm.lessonItems[index][0].value);
+                console.log('fileTitle: ' + this.$store.state.courseForm.lessonItems[index][1].value);
+                console.log('mediaTitle: ' + this.$store.state.courseForm.lessonItems[index][2].value);
+
+                let itemData = {
                     positionIndex: index,
                     title: this.$store.state.courseForm.lessonItems[index][0].value,
                     fileTitle: this.$store.state.courseForm.lessonItems[index][1].value,
                     mediaTitle: this.$store.state.courseForm.lessonItems[index][2].value,
                 };
-                this.$store.commit("lessonForm/assign", itemData);
-
-                var element = this.$parent.$el;
-                var component = this.$parent;
+                component.$store.commit("lessonForm/assign", itemData);
 
                 $(".ui.active.dimmable.modal:not(.period-subcourse)").dimmer("show");
                 $(element).dimmer({
@@ -79,6 +85,7 @@
                             $(element).dimmer("hide");
                             component.$store.commit("lessonForm/reset");
                             $(".ui.modal.period-subcourse .ui.form").form("clear");
+                            $('.ui.sgfield > .ui.file.sgfield > .description').text("未选择任何文件").css("color","#9199a3");;
                         }
                     })
                     .modal("show");

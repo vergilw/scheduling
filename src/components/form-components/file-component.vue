@@ -40,11 +40,9 @@ export default {
             let file = e.currentTarget.files[0];
             let name = file.name;
             if(name.length > 20) {
-                let str = name.substr(0,20)+"...";
-                aim.text(str).css("color","#4a90e2");
-            } else {
-                aim.text(name).css("color","#4a90e2");
+                name = name.substr(0,20)+"...";
             }
+            aim.text(name).css("color","#4a90e2");
 
             getUpToken(file);
         });

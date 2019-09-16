@@ -4,10 +4,10 @@ const state = {
   positionIndex: null,
   title: null,
   formLoading: false,
-  file_title: null,
-  media_title: null,
-  file_sign_id: null,
-  media_sign_id: null,
+  fileTitle: null,
+  mediaTitle: null,
+  fileSignId: null,
+  mediaSignId: null,
 }
 
 const getters = {
@@ -22,54 +22,41 @@ const mutations = {
   reset(state) {
     state.positionIndex = null;
     state.title = null;
-    state.file_title = null;
-    state.media_title = null;
-    state.file_sign_id = null;
-    state.media_sign_id = null;
+    state.fileTitle = null;
+    state.mediaTitle = null;
+    state.fileSignId = null;
+    state.mediaSignId = null;
   },
-  assign(state, { positionIndex, title, fileTitle, mediaTitle }) {
+  assign(state, {positionIndex, title, fileTitle, mediaTitle}) {
     state.positionIndex = positionIndex;
     state.title = title;
-    state.file_title = fileTitle;
-    state.media_title = mediaTitle;
+    state.fileTitle = fileTitle;
+    state.mediaTitle = mediaTitle;
   },
-  updateTitle(state, string) {
+  updateTitle(state,string) {
     state.title = string;
   },
-  updateFormLoading(state, boolean) {
+  updateFormLoading(state,boolean) {
     state.formLoading = boolean;
   },
-  updateFileTitle(state, string) {
-    // .substr(string.lastIndexOf("\\") + 1)
-    state.file_title = string;
+  updateFileTitle(state,string) {
+    state.fileTitle = string;
   },
-  updateMediaTitle(state, string) {
-    state.media_title = string;
+  updateMediaTitle(state,string) {
+    state.mediaTitle = string;
   },
-  updateFileSignId(state, string) {
-    state.file_sign_id = string;
+  updateFileSignId(state,string) {
+    state.fileSignId = string;
   },
-  updateMediaSignId(state, string) {
-    state.media_sign_id = string;
+  updateMediaSignId(state,string) {
+    state.mediaSignId = string;
   },
-  // updateLessonItems(state, {index, itemData}) {
-  //   if (index === null) {
-  //     state.lessonItems.push(itemData);
-  //   } else if (index < state.periodItems.length) {
-  //     Vue.set(state.lessonItems, index, itemData);
-  //   }
-  // },
-  // deleteLessonItems(state, index) {
-  //   if (index !== null) {
-  //     state.lessonItems.splice(index, 1);
-  //   }
-  // }
 }
 
 export default {
-  namespace: true,
+  namespaced: true,
   state,
   getters,
   actions,
-  mutations,
+  mutations
 }
