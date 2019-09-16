@@ -27,29 +27,29 @@ const mutations = {
     state.file_sign_id = null;
     state.media_sign_id = null;
   },
-  assign(state, {positionIndex, title, fileTitle, mediaTitle}) {
+  assign(state, { positionIndex, title, fileTitle, mediaTitle }) {
     state.positionIndex = positionIndex;
     state.title = title;
     state.file_title = fileTitle;
     state.media_title = mediaTitle;
   },
-  updateTitle(state,string) {
+  updateTitle(state, string) {
     state.title = string;
   },
-  updateFormLoading(state,boolean) {
+  updateFormLoading(state, boolean) {
     state.formLoading = boolean;
   },
-  updateFileTitle(state,string) {
-  // .substr(string.lastIndexOf("\\") + 1)
+  updateFileTitle(state, string) {
+    // .substr(string.lastIndexOf("\\") + 1)
     state.file_title = string;
   },
-  updateMediaTitle(state,string) {
+  updateMediaTitle(state, string) {
     state.media_title = string;
   },
-  updateFileSignId(state,string) {
+  updateFileSignId(state, string) {
     state.file_sign_id = string;
   },
-  updateMediaSignId(state,string) {
+  updateMediaSignId(state, string) {
     state.media_sign_id = string;
   },
   // updateLessonItems(state, {index, itemData}) {

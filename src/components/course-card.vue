@@ -1,8 +1,8 @@
 <template>
-  <div :class="disableClass" :schedule-id="courseModel.planned_id" class="course">
-    <a class="delete">
+  <div :class="disableClass" :schedule-id="courseModel.id" class="course">
+    <div @click="onDelete(courseModel.id)" class="delete">
       <i class="fas fa-times"></i>
-    </a>
+    </div>
     <div class="name">{{ courseModel.short_name }}</div>
     <div class="shortname">{{ courseModel.name }}</div>
     <div class="footer">
@@ -83,6 +83,12 @@ export default {
       return this.$store.state.global.roomModels[
         this.$store.state.schedule.roomIndex
       ].id;
+    }
+  },
+  methods: {
+    onDelete(scheduleID) {
+      this.$store.commit('scheduleForm/updateScheduleID', scheduleID);
+      this.$store.dispatch('scheduleForm/deleteScheduleByID');
     }
   }
 };
