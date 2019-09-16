@@ -23,4 +23,8 @@ export default {
 
 <style scoped>
 
+  .ui.input > input {
+    font-size: 14px;
+  }
+
 </style>

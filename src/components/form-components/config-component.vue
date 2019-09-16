@@ -60,7 +60,8 @@
 
 <style scoped>
 
-    .field {
+    .interval.field > label,
+    .add.ui.sgfield {
         font-size: 14px;
     }
 
