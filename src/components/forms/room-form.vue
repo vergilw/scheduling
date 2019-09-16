@@ -72,6 +72,14 @@ export default {
             {
               type: "regExp[/^\\S{2,16}$/]",
               prompt: "教室名称不能为空，长度2-16位"
+            },
+            {
+              type: "empty",
+              prompt: "教室名称不能为空"
+            },
+            {
+              type: "regExp[^\n]*",
+              prompt: "教室名称不能有换行符"
             }
           ]
         },
