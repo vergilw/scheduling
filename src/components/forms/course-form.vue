@@ -40,7 +40,7 @@
 <script>
 import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
-import LessonConfig from "../lesson-config.vue";
+import LessonConfig from "../config-components/lesson-config.vue";
 
 export default {
   name: "CourseForm",

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import ConfigComponent from "./form-components/config-component.vue";
+    import ConfigComponent from "../form-components/config-component.vue";
 
     export default {
         name: 'CourseConfig',
