@@ -215,6 +215,7 @@ export default {
     }
   },
   updated: function() {
+    var component = this;
     var courseContainerElements = $(
       "table > tbody > tr > td  > .content:not(:eq(0))"
     );
@@ -223,19 +224,14 @@ export default {
         group: "course-group",
         animation: 150,
         draggable: ".course",
-        delay: 500,
+        filter: '.delete',
         onChoose: function(/**Event*/ evt) {
-          console.log(evt.item); // element index within parent
 
-          // var element = $(event.target)
-          //   .parent()
-          //   .parent();
-          // var date = new Date(element.attr("date-value"));
-          // var timeItemID = element.parent().attr("time-item-id");
-          // this.$store.commit("scheduleForm/updateScheduleTime", {
-          //   date: date,
-          //   timeItemID: timeItemID
-          // });
+          var element = $(evt.item)
+          var scheduleID = element.attr('schedule-id');
+          component.$store.commit('scheduleForm/updateScheduleID', scheduleID);
+
+          component.$store.dispatch('scheduleForm/getScheduleByID');
 
           $(".ui.modal.schedule").dimmer("hide");
           $(".ui.modal.schedule")

@@ -21,15 +21,13 @@ const actions = {
     putSchedule({ state, commit, rootState }) {
 
         var paramItem = {};
-        var key = dateFormat(state.date, 'yyyy-mm-dd');
-        paramItem['repeat_days'] = {};
-        paramItem['repeat_days'][key] = [state.timeItemID];
-        paramItem['repeat_type'] = 'once';
+        paramItem['plan_on'] = dateFormat(state.date, 'yyyy-mm-dd');
+        paramItem['time_item_id'] = state.timeItemID;
 
         paramItem['plan_participants_attributes'] = [];
         paramItem['plan_participants_attributes'].push({ 'participant_type': 'Crowd', 'participant_id': rootState.global.crowdModels[state.crowdIndex].id });
         paramItem['plan_participants_attributes'].push({ 'participant_type': 'Member', 'participant_id': rootState.global.teacherModels[state.teacherIndex].id });
-        for (var i=0; i<state.transferStudentItems.length; i++) {
+        for (var i = 0; i < state.transferStudentItems.length; i++) {
             var studentID = state.transferStudentItems[i][1].ext;
             paramItem['plan_participants_attributes'].push({ 'participant_type': 'Profile', 'participant_id': studentID });
         }
@@ -37,19 +35,96 @@ const actions = {
         paramItem['place_id'] = rootState.global.roomModels[state.roomIndex].id;
         paramItem['planned_type'] = 'Event';
         paramItem['planned_id'] = rootState.global.courseModels[state.courseIndex].id;
-        
+
         var store = this;
 
         commit('updateFormLoading', true);
-        //FIXME: multiple param items
-        scheduleApi.putSchedule({ 'plan': paramItem }, response => {
+        scheduleApi.putSchedule({ 'plan_item': paramItem }, response => {
             console.log(response);
             commit('updateFormLoading', false);
             store.dispatch("schedule/getSchedule");
 
         }, error => {
+            commit('updateFormLoading', false);
             console.log(error);
         })
+    },
+
+    getScheduleByID({ state, commit, rootState }) {
+        var store = this;
+
+        commit('updateFormLoading', true);
+        scheduleApi.getScheduleByID(state.scheduleID, response => {
+            
+            commit('updateFormLoading', false);
+
+            var params = {
+                date: new Date(response['data']['plan_item']['start_at']),
+                courseID: response['data']['plan_item']['planned_id'],
+                roomID: response['data']['plan_item']['place_id']
+            };
+            for (var i=0; i<response['data']['plan_item']['plan_participants'].length; i++) {
+                var obj = response['data']['plan_item']['plan_participants'][i];
+                if (obj['participant_type'] === 'Crowd') {
+                    params['crowdID'] = obj['participant_id'];
+                } else if (obj['participant_type'] === 'Member') {
+                    params['teacherID'] = obj['participant_id'];
+                // } else if (obj['participant_type'] === 'Profile') {
+                //     params['teacherID'] = obj['participant_id'];
+                }
+            }
+            console.log(params);
+            commit('assign', params);
+
+        }, error => {
+            console.log(error);
+        })
+    },
+
+    patchScheduleByID({ state, commit, rootState }) {
+        var paramItem = {};
+        paramItem['plan_on'] = dateFormat(state.date, 'yyyy-mm-dd');
+        paramItem['time_item_id'] = state.timeItemID;
+
+        paramItem['plan_participants_attributes'] = [];
+        paramItem['plan_participants_attributes'].push({ 'participant_type': 'Crowd', 'participant_id': rootState.global.crowdModels[state.crowdIndex].id });
+        paramItem['plan_participants_attributes'].push({ 'participant_type': 'Member', 'participant_id': rootState.global.teacherModels[state.teacherIndex].id });
+        for (var i = 0; i < state.transferStudentItems.length; i++) {
+            var studentID = state.transferStudentItems[i][1].ext;
+            paramItem['plan_participants_attributes'].push({ 'participant_type': 'Profile', 'participant_id': studentID });
+        }
+
+        paramItem['place_id'] = rootState.global.roomModels[state.roomIndex].id;
+        paramItem['planned_type'] = 'Event';
+        paramItem['planned_id'] = rootState.global.courseModels[state.courseIndex].id;
+
+        var store = this;
+
+        console.log(paramItem);
+        commit('updateFormLoading', true);
+        scheduleApi.patchScheduleByID(state.scheduleID, { 'plan_item': paramItem }, response => {
+            commit('updateFormLoading', false);
+            store.dispatch("schedule/getSchedule");
+
+        }, error => {
+            commit('updateFormLoading', false);
+            console.log(error);
+        });
+    },
+
+    deleteScheduleByID({ state, commit, rootState }) {
+
+        var store = this;
+
+        // commit('updateFormLoading', true);
+        scheduleApi.deleteScheduleByID(state.scheduleID, response => {
+            // commit('updateFormLoading', false);
+            store.dispatch("schedule/getSchedule");
+
+        }, error => {
+            // commit('updateFormLoading', false);
+            console.log(error);
+        });
     }
 }
 
@@ -57,7 +132,42 @@ const mutations = {
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
     },
-    updateScheduleTime(state, {date, timeItemID}) {
+    assign(state, { date, timeItemID, courseID, roomID, crowdID, transferStudentItems, teacherID }) {
+        state.date = date;
+        state.timeItemID = timeItemID;
+
+        for (var i = 0; i < this.state.global.courseModels.length; i++) {
+            if (this.state.global.courseModels[i].id === courseID) {
+                state.courseIndex = i;
+                break;
+            }
+        }
+
+        for (var i = 0; i < this.state.global.roomModels.length; i++) {
+            if (this.state.global.roomModels[i].id === roomID) {
+                state.roomIndex = i;
+                break;
+            }
+        }
+
+        for (var i = 0; i < this.state.global.crowdModels.length; i++) {
+            if (this.state.global.crowdModels[i].id === crowdID) {
+                state.crowdIndex = i;
+                break;
+            }
+        }
+
+        for (var i = 0; i < this.state.global.teacherModels.length; i++) {
+            if (this.state.global.teacherModels[i].id === teacherID) {
+                state.teacherIndex = i;
+                break;
+            }
+        }
+    },
+    updateScheduleID(state, int) {
+        state.scheduleID = int;
+    },
+    updateScheduleTime(state, { date, timeItemID }) {
         state.date = date;
         state.timeItemID = timeItemID;
     },

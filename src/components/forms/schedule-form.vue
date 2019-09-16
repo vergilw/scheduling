@@ -216,7 +216,12 @@ export default {
         },
       },
       onSuccess: function(event, fields) {
-        component.$store.dispatch("scheduleForm/putSchedule");
+        if (component.$store.state.scheduleForm.scheduleID === null) {
+          component.$store.dispatch("scheduleForm/putSchedule");
+        } else {
+          component.$store.dispatch("scheduleForm/patchScheduleByID");
+        }
+        
         return false;
       },
       onFailure: function(formErrors, fields) {
