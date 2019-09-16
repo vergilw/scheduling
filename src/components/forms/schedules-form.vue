@@ -46,7 +46,7 @@ import SelectComponent from "../form-components/select-component.vue";
 import InputComponent from "../form-components/input-component.vue";
 import Courseware from "../courseware-table.vue";
 import DateInterval from "../date-interval.vue";
-import CourseConfig from "../course-config.vue";
+import CourseConfig from "../config-components/course-config.vue";
 
 export default {
   name: "SchedulesForm",

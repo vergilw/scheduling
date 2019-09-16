@@ -47,7 +47,7 @@
 
 <style scoped>
 
-    .field {
+    .interval.field > label{
         font-size: 14px;
     }
 

@@ -132,6 +132,7 @@ export default {
     onNewOption: function(name) {
       if (name === "course") {
         var element = this.$el;
+        var component = this.$parent;
 
         $(".ui.active.dimmable.modal:not(.course)").dimmer("show");
         $(element).dimmer({
@@ -146,6 +147,8 @@ export default {
             allowMultiple: true,
             onHidden: function() {
               $(element).dimmer("hide");
+              component.$store.commit("courseForm/reset");
+              $(".ui.modal.course .ui.form").form("clear");
             }
           })
           .modal("show");

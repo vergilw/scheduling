@@ -1,5 +1,5 @@
 <template>
-  <div :class="disableClass" class="course">
+  <div :class="disableClass" :schedule-id="courseModel.planned_id" class="course">
     <a class="delete">
       <i class="fas fa-times"></i>
     </a>
@@ -95,6 +95,7 @@ export default {
   box-shadow: 0px 1px 8px 0px rgba(8, 14, 21, 0.06);
   border-radius: 8px;
   text-align: left;
+  cursor: pointer;
 }
 
 .disable.course {

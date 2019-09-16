@@ -31,15 +31,18 @@ const actions = {
         }
         params['event_items_attributes'] = eventItemsAttributes;
 
-        console.log("name: " + params['name']);
-        console.log("price: " + params['price']);
-        console.log("event_item_attributes > name: " + params['event_items_attributes'][0]['name']);
-        console.log("event_item_attributes > videos: " + params['event_items_attributes'][0]['videos']);
-        console.log("event_item_attributes > documents: " + params['event_items_attributes'][0]['documents']);
+        // console.log("name: " + params['name']);
+        // console.log("price: " + params['price']);
+        // console.log("event_item_attributes > name: " + params['event_items_attributes'][0]['name']);
+        // console.log("event_item_attributes > videos: " + params['event_items_attributes'][0]['videos']);
+        // console.log("event_item_attributes > documents: " + params['event_items_attributes'][0]['documents']);
 
+        let store = this;
         courseApi.putCourse({"event": params}, response => {
             console.log("Course response: " + response['data']);
             commit('updateFormLoading', false);
+            store.dispatch('global/getCourses');
+            $(".ui.modal.course").modal("hide");
         }, error => {
             commit('updateFormLoading', false);
         })

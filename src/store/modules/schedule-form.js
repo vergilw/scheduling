@@ -4,6 +4,7 @@ var dateFormat = require("dateformat");
 
 const state = {
     formLoading: false,
+    scheduleID: null,
     date: null,
     timeItemID: null,
     courseIndex: null,

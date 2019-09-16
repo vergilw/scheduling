@@ -65,7 +65,7 @@ export default {
       }
     },
     formLoading: function(){
-      return this.$store.state.roomForm.formLoading;
+      return this.$store.state.lessonForm.formLoading;
     },
     file_title: {
       get(){
