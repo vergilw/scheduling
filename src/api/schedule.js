@@ -1,9 +1,15 @@
 import apiConfig from './api.config.js';
 const axios = require('axios');
+const qs = require('qs');
 
 export default {
     getSchedule(params, successCallback, failureCallback) {
-        axios.get('/admin/plans', params)
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }
+        axios.get('/admin/plans', qs.stringify(params), config)
             .then(function (response) {
                 successCallback(response);
             })

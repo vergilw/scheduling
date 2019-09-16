@@ -37,11 +37,15 @@ const actions = {
         paramItem['planned_type'] = 'Event';
         paramItem['planned_id'] = rootState.global.courseModels[state.courseIndex].id;
         
+        var store = this;
+
         commit('updateFormLoading', true);
         //FIXME: multiple param items
         scheduleApi.putSchedule({ 'plan': paramItem }, response => {
             console.log(response);
             commit('updateFormLoading', false);
+            store.dispatch("schedule/getSchedule");
+
         }, error => {
             console.log(error);
         })

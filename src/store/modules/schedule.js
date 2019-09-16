@@ -5,6 +5,10 @@ const state = {
     weekStart: null,
     scheduleModels: null,
     scheduleLoading: false,
+    courseIndex: null,
+    crowdIndex: null,
+    teacherIndex: null,
+    roomIndex: null
 }
 
 const getters = {}
@@ -43,6 +47,18 @@ const mutations = {
     },
     dateRangeFront(state) {
         state.weekStart = new Date(state.weekStart.getTime() + 3600 * 24 * 1000 * 7);
+    },
+    updateCourseIndex(state, int) {
+        state.courseIndex = int;
+    },
+    updateCrowdIndex(state, int) {
+        state.crowdIndex = int;
+    },
+    updateTeacherIndex(state, int) {
+        state.teacherIndex = int;
+    },
+    updateRoomIndex(state, int) {
+        state.roomIndex = int;
     },
 }
 

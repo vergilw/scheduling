@@ -1,5 +1,5 @@
 <template>
-  <div class="course">
+  <div :class="disableClass" class="course">
     <a class="delete">
       <i class="fas fa-times"></i>
     </a>
@@ -36,7 +36,54 @@
 export default {
   name: "CourseCard",
   props: {
-    "course-model": Object
+    courseModel: Object
+  },
+  computed: {
+    disableClass: function() {
+      return {
+        disable:
+          (this.filterCourseID !== null &&
+          this.filterCourseID !== this.courseModel.id) ||
+          (this.filterCrowdID !== null &&
+          this.filterCrowdID !== this.courseModel.crowd.id) ||
+          (this.filterTeacherID !== null &&
+          this.filterTeacherID !== this.courseModel.teacher.id) ||
+          (this.filterRoomID !== null &&
+          this.filterRoomID !== this.courseModel.room.id)
+      };
+    },
+    filterCourseID: function() {
+      if (this.$store.state.schedule.courseIndex === null) {
+        return null;
+      }
+      return this.$store.state.global.courseModels[
+        this.$store.state.schedule.courseIndex
+      ].id;
+    },
+    filterCrowdID: function() {
+      if (this.$store.state.schedule.crowdIndex === null) {
+        return null;
+      }
+      return this.$store.state.global.crowdModels[
+          this.$store.state.schedule.crowdIndex
+        ].id;
+    },
+    filterTeacherID: function() {
+      if (this.$store.state.schedule.teacherIndex === null) {
+        return null;
+      }
+      return this.$store.state.global.teacherModels[
+        this.$store.state.schedule.teacherIndex
+      ].id;
+    },
+    filterRoomID: function() {
+      if (this.$store.state.schedule.roomIndex === null) {
+        return null;
+      }
+      return this.$store.state.global.roomModels[
+        this.$store.state.schedule.roomIndex
+      ].id;
+    }
   }
 };
 </script>
@@ -45,8 +92,7 @@ export default {
 .course {
   position: relative;
   background-color: white;
-  box-shadow: 0px 1px 8px 0px 
-		rgba(8, 14, 21, 0.06);
+  box-shadow: 0px 1px 8px 0px rgba(8, 14, 21, 0.06);
   border-radius: 8px;
   text-align: left;
 }
