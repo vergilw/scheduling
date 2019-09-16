@@ -16,7 +16,6 @@
         name: 'LessonConfig',
         computed: {
             lessonConfigModels: function() {
-                // return null;
                 return this.$store.state.courseForm.lessonItems;
             },
         },
@@ -24,11 +23,6 @@
             ConfigComponent
         },
         methods: {
-            construct: function(item) {
-                let arr = new Array();
-
-                return arr;
-            },
             addConfig: function () {
                 var element = this.$parent.$el;
                 var component = this.$parent;
@@ -48,6 +42,7 @@
                             $(element).dimmer("hide");
                             component.$store.commit("lessonForm/reset");
                             $(".ui.modal.period-subcourse .ui.form").form("clear");
+                            $('.ui.sgfield > .ui.file.sgfield > .description').text("未选择任何文件").css("color","#9199a3");;
                         }
                     })
                     .modal("show");
