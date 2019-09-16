@@ -224,20 +224,20 @@ export default {
         group: "course-group",
         animation: 150,
         draggable: ".course",
-        filter: '.delete',
-        onChoose: function(/**Event*/ evt) {
+        filter: ".delete",
+        onEnd: function(/**Event*/ evt) {
+          var itemEl = evt.item; // dragged HTMLElement
+          evt.to; // target list
+          evt.from; // previous list
+          evt.oldIndex; // element's old index within old parent
+          evt.newIndex; // element's new index within new parent
+          evt.oldDraggableIndex; // element's old index within old parent, only counting draggable elements
+          evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
+          evt.clone; // the clone element
+          evt.pullMode; // when item is in another sortable: `"clone"` if cloning, `true` if moving
 
-          var element = $(evt.item)
-          var scheduleID = element.attr('schedule-id');
-          component.$store.commit('scheduleForm/updateScheduleID', scheduleID);
-
-          component.$store.dispatch('scheduleForm/getScheduleByID');
-
-          $(".ui.modal.schedule").dimmer("hide");
-          $(".ui.modal.schedule")
-            .modal({ autofocus: false, allowMultiple: true })
-            .modal("show");
-        }
+          console.log("move");
+        },
       });
     }
   },
