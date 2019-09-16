@@ -223,8 +223,7 @@ export default {
         group: "course-group",
         animation: 150,
         draggable: ".course",
-        direction: 'vertical',
-        delayOnTouchOnly: true,
+        delay: 500,
         onChoose: function(/**Event*/ evt) {
           console.log(evt.item); // element index within parent
 

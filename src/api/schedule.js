@@ -4,7 +4,7 @@ const qs = require('qs');
 
 export default {
     getSchedule(params, successCallback, failureCallback) {
-        axios.get('/admin/plans', { params: params })
+        axios.get('/admin/plan_items', { params: params })
             .then(function (response) {
                 successCallback(response);
             })

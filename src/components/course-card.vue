@@ -1,5 +1,5 @@
 <template>
-  <div :class="disableClass" :course-id="courseModel.id" class="course">
+  <div :class="disableClass" :schedule-id="courseModel.planned_id" class="course">
     <a class="delete">
       <i class="fas fa-times"></i>
     </a>
