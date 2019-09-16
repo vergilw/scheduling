@@ -98,17 +98,17 @@ export default {
         // }, 2000);
         $(".ui.modal.room").modal("hide");
 
-        var itemData = [
-          {
-            key: '教室名称',
-            value: component.$store.state.roomForm.title
-          },
-          {
-            key: '限制人数',
-            value: component.$store.state.roomForm.capacity
-          }
-        ]
-        component.$store.commit("schedulesForm/updateRoomItem",{roomIndex:component.$store.state.roomForm.roomIndex, itemData: itemData});
+        // var itemData = [
+        //   {
+        //     key: '教室名称',
+        //     value: component.$store.state.roomForm.title
+        //   },
+        //   {
+        //     key: '限制人数',
+        //     value: component.$store.state.roomForm.capacity
+        //   }
+        // ]
+        // component.$store.commit("schedulesForm/updateRoomItem",{roomIndex:component.$store.state.roomForm.roomIndex, itemData: itemData});
         component.$store.commit("roomForm/reset");
         $(".ui.modal.room .ui.form").form('clear');
         return false;
