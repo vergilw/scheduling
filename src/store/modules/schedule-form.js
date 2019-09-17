@@ -18,7 +18,7 @@ const state = {
 const getters = {}
 
 const actions = {
-    putSchedule({ state, commit, rootState }) {
+    putSchedule({ state, commit, rootState }, completeCallback) {
 
         var paramItem = {};
         paramItem['plan_on'] = dateFormat(state.date, 'yyyy-mm-dd');
@@ -44,6 +44,13 @@ const actions = {
             commit('updateFormLoading', false);
             store.dispatch("schedule/getSchedule");
 
+            Vue.notify({
+                group: 'hud',
+                title: '创建成功',
+                duration: 2000
+            });
+            completeCallback();
+
         }, error => {
             commit('updateFormLoading', false);
             console.log(error);
@@ -55,7 +62,7 @@ const actions = {
 
         commit('updateFormLoading', true);
         scheduleApi.getScheduleByID(state.scheduleID, response => {
-            
+
             commit('updateFormLoading', false);
 
             var params = {
@@ -63,14 +70,14 @@ const actions = {
                 courseID: response['data']['plan_item']['planned_id'],
                 roomID: response['data']['plan_item']['place_id']
             };
-            for (var i=0; i<response['data']['plan_item']['plan_participants'].length; i++) {
+            for (var i = 0; i < response['data']['plan_item']['plan_participants'].length; i++) {
                 var obj = response['data']['plan_item']['plan_participants'][i];
                 if (obj['participant_type'] === 'Crowd') {
                     params['crowdID'] = obj['participant_id'];
                 } else if (obj['participant_type'] === 'Member') {
                     params['teacherID'] = obj['participant_id'];
-                // } else if (obj['participant_type'] === 'Profile') {
-                //     params['teacherID'] = obj['participant_id'];
+                    // } else if (obj['participant_type'] === 'Profile') {
+                    //     params['teacherID'] = obj['participant_id'];
                 }
             }
             console.log(params);
@@ -81,7 +88,7 @@ const actions = {
         })
     },
 
-    patchScheduleByID({ state, commit, rootState }) {
+    patchScheduleByID({ state, commit, rootState }, completeCallback) {
         var paramItem = {};
         paramItem['plan_on'] = dateFormat(state.date, 'yyyy-mm-dd');
         paramItem['time_item_id'] = state.timeItemID;
@@ -106,6 +113,13 @@ const actions = {
             commit('updateFormLoading', false);
             store.dispatch("schedule/getSchedule");
 
+            Vue.notify({
+                group: 'hud',
+                title: '修改成功',
+                duration: 1500
+            });
+            completeCallback();
+
         }, error => {
             commit('updateFormLoading', false);
             console.log(error);
@@ -120,10 +134,40 @@ const actions = {
         scheduleApi.deleteScheduleByID(state.scheduleID, response => {
             // commit('updateFormLoading', false);
             store.dispatch("schedule/getSchedule");
+            Vue.notify({
+                group: 'hud',
+                title: '删除成功',
+                duration: 1500
+            });
 
         }, error => {
             // commit('updateFormLoading', false);
             console.log(error);
+        });
+    },
+
+    moveScheduleByID({ state, commit, rootState }, { scheduleID, targetDate, targetTimeItemID }) {
+
+        var paramItem = {};
+        paramItem['plan_on'] = targetDate;
+        paramItem['time_item_id'] = targetTimeItemID;
+
+        var store = this;
+
+        console.log(paramItem);
+        // commit('updateFormLoading', true);
+        scheduleApi.patchScheduleByID(scheduleID, { 'plan_item': paramItem }, response => {
+            // commit('updateFormLoading', false);
+            store.dispatch("schedule/getSchedule");
+            Vue.notify({
+                group: 'hud',
+                title: '移动成功',
+                duration: 1500
+            });
+
+        }, error => {
+            // commit('updateFormLoading', false);
+            console.log(error.response);
         });
     }
 }
@@ -131,6 +175,17 @@ const actions = {
 const mutations = {
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
+    },
+    reset(state) {
+        state.scheduleID = null;
+        state.date = null;
+        state.timeItemID = null;
+        state.courseIndex = null;
+        state.roomIndex = null;
+        state.crowdIndex = null;
+        state.transferStudentItems = [];
+        state.teacherIndex = null;
+        state.note = null;
     },
     assign(state, { date, timeItemID, courseID, roomID, crowdID, transferStudentItems, teacherID }) {
         state.date = date;

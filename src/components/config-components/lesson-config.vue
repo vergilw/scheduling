@@ -42,31 +42,24 @@
                             $(element).dimmer("hide");
                             component.$store.commit("lessonForm/reset");
                             $(".ui.modal.period-subcourse .ui.form").form("clear");
-                            $('.ui.sgfield > .ui.file.sgfield > .description').text("未选择任何文件").css("color","#9199a3");
                         }
                     })
                     .modal("show");
             },
             remove: function (index) {
-                console.log("lesson remove");
                 this.$store.commit("courseForm/deleteLessonItems", index);
             },
             edit: function (index) {
-                console.log('lesson edit');
-
                 let element = this.$parent.$el;
                 let component = this.$parent;
-
-                console.log('positionIndex: ' + index);
-                console.log('title: ' + this.$store.state.courseForm.lessonItems[index][0].value);
-                console.log('fileTitle: ' + this.$store.state.courseForm.lessonItems[index][1].value);
-                console.log('mediaTitle: ' + this.$store.state.courseForm.lessonItems[index][2].value);
 
                 let itemData = {
                     positionIndex: index,
                     title: this.$store.state.courseForm.lessonItems[index][0].value,
                     fileTitle: this.$store.state.courseForm.lessonItems[index][1].value,
+                    fileSignId: this.$store.state.courseForm.lessonItems[index][1].signId,
                     mediaTitle: this.$store.state.courseForm.lessonItems[index][2].value,
+                    mediaSignId: this.$store.state.courseForm.lessonItems[index][2].signId,
                 };
                 component.$store.commit("lessonForm/assign", itemData);
 
@@ -85,7 +78,6 @@
                             $(element).dimmer("hide");
                             component.$store.commit("lessonForm/reset");
                             $(".ui.modal.period-subcourse .ui.form").form("clear");
-                            $('.ui.sgfield > .ui.file.sgfield > .description').text("未选择任何文件").css("color","#9199a3");;
                         }
                     })
                     .modal("show");

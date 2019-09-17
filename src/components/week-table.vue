@@ -226,17 +226,13 @@ export default {
         draggable: ".course",
         filter: ".delete",
         onEnd: function(/**Event*/ evt) {
-          var itemEl = evt.item; // dragged HTMLElement
-          evt.to; // target list
-          evt.from; // previous list
-          evt.oldIndex; // element's old index within old parent
-          evt.newIndex; // element's new index within new parent
-          evt.oldDraggableIndex; // element's old index within old parent, only counting draggable elements
-          evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
-          evt.clone; // the clone element
-          evt.pullMode; // when item is in another sortable: `"clone"` if cloning, `true` if moving
 
-          console.log("move");
+          var scheduleID = $(evt.item).attr('schedule-id');
+          var targetElement = $(evt.to).parent();
+          var date = targetElement.attr('date-value');
+          var timeItemID = targetElement.parent().attr('time-item-id');
+
+          component.$store.dispatch('scheduleForm/moveScheduleByID', {scheduleID: scheduleID, targetDate: date, targetTimeItemID: timeItemID})
         },
       });
     }

@@ -17,7 +17,6 @@
           <div class="inline fields">
             <FileComponent
             label="文件"
-            id="file"
             name="file"
             v-bind:value="file_title"
             v-on:input="file_title = $event"
@@ -26,7 +25,6 @@
             <FileComponent
             label="媒体文件"
             name="media"
-            id="media_file"
             v-bind:value="media_title"
             v-on:input="media_title = $event"
             @setSignId="setSignId"
@@ -69,7 +67,7 @@ export default {
     },
     file_title: {
       get(){
-        return this.$store.state.lessonForm.fileTitle
+        return this.$store.state.lessonForm.fileTitle;
       },
       set(value) {
         this.$store.commit('lessonForm/updateFileTitle',value);
@@ -77,7 +75,7 @@ export default {
     },
     media_title: {
       get(){
-        return this.$store.state.lessonForm.mediaTitle
+        return this.$store.state.lessonForm.mediaTitle;
       },
       set(value) {
         this.$store.commit('lessonForm/updateMediaTitle',value);
@@ -201,6 +199,5 @@ export default {
     margin: 0;
   }
 }
-
 
 </style>

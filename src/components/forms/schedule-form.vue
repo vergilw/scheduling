@@ -43,8 +43,13 @@
           v-bind:value="teacherIndex"
           v-on:input="teacherIndex = $event"
         />
-        <InputComponent v-bind:isMultipleLines="true" label="备注" name="note" v-bind:value="note"
-          v-on:input="note = $event" />
+        <InputComponent
+          v-bind:isMultipleLines="true"
+          label="备注"
+          name="note"
+          v-bind:value="note"
+          v-on:input="note = $event"
+        />
 
         <div class="ui error message"></div>
         <div class="action">
@@ -172,7 +177,7 @@ export default {
           })
           .modal("show");
       }
-    },
+    }
   },
   updated: function() {
     var component = this;
@@ -213,15 +218,24 @@ export default {
               prompt: "老师不能为空"
             }
           ]
-        },
+        }
       },
       onSuccess: function(event, fields) {
         if (component.$store.state.scheduleForm.scheduleID === null) {
-          component.$store.dispatch("scheduleForm/putSchedule");
+          component.$store.dispatch("scheduleForm/putSchedule", function() {
+            $(".ui.modal.schedule").modal("hide");
+            component.$store.commit("scheduleForm/reset");
+          });
         } else {
-          component.$store.dispatch("scheduleForm/patchScheduleByID");
+          component.$store.dispatch(
+            "scheduleForm/patchScheduleByID",
+            function() {
+              $(".ui.modal.schedule").modal("hide");
+              component.$store.commit("scheduleForm/reset");
+            }
+          );
         }
-        
+
         return false;
       },
       onFailure: function(formErrors, fields) {

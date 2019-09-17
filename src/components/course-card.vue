@@ -5,7 +5,7 @@
     :schedule-id="courseModel.id"
     class="course"
   >
-    <div @click="onDelete(courseModel.id)" class="delete">
+    <div v-on:click.stop="onDelete(courseModel.id)" class="delete">
       <i class="fas fa-times"></i>
     </div>
     <div class="name">{{ courseModel.short_name }}</div>
@@ -96,7 +96,7 @@ export default {
       this.$store.dispatch("scheduleForm/deleteScheduleByID");
     },
     onEdit(scheduleID) {
-
+      
       this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
 
       this.$store.dispatch("scheduleForm/getScheduleByID");
