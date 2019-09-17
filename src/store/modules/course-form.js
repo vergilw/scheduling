@@ -31,12 +31,6 @@ const actions = {
         }
         params['event_items_attributes'] = eventItemsAttributes;
 
-        // console.log("name: " + params['name']);
-        // console.log("price: " + params['price']);
-        // console.log("event_item_attributes > name: " + params['event_items_attributes'][0]['name']);
-        // console.log("event_item_attributes > videos: " + params['event_items_attributes'][0]['videos']);
-        // console.log("event_item_attributes > documents: " + params['event_items_attributes'][0]['documents']);
-
         let store = this;
         courseApi.putCourse({"event": params}, response => {
             console.log("Course response: " + response['data']);
@@ -71,7 +65,7 @@ const mutations = {
     updateLessonItems(state, {index, itemData}) {
         if (index === null) {
             state.lessonItems.push(itemData);
-        } else if (index < state.periodItems.length) {
+        } else if (index < state.lessonItems.length) {
             Vue.set(state.lessonItems, index, itemData);
         }
     },

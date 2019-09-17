@@ -1,10 +1,11 @@
 <template>
       <div class="ui sgfield">
         <div class="header">{{label}}</div>
-        <div class="ui file sgfield" :id="id">
+        <div class="ui file sgfield">
           <div class="ui inverted button"><i class="fas fa-plus"></i> 添加文件</div>
-          <input type="file" class="file" v-bind:name="name" v-bind:value="value" v-on:input="$emit('input', $event.target.value)" v-on:click="showFile">
-          <div class="description">未选择任何文件</div>
+          <input type="file" class="file" v-bind:name="name" v-on:input="showFile($event)">
+          <div v-if="value" class="sel description">{{ value }}</div>
+          <div v-else class="unsel description">未选择任何文件</div>
         </div>
       </div>
 </template>
@@ -21,31 +22,18 @@ export default {
     label:String,
     name:String,
     value:String,
-    id: String
   },
   methods: {
-    showFile: function(){
-        let fileInput, aim;
-        context = this;
-
-        if(this.id == 'file') {
-            fileInput = $('#file > input');
-            aim = $('#file > .description');
-        } else if(this.id == 'media_file') {
-            fileInput = $('#media_file > input');
-            aim = $('#media_file > .description');
+    showFile: function(e){
+        let file = e.currentTarget.files[0];
+        let name = file.name;
+        if(name.length > 20) {
+            name = name.substr(0,20)+"...";
         }
 
-        fileInput.on('change', function( e ) {
-            let file = e.currentTarget.files[0];
-            let name = file.name;
-            if(name.length > 20) {
-                name = name.substr(0,20)+"...";
-            }
-            aim.text(name).css("color","#4a90e2");
-
-            getUpToken(file);
-        });
+        context = this;
+        getUpToken(file);
+        this.$emit("input", name);
     }
   }
 }
@@ -66,8 +54,6 @@ function getUpToken(file) {
             let key = response['data']['key'];
             let upToken = response['data']['direct_upload']['headers']['Up-Token'];
             signId = response['data']['signed_id'];
-
-            // context.$emit("setSignId", context.name, signId);
 
             uploadByQiniu(file, key, upToken);
         })
@@ -106,5 +92,13 @@ function uploadByQiniu(file, key, upToken) {
 </script>
 
 <style scoped>
+
+    .ui.file.sgfield > .sel.description {
+        color: #4a90e2;
+    }
+
+    .ui.file.sgfield > .unsel.description {
+        color: #9199a3;
+    }
 
 </style>
