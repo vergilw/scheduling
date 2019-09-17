@@ -46,6 +46,7 @@
 <script>
 import InputComponent from "../form-components/input-component.vue";
 import FileComponent from "../form-components/file-component.vue";
+import notify from "../../api/notify";
 
 export default {
   name: "LessonForm",
@@ -132,6 +133,7 @@ export default {
         component.$store.commit("courseForm/updateLessonItems",{index: component.$store.state.lessonForm.positionIndex, itemData: itemData});
         $(".ui.modal.period-subcourse").modal("hide");
 
+        notify.show("添加成功");
         return false;
       }
     });
