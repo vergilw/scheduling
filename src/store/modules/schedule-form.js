@@ -125,6 +125,26 @@ const actions = {
             // commit('updateFormLoading', false);
             console.log(error);
         });
+    },
+
+    moveScheduleByID({ state, commit, rootState }, {scheduleID, targetDate, targetTimeItemID}) {
+
+        var paramItem = {};
+        paramItem['plan_on'] = targetDate;
+        paramItem['time_item_id'] = targetTimeItemID;
+
+        var store = this;
+
+        console.log(paramItem);
+        // commit('updateFormLoading', true);
+        scheduleApi.patchScheduleByID(scheduleID, { 'plan_item': paramItem }, response => {
+            // commit('updateFormLoading', false);
+            store.dispatch("schedule/getSchedule");
+
+        }, error => {
+            // commit('updateFormLoading', false);
+            console.log(error.response);
+        });
     }
 }
 
