@@ -25,9 +25,7 @@
           @inputStartDate="startDate = $event"
           @inputEndDate="endDate = $event"
         />
-        <CourseConfig
-          name="courseConfig"
-        />
+        <CourseConfig name="courseConfig" />
 
         <div class="ui error message"></div>
         <div class="action">
@@ -84,13 +82,13 @@ export default {
       set(value) {
         this.$store.commit("schedulesForm/updateEndDate", value);
       }
-    },
+    }
   },
   components: {
     SelectComponent,
     InputComponent,
     DateInterval,
-    CourseConfig,
+    CourseConfig
   },
   methods: {
     onNewOption: function(name) {
@@ -114,7 +112,7 @@ export default {
           })
           .modal("show");
       }
-    },
+    }
   },
   updated: function() {
     var component = this;
@@ -131,7 +129,10 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
-        component.$store.dispatch("schedulesForm/putSchedules");
+        component.$store.dispatch("schedulesForm/putSchedules", function() {
+          $(".ui.modal.schedules").modal("hide");
+          component.$store.commit('schedulesForm/reset');
+        });
         return false;
       },
       onFailure: function(formErrors, fields) {

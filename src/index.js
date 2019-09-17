@@ -6,6 +6,7 @@ import 'dappore-ui/dist/main.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'semantic-ui-css/semantic';
+import Notifications from 'vue-notification';
 
 import Sortable from 'sortablejs';
 const axios = require('axios');
@@ -35,6 +36,7 @@ import Settings from './settings.vue';
 require('./index.css');
 
 Vue.use(VueRouter);
+Vue.use(Notifications);
 
 axios.defaults.baseURL = apiConfig.hostname;
 
@@ -140,3 +142,4 @@ var transferStudentForm = new Vue({
   store,
   render: h => h(TransferStudentForm)
 });
+

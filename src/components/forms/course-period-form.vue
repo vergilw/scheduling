@@ -194,6 +194,12 @@ export default {
         component.$store.commit("coursePeriodForm/reset");
         $(".ui.modal.course-period .ui.form").form('clear');
 
+        component.$notify({
+          group: "hud",
+          title: "添加成功",
+          duration: 1500
+        });
+        
         return false;
       },
       onFailure: function(formErrors, fields) {

@@ -59,7 +59,7 @@ export default {
       set(value) {
         this.$store.commit("classTimeForm/updateTimeItemIndex", value);
       }
-    },
+    }
   },
   components: {
     SelectComponent,
@@ -91,22 +91,37 @@ export default {
       onSuccess: function(event, fields) {
         var itemData = [
           {
-            key: '每周',
-            value: component.$store.state.global.weekdayModels[component.$store.state.classTimeForm.weekdayIndex].name,
+            key: "每周",
+            value:
+              component.$store.state.global.weekdayModels[
+                component.$store.state.classTimeForm.weekdayIndex
+              ].name,
             data: component.$store.state.classTimeForm.weekdayIndex
           },
           {
-            key: '时间',
-            value: component.$store.state.global.classTimeModels[component.$store.state.classTimeForm.timeItemIndex].name,
+            key: "时间",
+            value:
+              component.$store.state.global.classTimeModels[
+                component.$store.state.classTimeForm.timeItemIndex
+              ].name,
             data: component.$store.state.classTimeForm.timeItemIndex
           }
-        ]
-        component.$store.commit("coursePeriodForm/updatePeriodItem", {positionIndex: component.$store.state.classTimeForm.positionIndex, itemData: itemData});
+        ];
+        component.$store.commit("coursePeriodForm/updatePeriodItem", {
+          positionIndex: component.$store.state.classTimeForm.positionIndex,
+          itemData: itemData
+        });
 
         $(".ui.modal.class-time").modal("hide");
 
         component.$store.commit("classTimeForm/reset");
-        $(".ui.modal.class-time .ui.form").form('clear');
+        $(".ui.modal.class-time .ui.form").form("clear");
+
+        component.$notify({
+          group: "hud",
+          title: "添加成功",
+          duration: 1500
+        });
 
         return false;
       },
