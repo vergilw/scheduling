@@ -97,7 +97,6 @@ export default {
         //   component.$store.commit("roomForm/updateFormLoading", false);
         // }, 2000);
         $(".ui.modal.room").modal("hide");
-
         // var itemData = [
         //   {
         //     key: '教室名称',
