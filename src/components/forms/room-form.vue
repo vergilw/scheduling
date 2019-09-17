@@ -96,9 +96,15 @@ export default {
         //   component.$store.commit("roomForm/updateFormLoading", false);
         // }, 2000);
         if ( component.$store.state.roomForm.roomID === null ) {
-          component.$store.dispatch("roomForm/putRoom");
+          component.$store.dispatch("roomForm/putRoom", function() {
+            $(".ui.modal.room").modal("hide");
+            component.$store.commit("roomForm/reset");
+          });
         } else {
-          component.$store.dispatch("roomForm/patchRoomByID");
+          component.$store.dispatch("roomForm/patchRoomByID", function() {
+            $(".ui.modal.room").modal("hide");
+            component.$store.commit("roomForm/reset");
+          });
         }
         $(".ui.modal.room").modal("hide");
         component.$store.commit("roomForm/reset");

@@ -1,4 +1,6 @@
 import roomApi from '../../api/room.js';
+import Vue from 'vue';
+
 
 const state = {
     // roomIndex: null,
@@ -34,6 +36,13 @@ const actions = {
         );
         commit("updateFormLoading", false);
         store.dispatch("global/getRooms");
+
+        Vue.notify({
+            group: 'hud',
+            title: '创建成功',
+            duration: 2000
+        });
+        completeCallback();
       },
       error => {
         commit("updateFormLoading", false);
@@ -71,6 +80,13 @@ const actions = {
         console.log("Room response: " + response["data"]["place"]["max_members"]);
         commit("updateFormLoading", false);
         store.dispatch("global/getRooms");
+
+        Vue.notify({
+            group: 'hud',
+            title: '修改成功',
+            duration: 1500
+        });
+        completeCallback();
       },
       error => {
         commit("updateFormLoading", false);
@@ -82,25 +98,53 @@ const actions = {
     var store = this;
 
     roomApi.deleteScheduleByID(state.roomID, response => {
-        store.dispatch("room/getRoom");
+        store.dispatch("global/getRooms");
+        Vue.notify({
+            group: 'hud',
+            title: '删除成功',
+            duration: 1500
+        })
       },
       error => {
         console.log(error);
       }
     );
+  },
+
+  moveRoomByID({ state, commit, rootState }, { roomID, title, capacity }) {
+       var params = {};
+       params['name'] = title;
+       params['max_members'] = capacity;
+
+       var store = this;
+       console.log(params);
+       roomApi.patchRoomByID(state.roomID, { place: params }, response => {
+           store.dispatch("global/getRoom");
+           Vue.notify({
+               group: 'hud',
+               title: '移动成功',
+               duration: 1500
+           });
+
+       }, error => {
+               console.log(error.response);
+       });
   }
 };
 
 const mutations = {
     reset(state) {
-        state.roomIndex = null;
-        state.roomItems = [];
+        state.roomID = null;
+        // state.roomItems = [];
         state.title = null;
         state.capacity = null;
     },
     assign( state,{ title, capacity }) {
         state.title = title;
         state.capacity = capacity;
+    },
+    updateRoomID(state, int) {
+        state.roomID = int;
     },
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
