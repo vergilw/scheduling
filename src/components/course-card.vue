@@ -1,5 +1,10 @@
 <template>
-  <div :class="disableClass" :schedule-id="courseModel.id" class="course">
+  <div
+    @click="onEdit(courseModel.id)"
+    :class="disableClass"
+    :schedule-id="courseModel.id"
+    class="course"
+  >
     <div @click="onDelete(courseModel.id)" class="delete">
       <i class="fas fa-times"></i>
     </div>
@@ -43,13 +48,13 @@ export default {
       return {
         disable:
           (this.filterCourseID !== null &&
-          this.filterCourseID !== this.courseModel.id) ||
+            this.filterCourseID !== this.courseModel.id) ||
           (this.filterCrowdID !== null &&
-          this.filterCrowdID !== this.courseModel.crowd.id) ||
+            this.filterCrowdID !== this.courseModel.crowd.id) ||
           (this.filterTeacherID !== null &&
-          this.filterTeacherID !== this.courseModel.teacher.id) ||
+            this.filterTeacherID !== this.courseModel.teacher.id) ||
           (this.filterRoomID !== null &&
-          this.filterRoomID !== this.courseModel.room.id)
+            this.filterRoomID !== this.courseModel.room.id)
       };
     },
     filterCourseID: function() {
@@ -65,8 +70,8 @@ export default {
         return null;
       }
       return this.$store.state.global.crowdModels[
-          this.$store.state.schedule.crowdIndex
-        ].id;
+        this.$store.state.schedule.crowdIndex
+      ].id;
     },
     filterTeacherID: function() {
       if (this.$store.state.schedule.teacherIndex === null) {
@@ -87,8 +92,19 @@ export default {
   },
   methods: {
     onDelete(scheduleID) {
-      this.$store.commit('scheduleForm/updateScheduleID', scheduleID);
-      this.$store.dispatch('scheduleForm/deleteScheduleByID');
+      this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
+      this.$store.dispatch("scheduleForm/deleteScheduleByID");
+    },
+    onEdit(scheduleID) {
+
+      this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
+
+      this.$store.dispatch("scheduleForm/getScheduleByID");
+
+      $(".ui.modal.schedule").dimmer("hide");
+      $(".ui.modal.schedule")
+        .modal({ autofocus: false, allowMultiple: true })
+        .modal("show");
     }
   }
 };
