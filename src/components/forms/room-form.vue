@@ -92,23 +92,21 @@ export default {
       onSuccess: function(event, fields) {
         console.log("t");
         // component.$store.commit("roomForm/updateFormLoading", true);
-        component.$store.dispatch("roomForm/putRoom");
         // setTimeout(function() {
         //   component.$store.commit("roomForm/updateFormLoading", false);
         // }, 2000);
+        if ( component.$store.state.roomForm.roomID === null ) {
+          component.$store.dispatch("roomForm/putRoom", function() {
+            $(".ui.modal.room").modal("hide");
+            component.$store.commit("roomForm/reset");
+          });
+        } else {
+          component.$store.dispatch("roomForm/patchRoomByID", function() {
+            $(".ui.modal.room").modal("hide");
+            component.$store.commit("roomForm/reset");
+          });
+        }
         $(".ui.modal.room").modal("hide");
-
-        // var itemData = [
-        //   {
-        //     key: '教室名称',
-        //     value: component.$store.state.roomForm.title
-        //   },
-        //   {
-        //     key: '限制人数',
-        //     value: component.$store.state.roomForm.capacity
-        //   }
-        // ]
-        // component.$store.commit("schedulesForm/updateRoomItem",{roomIndex:component.$store.state.roomForm.roomIndex, itemData: itemData});
         component.$store.commit("roomForm/reset");
         $(".ui.modal.room .ui.form").form('clear');
         return false;
