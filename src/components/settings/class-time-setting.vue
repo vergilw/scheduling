@@ -7,6 +7,7 @@
       :data-id="model.id"
       class="item"
     >
+      <div v-on:click.stop="onDeleteItem(model.id)" class="delete"><i class="fas fa-times"></i></div>
       <div class="title">课程时间</div>
       <div class="footer">{{ model.name }}</div>
     </div>
@@ -47,7 +48,7 @@ export default {
         .modal("show");
     },
     onEditItem: function(event) {
-      console.log($(event.target).attr('data-id'));
+      // console.log($(event.target).attr('data-id'));
 
       var element = this.$el;
       var component = this;
@@ -70,6 +71,9 @@ export default {
           }
         })
         .modal("show");
+    },
+    onDeleteItem: function(courseID) {
+      console.log(courseID);
     }
   }
 };
@@ -79,6 +83,7 @@ export default {
 .class-time {
   display: flex;
   margin: -10px;
+  flex-wrap: wrap;
 }
 
 .class-time > .item {
@@ -97,6 +102,7 @@ export default {
   justify-content: space-between;
   color: #4b525a;
   cursor: pointer;
+  position: relative;
 }
 
 .class-time > .item.append {
@@ -109,6 +115,19 @@ export default {
 
 .class-time > .item.append > svg {
   margin-right: 10px;
+}
+
+.class-time > .item > .delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+}
+
+.class-time > .item > .delete > svg {
+  margin: auto;
 }
 
 .class-time > .item > .title {

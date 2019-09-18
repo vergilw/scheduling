@@ -7,6 +7,7 @@
       :data-id="model.id"
       class="item"
     >
+      <div v-on:click.stop="onDeleteItem(model.id)" class="delete"><i class="fas fa-times"></i></div>
       <div class="title">课程</div>
       <div class="footer">{{ model.name }}</div>
     </div>
@@ -102,6 +103,9 @@ export default {
           }
         })
         .modal("show");
+    },
+    onDeleteItem: function(courseID) {
+      console.log(courseID);
     }
   }
 };
@@ -111,6 +115,7 @@ export default {
 .course {
   display: flex;
   margin: -10px;
+  flex-wrap: wrap;
 }
 
 .course > .item {
@@ -129,6 +134,7 @@ export default {
   justify-content: space-between;
   color: #4b525a;
   cursor: pointer;
+  position: relative;
 }
 
 .course > .item.append {
@@ -141,6 +147,19 @@ export default {
 
 .course > .item.append > svg {
   margin-right: 10px;
+}
+
+.course > .item > .delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+}
+
+.course > .item > .delete > svg {
+  margin: auto;
 }
 
 .course > .item > .title {

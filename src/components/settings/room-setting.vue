@@ -7,6 +7,7 @@
       :data-id="model.id"
       class="item"
     >
+      <div v-on:click.stop="onDeleteItem(model.id)" class="delete"><i class="fas fa-times"></i></div>
       <div class="title">教室</div>
       <div class="footer">{{ model.name }}</div>
     </div>
@@ -70,6 +71,9 @@ export default {
           }
         })
         .modal("show");
+    },
+    onDeleteItem: function(roomID) {
+      console.log(roomID);
     }
   }
 };
@@ -97,6 +101,7 @@ export default {
   justify-content: space-between;
   color: #4b525a;
   cursor: pointer;
+  position: relative;
 }
 
 .room > .item.append {
@@ -109,6 +114,19 @@ export default {
 
 .room > .item.append > svg {
   margin-right: 10px;
+}
+
+.room > .item > .delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+}
+
+.room > .item > .delete > svg {
+  margin: auto;
 }
 
 .room > .item > .title {
