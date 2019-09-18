@@ -3,7 +3,7 @@
     <div
       v-for="model in models"
       :key="model.id"
-      @click="onEditItem"
+      @click="onEditItem(model)"
       :data-id="model.id"
       class="item"
     >
@@ -46,11 +46,43 @@ export default {
         })
         .modal("show");
     },
-    onEditItem: function(event) {
-      console.log($(event.target).attr("data-id"));
+    onEditItem: function(model) {
+      // console.log($(event.target).attr("data-id"));
+      console.log("id: " + model["id"]);
+      console.log("name: " + model["name"]);
 
       var element = this.$el;
       var component = this;
+
+      let lessonItems = [];
+      for(let i = 0; i < model["event_items"].length; i++) {
+        // let lessonItem = new Object();
+        let eventItem = model["event_items"][i];
+
+        let lessonItem = [
+          {
+            key: "标题",
+            value: eventItem["name"]
+          },
+          {
+            key: "文件",
+            value: eventItem["video_urls"][0]["name"]
+          },
+          {
+            key: "媒体资料",
+            value: eventItem["document_urls"][0]["name"],
+          }
+        ];
+
+        lessonItems.push(lessonItem);
+      }
+
+      let itemData = {
+        id: model.id,
+        title: model.name,
+        lessonItems: lessonItems,
+      };
+      component.$store.commit("courseForm/assign", itemData);
 
       $(".ui.active.dimmable.modal:not(.course)").dimmer("show");
       $(element).dimmer({
