@@ -3,10 +3,11 @@
     <div
       v-for="model in models"
       :key="model.id"
-      @click="onEditItem"
+      @click="onEditItem(model)"
       :data-id="model.id"
       class="item"
     >
+      <div v-on:click.stop="onDeleteItem(model.id)" class="delete"><i class="fas fa-times"></i></div>
       <div class="title">课程</div>
       <div class="footer">{{ model.name }}</div>
     </div>
@@ -46,11 +47,43 @@ export default {
         })
         .modal("show");
     },
-    onEditItem: function(event) {
-      console.log($(event.target).attr("data-id"));
+    onEditItem: function(model) {
+      // console.log($(event.target).attr("data-id"));
+      console.log("id: " + model["id"]);
+      console.log("name: " + model["name"]);
 
       var element = this.$el;
       var component = this;
+
+      let lessonItems = [];
+      for(let i = 0; i < model["event_items"].length; i++) {
+        // let lessonItem = new Object();
+        let eventItem = model["event_items"][i];
+
+        let lessonItem = [
+          {
+            key: "标题",
+            value: eventItem["name"]
+          },
+          {
+            key: "文件",
+            value: eventItem["video_urls"][0]["name"]
+          },
+          {
+            key: "媒体资料",
+            value: eventItem["document_urls"][0]["name"],
+          }
+        ];
+
+        lessonItems.push(lessonItem);
+      }
+
+      let itemData = {
+        id: model.id,
+        title: model.name,
+        lessonItems: lessonItems,
+      };
+      component.$store.commit("courseForm/assign", itemData);
 
       $(".ui.active.dimmable.modal:not(.course)").dimmer("show");
       $(element).dimmer({
@@ -70,6 +103,9 @@ export default {
           }
         })
         .modal("show");
+    },
+    onDeleteItem: function(courseID) {
+      console.log(courseID);
     }
   }
 };
@@ -79,6 +115,7 @@ export default {
 .course {
   display: flex;
   margin: -10px;
+  flex-wrap: wrap;
 }
 
 .course > .item {
@@ -97,6 +134,7 @@ export default {
   justify-content: space-between;
   color: #4b525a;
   cursor: pointer;
+  position: relative;
 }
 
 .course > .item.append {
@@ -109,6 +147,19 @@ export default {
 
 .course > .item.append > svg {
   margin-right: 10px;
+}
+
+.course > .item > .delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+}
+
+.course > .item > .delete > svg {
+  margin: auto;
 }
 
 .course > .item > .title {

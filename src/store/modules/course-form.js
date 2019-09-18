@@ -2,6 +2,7 @@ import courseApi from '../../api/course.js';
 import Vue from "vue";
 
 const state = {
+    id: null,
     formLoading: false,
     title: null,
     typeIndex: null,
@@ -45,10 +46,21 @@ const actions = {
 
 const mutations = {
     reset(state) {
+        state.id = null;
         state.title = null;
         state.typeIndex = null;
         state.costIndex = null;
         state.lessonItems = [];
+    },
+    assign(state, {id, title, typeIndex, costIndex, lessonItems}) {
+        state.id = id;
+        state.title = title;
+        state.typeIndex = typeIndex;
+        state.costIndex = costIndex;
+        state.lessonItems = lessonItems;
+    },
+    updateId(state, int) {
+        state.id = int;
     },
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
