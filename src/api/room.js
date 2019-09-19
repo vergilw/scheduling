@@ -1,5 +1,6 @@
 import apiConfig from './api.config.js';
 const axios = require('axios');
+import notify from "./notify";
 
 export default {
   getRoom(params, successCallback, failureCallback) {
@@ -31,11 +32,12 @@ export default {
   patchRoomByID(roomID, params, successCallback, failureCallback) {
     axios.patch('/admin/places/' + roomID, params)
       .then(function (response) {
-        console.log(params, response);
         successCallback(response);
+        notify.show('修改成功');
       })
       .catch(function (error) {
         failureCallback(error,response);
+        notify.show('修改失败');
       })
       .finally(function () {
 
@@ -46,9 +48,11 @@ export default {
     axios.delete('/admin/places/' + roomID)
       .then(function (response) {
         scuuessCallback(response);
+        notify.show('删除成功');
       })
       .catch(function (error) {
         failureCallback(error);
+        notify.show('删除失败');
       })
       .finally(function () {
 

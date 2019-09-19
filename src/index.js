@@ -23,6 +23,7 @@ import RoomForm from './components/forms/room-form.vue';
 import ClassTimeForm from './components/forms/class-time-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
 import LessonTimeForm from './components/forms/lesson-time-form.vue';
+import CourseTypeForm from './components/forms/course-type-form.vue';
 
 import RoomSetting from './components/settings/room-setting.vue';
 import ClassTimeSetting from './components/settings/class-time-setting.vue';
@@ -148,4 +149,10 @@ var lessonTimeForm = new Vue({
   el: "#lesson-time-form",
   store,
   render: h => h(LessonTimeForm)
+});
+
+var courseTypeForm = new Vue({
+  el: "#course-type-form",
+  store,
+  render: h => h(CourseTypeForm)
 });

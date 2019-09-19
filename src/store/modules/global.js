@@ -52,7 +52,6 @@ const actions = {
         })
     },
     getRooms({ state, commit, rootState }) {
-        console.log('getRooms');
         globalApi.getRooms(response => {
             commit('roomModelsUpdated', response['data']['places']);
         }, error => {
@@ -100,7 +99,6 @@ const mutations = {
     },
     roomModelsUpdated(state, models) {
         state.roomModels = models;
-        console.log('roomModelsUpdated');
     },
     crowdModelsUpdated(state, models) {
         state.crowdModels = models;
