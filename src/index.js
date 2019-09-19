@@ -23,6 +23,7 @@ import RoomForm from './components/forms/room-form.vue';
 import ClassTimeForm from './components/forms/class-time-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
 import LessonTimeForm from './components/forms/lesson-time-form.vue';
+import CourseTypeForm from './components/forms/course-type-form.vue';
 
 import RoomSetting from './components/settings/room-setting.vue';
 import ClassTimeSetting from './components/settings/class-time-setting.vue';
@@ -84,17 +85,17 @@ var app = new Vue({
 });
 
 //FIXME: local debug
-store.commit("global/configRequestDefaults", {
-  authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjkwLCJzdWIiOiJhdXRoIiwiZXhwIjoxNTY4ODg5OTkzfQ.4AnApGg0DKRYL7y4lBrxviQPKmtutsW-3puiFbWc81U',
-  organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI4IDA5OjUwOjUxICswODAwIn0.eG8Z1Q2pkGrMOfpSVU-xv-ckI4GwasPfREhob22MxXA'
-});
-store.dispatch("schedule/getSchedule");
-store.dispatch("global/getCourses");
-store.dispatch("global/getRooms");
-store.dispatch("global/getCrowds");
-store.dispatch("global/getTeachers");
-store.dispatch("global/getCourseTypes");
-store.dispatch("global/getClassTime");
+// store.commit("global/configRequestDefaults", {
+//   authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjkwLCJzdWIiOiJhdXRoIiwiZXhwIjoxNTY4ODg5OTkzfQ.4AnApGg0DKRYL7y4lBrxviQPKmtutsW-3puiFbWc81U',
+//   organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI4IDA5OjUwOjUxICswODAwIn0.eG8Z1Q2pkGrMOfpSVU-xv-ckI4GwasPfREhob22MxXA'
+// });
+// store.dispatch("schedule/getSchedule");
+// store.dispatch("global/getCourses");
+// store.dispatch("global/getRooms");
+// store.dispatch("global/getCrowds");
+// store.dispatch("global/getTeachers");
+// store.dispatch("global/getCourseTypes");
+// store.dispatch("global/getClassTime");
 
 var schedulesForm = new Vue({
   el: '#schedules-form',
@@ -148,4 +149,10 @@ var lessonTimeForm = new Vue({
   el: "#lesson-time-form",
   store,
   render: h => h(LessonTimeForm)
+});
+
+var courseTypeForm = new Vue({
+  el: "#course-type-form",
+  store,
+  render: h => h(CourseTypeForm)
 });

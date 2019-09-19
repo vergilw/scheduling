@@ -72,11 +72,7 @@ export default {
             {
               type: "regExp[/^\\S{2,16}$/]",
               prompt: "教室名称不能为空，长度2-16位"
-            },
-            // {
-            //   type: "regExp[/\s/]",
-            //   prompt: "教室名称不能有换行符"
-            // }
+            }
           ]
         },
         capacity: {
@@ -90,11 +86,6 @@ export default {
         }
       },
       onSuccess: function(event, fields) {
-        console.log("t");
-        // component.$store.commit("roomForm/updateFormLoading", true);
-        // setTimeout(function() {
-        //   component.$store.commit("roomForm/updateFormLoading", false);
-        // }, 2000);
         if ( component.$store.state.roomForm.roomID === null ) {
           component.$store.dispatch("roomForm/putRoom", function() {
             $(".ui.modal.room").modal("hide");

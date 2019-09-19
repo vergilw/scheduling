@@ -3,7 +3,7 @@
     <div
       v-for="model in models"
       :key="model.id"
-      @click="onEditItem"
+      @click="onEditItem(model)"
       :data-id="model.id"
       class="item"
     >
@@ -47,8 +47,9 @@ export default {
         })
         .modal("show");
     },
-    onEditItem: function(event) {
-      console.log($(event.target).attr("data-id"));
+    onEditItem: function(model) {
+
+      this.$store.commit("courseTypeForm/assign", model);
 
       var element = this.$el;
       var component = this;
@@ -66,14 +67,14 @@ export default {
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            // component.$store.commit("transferStudentForm/reset");
+            component.$store.commit("courseTypeForm/reset");
             $(".ui.modal.course-type .ui.form").form("clear");
           }
         })
         .modal("show");
     },
-    onDeleteItem: function(courseID) {
-      console.log(courseID);
+    onDeleteItem: function(courseTypeID) {
+      this.$store.dispatch("courseTypeForm/deleteCourseTypeByID", courseTypeID);
     }
   }
 };
