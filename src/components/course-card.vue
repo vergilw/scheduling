@@ -8,22 +8,22 @@
     <div v-on:click.stop="onDelete(courseModel.id)" class="delete">
       <i class="fas fa-times"></i>
     </div>
-    <div class="name">{{ courseModel.short_name }}</div>
-    <div class="shortname">{{ courseModel.name }}</div>
+    <div v-if="courseModel.short_name" class="name">{{ courseModel.short_name }}</div>
+    <div v-if="courseModel.name" class="shortname">{{ courseModel.name }}</div>
     <div class="footer">
-      <div class="room">
+      <div v-if="courseModel.room" class="room">
         <i class="fas fa-door-closed"></i>
         {{ courseModel.room.name }}
       </div>
-      <div class="teacher">
+      <div v-if="courseModel.teacher" class="teacher">
         <i class="fas fa-graduation-cap"></i>
         {{ courseModel.teacher.name }}
       </div>
-      <div class="class">
+      <div v-if="courseModel.crowd" class="class">
         <i class="fas fa-user"></i>
         {{ courseModel.crowd.name }}
       </div>
-      <div class="members">
+      <div v-if="courseModel.room" class="members">
         <i class="fas fa-user-friends"></i>
         {{ courseModel.room.limit_members_count }}
       </div>

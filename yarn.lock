@@ -5659,6 +5659,11 @@ thunky@^1.0.2:
   resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.0.3.tgz#f5df732453407b09191dae73e2a8cc73f381a826"
   integrity sha512-YwT8pjmNcAXBZqrubu22P4FYsh2D4dxRmnWBOL8Jk8bUcRUtc5326kx32tuTmFDAZtLOGEVNl8POAR8j896Iow==
 
+timepicker.js@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/timepicker.js/-/timepicker.js-2.5.0.tgz#8195fc577c50c0303e76c23aeccf9af1aad62ab5"
+  integrity sha512-2DBThVIMNLvttgBRkACEVAWKLYn0Juda3eftaMqzobtyJH5qwYXzBBTrnz4UT0Q6J4xyldMlNcMFTeSroMppqQ==
+
 timers-browserify@^2.0.4:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.11.tgz#800b1f3eee272e5bc53ee465a04d0e804c31211f"

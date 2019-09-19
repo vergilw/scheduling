@@ -47,10 +47,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(0)" v-on:click="onNewCourseSchedule">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(0)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
         <td :date-value="scheduleModels[1].date">
@@ -64,10 +64,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(1)" v-on:click="onNewCourseSchedule">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(1)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
         <td :date-value="scheduleModels[2].date">
@@ -81,10 +81,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(2)" v-on:click="onNewCourseSchedule">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(2)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
         <td :date-value="scheduleModels[3].date">
@@ -98,10 +98,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(3)" v-on:click="onNewCourseSchedule">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(3)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
         <td :date-value="scheduleModels[4].date">
@@ -115,10 +115,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(4)" v-on:click="onNewCourseSchedule">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(4)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
         <td :date-value="scheduleModels[5].date">
@@ -132,10 +132,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(5)" v-on:click="onNewCourseSchedule">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(5)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
         <td :date-value="scheduleModels[6].date">
@@ -149,10 +149,10 @@
               v-bind:courseModel="course"
               v-bind:key="course.date"
             />
-            <div class="new" v-if="!isExpired(6)">
-              <i class="fas fa-plus"></i>
-              添加课程
-            </div>
+          </div>
+          <div class="new" v-if="!isExpired(6)" v-on:click="onNewCourseSchedule">
+            <i class="fas fa-plus"></i>
+            添加课程
           </div>
         </td>
       </tr>
@@ -226,14 +226,17 @@ export default {
         draggable: ".course",
         filter: ".delete",
         onEnd: function(/**Event*/ evt) {
-
-          var scheduleID = $(evt.item).attr('schedule-id');
+          var scheduleID = $(evt.item).attr("schedule-id");
           var targetElement = $(evt.to).parent();
-          var date = targetElement.attr('date-value');
-          var timeItemID = targetElement.parent().attr('time-item-id');
+          var date = targetElement.attr("date-value");
+          var timeItemID = targetElement.parent().attr("time-item-id");
 
-          component.$store.dispatch('scheduleForm/moveScheduleByID', {scheduleID: scheduleID, targetDate: date, targetTimeItemID: timeItemID})
-        },
+          component.$store.dispatch("scheduleForm/moveScheduleByID", {
+            scheduleID: scheduleID,
+            targetDate: date,
+            targetTimeItemID: timeItemID
+          });
+        }
       });
     }
   },
@@ -275,9 +278,9 @@ export default {
   padding: 0;
 }
 
-.ui.table > tbody > tr > td:not(:first-child) > div {
+/* .ui.table > tbody > tr > td:not(:first-child) > div {
   min-height: 185px;
-}
+} */
 
 .ui.table > tbody > tr:last-child > td:last-child {
   border-bottom-right-radius: 8px;
@@ -292,7 +295,7 @@ export default {
   color: #9199a3;
 }
 
-.ui.table > tbody > tr > td > .content > .new {
+.ui.table > tbody > tr > td > .new {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -301,9 +304,10 @@ export default {
   font-size: 12px;
   color: #9199a3;
   cursor: pointer;
+  margin: 10px;
 }
 
-.ui.table > tbody > tr > td > .content > .new > svg {
+.ui.table > tbody > tr > td > .new > svg {
   margin: 20px auto;
   font-size: 36px;
   color: #d2d9df;
