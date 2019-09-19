@@ -49,7 +49,7 @@ export default {
       return this.$store.state.courseForm.formLoading;
     },
     costModels: function() {
-      return this.$store.state.global.courseTypeModels;
+      return null;
     },
     courseTypeModels: function() {
       return this.$store.state.global.courseTypeModels;

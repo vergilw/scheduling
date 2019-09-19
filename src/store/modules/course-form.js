@@ -26,10 +26,15 @@ const actions = {
             eventItemsAttributes.push(eventItem);
         }
 
+        let courseTypeId = 0;
+        if(rootState.global.courseTypeModels && state.typeIndex < rootState.global.courseTypeModels.length) {
+            courseTypeId = rootState.global.courseTypeModels[state.typeIndex]["id"];
+        }
+
         let params = {
             "name": state.title,
             "price": 1,
-            "event_taxon_id": 7,
+            "event_taxon_id": courseTypeId,
             "event_items_attributes": eventItemsAttributes
         };
 
@@ -80,10 +85,15 @@ const actions = {
             eventItemsAttributes.push(eventItem);
         }
 
+        let courseTypeId = 0;
+        if(rootState.global.courseTypeModels && state.typeIndex < rootState.global.courseTypeModels.length) {
+            courseTypeId = rootState.global.courseTypeModels[state.typeIndex]["id"];
+        }
+
         let params = {
             "name": state.title,
             "price": 1,
-            "event_taxon_id": 7,
+            "event_taxon_id": courseTypeId,
             "event_items_attributes": eventItemsAttributes
         };
 
@@ -103,6 +113,22 @@ const actions = {
 
             commit("updateId", courseModel['id']);
             commit("updateTitle", courseModel['name']);
+
+            if(courseModel['event_taxon'] && courseModel['event_taxon']["id"]) {
+                let typeIndex;
+                let courseTypeId = courseModel['event_taxon']["id"];
+                let typeModels = rootState.global.courseTypeModels;
+
+                if(typeModels) {
+                    for(let i = 0; i < typeModels.length; i++) {
+                        if(courseTypeId === typeModels[i]["id"]) {
+                            typeIndex = i;
+                            break;
+                        }
+                    }
+                    commit("updateTypeIndex", typeIndex);
+                }
+            }
 
             let eventItems = courseModel['event_items'];
             for(let i = 0; i < eventItems.length; i++) {
@@ -152,6 +178,7 @@ const actions = {
         commit('updateFormLoading', true);
         courseApi.deleteCourse(courseId, response => {
             completeCallback();
+            commit('updateFormLoading', false);
         }, error => {
             commit('updateFormLoading', false);
         })
