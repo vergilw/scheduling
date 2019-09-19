@@ -30,14 +30,14 @@ export default {
     onNewItem: function() {
       var element = this.$el;
 
-      $(".ui.active.dimmable.modal:not(.class-time)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.lesson-time)").dimmer("show");
       $(element).dimmer({
         onHide: function() {
-          $(".ui.modal.class-time").modal("hide");
+          $(".ui.modal.lesson-time").modal("hide");
         }
       });
 
-      $(".ui.modal.class-time")
+      $(".ui.modal.lesson-time")
         .modal({
           autofocus: false,
           allowMultiple: true,
@@ -53,21 +53,21 @@ export default {
       var element = this.$el;
       var component = this;
 
-      $(".ui.active.dimmable.modal:not(.class-time)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.lesson-time)").dimmer("show");
       $(element).dimmer({
         onHide: function() {
-          $(".ui.modal.class-time").modal("hide");
+          $(".ui.modal.lesson-time").modal("hide");
         }
       });
 
-      $(".ui.modal.class-time")
+      $(".ui.modal.lesson-time")
         .modal({
           autofocus: false,
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
             // component.$store.commit("transferStudentForm/reset");
-            $(".ui.modal.class-time .ui.form").form("clear");
+            $(".ui.modal.lesson-time .ui.form").form("clear");
           }
         })
         .modal("show");

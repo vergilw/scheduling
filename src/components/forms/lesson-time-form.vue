@@ -6,22 +6,7 @@
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <SelectComponent
-          label="每周几"
-          name="weekday"
-          v-bind:itemsArray="weekdayModels"
-          v-bind:isRequired="true"
-          v-bind:value="weekdayIndex"
-          v-on:input="weekdayIndex = $event"
-        />
-        <SelectComponent
-          label="时间段"
-          name="time"
-          v-bind:itemsArray="classTimeModels"
-          v-bind:isRequired="true"
-          v-bind:value="timeItemIndex"
-          v-on:input="timeItemIndex = $event"
-        />
+        <TimeComponent name="time" label="课程时间" />
         <div class="action">
           <div class="ui submit button">确定</div>
         </div>
@@ -31,92 +16,80 @@
 </template>
 
 <script>
-import SelectComponent from "../form-components/select-component.vue";
-import InputComponent from "../form-components/input-component.vue";
+import TimePicker from "timepicker.js";
+import TimeComponent from '../form-components/time-component.vue';
 
 export default {
-  name: "ClassTimeForm",
-  computed: {
-    weekdayModels: function() {
-      return this.$store.state.global.weekdayModels;
-    },
-    classTimeModels: function() {
-      return this.$store.state.global.classTimeModels;
-    },
-
-    weekdayIndex: {
-      get() {
-        return this.$store.state.classTimeForm.weekdayIndex;
-      },
-      set(value) {
-        this.$store.commit("classTimeForm/updateWeekdayIndex", value);
-      }
-    },
-    timeItemIndex: {
-      get() {
-        return this.$store.state.classTimeForm.timeItemIndex;
-      },
-      set(value) {
-        this.$store.commit("classTimeForm/updateTimeItemIndex", value);
-      }
-    },
-  },
+  name: "LessonTimeForm",
   components: {
-    SelectComponent,
-    InputComponent
+    TimeComponent
   },
   updated: function() {
-    var component = this;
-    $(".ui.modal.class-time .ui.form").form({
-      fields: {
-        weekday: {
-          identifier: "weekday",
-          rules: [
-            {
-              type: "empty",
-              prompt: "周不能为空"
-            }
-          ]
-        },
-        time: {
-          identifier: "time",
-          rules: [
-            {
-              type: "empty",
-              prompt: "时间不能为空"
-            }
-          ]
-        }
-      },
-      onSuccess: function(event, fields) {
-        var itemData = [
-          {
-            key: '每周',
-            value: component.$store.state.global.weekdayModels[component.$store.state.classTimeForm.weekdayIndex].name,
-            data: component.$store.state.classTimeForm.weekdayIndex
-          },
-          {
-            key: '时间',
-            value: component.$store.state.global.classTimeModels[component.$store.state.classTimeForm.timeItemIndex].name,
-            data: component.$store.state.classTimeForm.timeItemIndex
-          }
-        ]
-        component.$store.commit("coursePeriodForm/updatePeriodItem", {positionIndex: component.$store.state.classTimeForm.positionIndex, itemData: itemData});
 
-        $(".ui.modal.class-time").modal("hide");
+    // var component = this;
+    // $(".ui.modal.lesson-time .ui.form").form({
+    //   fields: {
+    //     weekday: {
+    //       identifier: "weekday",
+    //       rules: [
+    //         {
+    //           type: "empty",
+    //           prompt: "周不能为空"
+    //         }
+    //       ]
+    //     },
+    //     time: {
+    //       identifier: "time",
+    //       rules: [
+    //         {
+    //           type: "empty",
+    //           prompt: "时间不能为空"
+    //         }
+    //       ]
+    //     }
+    //   },
+    //   onSuccess: function(event, fields) {
+    //     var itemData = [
+    //       {
+    //         key: "每周",
+    //         value:
+    //           component.$store.state.global.weekdayModels[
+    //             component.$store.state.classTimeForm.weekdayIndex
+    //           ].name,
+    //         data: component.$store.state.classTimeForm.weekdayIndex
+    //       },
+    //       {
+    //         key: "时间",
+    //         value:
+    //           component.$store.state.global.classTimeModels[
+    //             component.$store.state.classTimeForm.timeItemIndex
+    //           ].name,
+    //         data: component.$store.state.classTimeForm.timeItemIndex
+    //       }
+    //     ];
+    //     component.$store.commit("coursePeriodForm/updatePeriodItem", {
+    //       positionIndex: component.$store.state.classTimeForm.positionIndex,
+    //       itemData: itemData
+    //     });
 
-        component.$store.commit("classTimeForm/reset");
-        $(".ui.modal.class-time .ui.form").form('clear');
+    //     $(".ui.modal.class-time").modal("hide");
 
-        return false;
-      },
-      onFailure: function(formErrors, fields) {
-        return false;
-      }
-    });
+    //     component.$store.commit("classTimeForm/reset");
+    //     $(".ui.modal.class-time .ui.form").form("clear");
+
+    //     return false;
+    //   },
+    //   onFailure: function(formErrors, fields) {
+    //     return false;
+    //   }
+    // });
   }
 };
 </script>
+
+<style src='timepicker.js/dist/timepicker.min.css'>
+/* global styles */
+</style> 
 
 <style scoped>
 .ui.modal > .fa-times {
