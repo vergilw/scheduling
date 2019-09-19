@@ -68,7 +68,12 @@ export default {
     },
     file_title: {
       get(){
-        return this.$store.state.lessonForm.fileTitle;
+        let fileTitle = this.$store.state.lessonForm.fileTitle;
+        if(fileTitle != null && fileTitle.length > 20) {
+          fileTitle = fileTitle.substr(0, 20)+"...";
+        }
+
+        return fileTitle;
       },
       set(value) {
         this.$store.commit('lessonForm/updateFileTitle',value);
@@ -76,7 +81,12 @@ export default {
     },
     media_title: {
       get(){
-        return this.$store.state.lessonForm.mediaTitle;
+        let mediaTitle = this.$store.state.lessonForm.mediaTitle;
+        if(mediaTitle != null && mediaTitle.length > 20) {
+          mediaTitle = mediaTitle.substr(0, 20)+"...";
+        }
+
+        return mediaTitle;
       },
       set(value) {
         this.$store.commit('lessonForm/updateMediaTitle',value);
@@ -107,13 +117,6 @@ export default {
         },
       },
       onSuccess: function(event, fields) {
-        console.log(212121);
-        // component.$store.commit("updateFormLoading", true);
-        //
-        // setTimeout(function(){
-        //   component.$store.commit("updateFormLoading",false);
-        // },2000);
-
         let itemData = [
           {
             key: "标题",

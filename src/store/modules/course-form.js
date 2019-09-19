@@ -108,6 +108,22 @@ const actions = {
             for(let i = 0; i < eventItems.length; i++) {
                 let eventItem = eventItems[i];
 
+                let fileTitle;
+                if(eventItem["documents"].length > 0) {
+                    fileTitle = eventItem["documents"][0]["filename"];
+                    if(fileTitle != null && fileTitle.length > 30) {
+                        fileTitle = fileTitle.substr(0, 30) + "...";
+                    }
+                }
+
+                let mediaTitle;
+                if(eventItem["videos"].length > 0) {
+                    mediaTitle = eventItem["videos"][0]["filename"];
+                    if(mediaTitle != null && mediaTitle.length > 30) {
+                        mediaTitle = mediaTitle.substr(0, 30) + "...";
+                    }
+                }
+
                 let lessonItem = [
                     {
                         key: "标题",
@@ -116,11 +132,11 @@ const actions = {
                     },
                     {
                         key: "文件",
-                        value: eventItem["videos"].length > 0 ? eventItem["videos"][0]["filename"] : null
+                        value: fileTitle
                     },
                     {
                         key: "媒体资料",
-                        value: eventItem["documents"].length > 0 ? eventItem["documents"][0]["filename"] : null
+                        value: mediaTitle
                     }
                 ];
 
