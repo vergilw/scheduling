@@ -199,7 +199,6 @@ export default {
     },
     onNewCourseSchedule: function(event) {
       var element = $(event.target)
-        .parent()
         .parent();
       var date = new Date(element.attr("date-value"));
       var timeItemID = element.parent().attr("time-item-id");

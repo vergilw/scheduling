@@ -90,11 +90,13 @@ export default {
           component.$store.dispatch("roomForm/putRoom", function() {
             $(".ui.modal.room").modal("hide");
             component.$store.commit("roomForm/reset");
+            $(".ui.modal.room .ui.form").form("clear");
           });
         } else {
           component.$store.dispatch("roomForm/patchRoomByID", function() {
             $(".ui.modal.room").modal("hide");
             component.$store.commit("roomForm/reset");
+            $(".ui.modal.room .ui.form").form("clear");
           });
         }
         $(".ui.modal.room").modal("hide");

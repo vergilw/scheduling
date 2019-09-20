@@ -132,6 +132,7 @@ export default {
         component.$store.dispatch("schedulesForm/putSchedules", function() {
           $(".ui.modal.schedules").modal("hide");
           component.$store.commit('schedulesForm/reset');
+          $(".ui.modal.schedules .ui.form").form("clear");
         });
         return false;
       },
