@@ -56,33 +56,35 @@ weekStart.setHours(0, 0, 0, 0);
 store.commit('schedule/weekStartUpdated', weekStart);
 
 const routes = [
-  { path: '', component: Schedule},
-  { path: '/settings', component: Settings, children: [
-    {
-      path: '',
-      component: RoomSetting
-    },
-    {
-      path: 'classtime',
-      component: ClassTimeSetting
-    },
-    {
-      path: 'coursetype',
-      component: CourseTypeSetting
-    },
-    {
-      path: 'course',
-      component: CourseSetting
-    },
-    {
-      path: 'crowds',
-      component: CrowdsSetting
-    },
-    {
-      path: 'students',
-      component: StudentsSetting
-    }
-  ]}
+  { path: '', component: Schedule },
+  {
+    path: '/settings', component: Settings, children: [
+      {
+        path: '',
+        component: RoomSetting
+      },
+      {
+        path: 'classtime',
+        component: ClassTimeSetting
+      },
+      {
+        path: 'coursetype',
+        component: CourseTypeSetting
+      },
+      {
+        path: 'course',
+        component: CourseSetting
+      },
+      {
+        path: 'crowds',
+        component: CrowdsSetting
+      },
+      {
+        path: 'students',
+        component: StudentsSetting
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({
@@ -97,17 +99,20 @@ var app = new Vue({
 });
 
 //FIXME: local debug
-store.commit("global/configRequestDefaults", {
-  authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsInN1YiI6ImF1dGgiLCJleHAiOjE1NjkyMDY0NDN9.rlTIlS27nBK9KO9YurJFwcaC7AqfnpHECrqpNMsFHdY',
-  organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI0IDExOjIwOjM3ICswODAwIn0.OG25Pvci0wvKiPXaLtpYyeSf9VF01Zi0PCcdNfqTvzk'
-});
-store.dispatch("schedule/getSchedule");
-store.dispatch("global/getCourses");
-store.dispatch("global/getRooms");
-store.dispatch("global/getCrowds");
-store.dispatch("global/getTeachers");
-store.dispatch("global/getCourseTypes");
-store.dispatch("global/getClassTime");
+if (process.env.NODE_ENV !== 'production') {
+  store.commit("global/configRequestDefaults", {
+    authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsInN1YiI6ImF1dGgiLCJleHAiOjE1NjkyMDY0NDN9.rlTIlS27nBK9KO9YurJFwcaC7AqfnpHECrqpNMsFHdY',
+    organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI0IDExOjIwOjM3ICswODAwIn0.OG25Pvci0wvKiPXaLtpYyeSf9VF01Zi0PCcdNfqTvzk'
+  });
+  store.dispatch("schedule/getSchedule");
+  store.dispatch("global/getCourses");
+  store.dispatch("global/getRooms");
+  store.dispatch("global/getCrowds");
+  store.dispatch("global/getTeachers");
+  store.dispatch("global/getCourseTypes");
+  store.dispatch("global/getClassTime");
+}
+
 
 var schedulesForm = new Vue({
   el: '#schedules-form',
@@ -176,8 +181,8 @@ var crowdsForm = new Vue({
 });
 
 var studentsForm = new Vue({
-    el: "#student-form",
-    store,
-    render: h => h(StudentsForm)
+  el: "#student-form",
+  store,
+  render: h => h(StudentsForm)
 });
 
