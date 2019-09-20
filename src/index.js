@@ -24,11 +24,13 @@ import ClassTimeForm from './components/forms/class-time-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
 import LessonTimeForm from './components/forms/lesson-time-form.vue';
 import CourseTypeForm from './components/forms/course-type-form.vue';
+import CrowdsForm from './components/forms/crowds-form.vue';
 
 import RoomSetting from './components/settings/room-setting.vue';
 import ClassTimeSetting from './components/settings/class-time-setting.vue';
 import CourseTypeSetting from './components/settings/course-type-setting.vue';
 import CourseSetting from './components/settings/course-setting.vue';
+import CrowdsSetting from './components/settings/crowds-setting.vue';
 
 import App from './app.vue';
 import Schedule from './schedule.vue';
@@ -69,6 +71,10 @@ const routes = [
     {
       path: 'course',
       component: CourseSetting
+    },
+    {
+      path: 'crowds',
+      component: CrowdsSetting
     }
   ]}
 ]
@@ -155,4 +161,10 @@ var courseTypeForm = new Vue({
   el: "#course-type-form",
   store,
   render: h => h(CourseTypeForm)
+});
+
+var crowdsForm = new Vue({
+  el: "#crowd-form",
+  store,
+  render: h => h(CrowdsForm)
 });

@@ -11,6 +11,7 @@ import coursePeriodForm from "./modules/course-period-form.js";
 import classTimeForm from "./modules/class-time-form.js";
 import transferStudentForm from "./modules/transfer-student-form.js";
 import courseTypeForm from "./modules/course-type-form.js";
+import crowdsForm from "./modules/crowds-form.js";
 
 Vue.use(Vuex)
 
@@ -28,7 +29,8 @@ export default new Vuex.Store({
         coursePeriodForm,
         classTimeForm,
         transferStudentForm,
-        courseTypeForm
+        courseTypeForm,
+        crowdsForm,
     },
     strict: debug,
 })

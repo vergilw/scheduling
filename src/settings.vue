@@ -10,6 +10,7 @@
       <!-- <router-link to='/settings/classtime' class="item">课程时间设置</router-link> -->
       <router-link to="/settings/coursetype" class="item">课程类型设置</router-link>
       <router-link to="/settings/course" class="item">课程设置</router-link>
+      <router-link to='/settings/crowds' class="item">班级设置</router-link>
     </div>
     <div class="content">
       <router-view></router-view>
