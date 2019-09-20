@@ -198,6 +198,9 @@ export default {
       return new Date() > comparedDate;
     },
     onNewCourseSchedule: function(event) {
+      this.$store.commit("scheduleForm/reset");
+      $(".ui.modal.schedule .ui.form").form("clear");
+
       var element = $(event.target)
         .parent();
       var date = new Date(element.attr("date-value"));
