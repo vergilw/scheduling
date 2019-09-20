@@ -48,4 +48,17 @@ export default {
             });
     },
 
+    getStudentsByCrowdsId(crowdsId, successCallback, failureCallback) {
+        axios.get('/admin/crowds/' + crowdsId)
+            .then(function (response) {
+                successCallback(response);
+            })
+            .catch(function (error) {
+                failureCallback(error);
+            })
+            .finally(function () {
+
+            });
+    },
+
 }

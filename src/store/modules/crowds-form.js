@@ -1,9 +1,11 @@
 import crowdsApi from '../../api/crowds.js';
+import Vue from "vue";
 
 const state = {
     crowdsID: null,
     formLoading: false,
     title: null,
+    studentItems: [],
 }
 
 const getters = {}
@@ -50,12 +52,25 @@ const actions = {
             console.log(error);
         });
     },
+
+    getStudentsByCrowdsId({ state, commit, rootState }, crowdsID) {
+        crowdsApi.getStudentsByCrowdsId(crowdsID, response => {
+            let students = response["data"]["crowd"]["members"];
+            for(let i = 0; i < students.length; i++) {
+                let student = students[i];
+                commit("updateStudentItems", {index: null, itemData: student});
+            }
+        }, error => {
+            console.log(error);
+        });
+    }
 };
 
 const mutations = {
     reset(state) {
         state.crowdsID = null;
         state.title = null;
+        state.studentItems = [];
     },
     assign(state, model) {
         state.crowdsID = model.id;
@@ -70,6 +85,21 @@ const mutations = {
     updateTitle(state, string) {
         state.title = string;
     },
+    clearStudentItems(state) {
+        state.studentItems = [];
+    },
+    updateStudentItems(state, {index, itemData}) {
+        if (index === null) {
+            state.studentItems.push(itemData);
+        } else if (index < state.studentItems.length) {
+            Vue.set(state.studentItems, index, itemData);
+        }
+    },
+    deleteStudentItems(state, index) {
+        if (index !== null) {
+            state.studentItems.splice(index, 1);
+        }
+    }
 }
 
 export default {
