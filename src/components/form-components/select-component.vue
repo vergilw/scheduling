@@ -72,6 +72,9 @@ export default {
   //     $(".field > .ui.dropdown .item").removeClass("active selected");
   //   }
   // },
+  mounted: function() {
+    $(".field .ui.dropdown").dropdown();
+  },
   updated: function() {
     $(".field .ui.dropdown").dropdown();
   }
