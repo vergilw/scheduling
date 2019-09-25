@@ -1,0 +1,22 @@
+body {
+  background-image: linear-gradient(to bottom right, #00D0BB, #00BCCB) !important;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 30px;
+  height: unset;
+}
+
+body .ui.segment {
+  padding: 0;
+}
+
+body .vue-notification {
+  border-left: unset;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #0000006f;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}

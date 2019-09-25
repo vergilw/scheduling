@@ -56,6 +56,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "@antv/f2": "^3.4.1",
     "timepicker.js": "^2.5.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-notification": "^1.3.16"

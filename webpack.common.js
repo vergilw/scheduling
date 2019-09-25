@@ -6,16 +6,25 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        schedule: './src/schedule.js',
+        dashboard: './src/dashboard.js',
     },
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: '课程表',
-            template: './src/index.html'
+            title: 'schedule',
+            template: './src/schedule.html',
+            filename: 'schedule.html',
+            chunks: ['schedule'],
+        }),
+        new HtmlWebpackPlugin({
+            title: 'dashboard',
+            template: './src/dashboard.html',
+            filename: 'dashboard.html',
+            chunks: ['dashboard'],
         }),
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),

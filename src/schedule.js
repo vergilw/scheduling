@@ -34,12 +34,12 @@ import CourseSetting from './components/settings/course-setting.vue';
 import CrowdsSetting from './components/settings/crowds-setting.vue';
 import StudentsSetting from './components/settings/students-setting.vue';
 
-import App from './app.vue';
+import ScheduleIndex from './schedule-index.vue';
 import Schedule from './schedule.vue';
 import Settings from './settings.vue';
 
 
-require('./index.css');
+require('./css/schedule.css');
 
 Vue.use(VueRouter);
 Vue.use(Notifications);
@@ -92,10 +92,10 @@ const router = new VueRouter({
 })
 
 var app = new Vue({
-  el: '#app',
+  el: '#main',
   store,
   router,
-  render: h => h(App),
+  render: h => h(ScheduleIndex),
 });
 
 //FIXME: local debug
