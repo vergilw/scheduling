@@ -102,7 +102,8 @@ var app = new Vue({
 if (process.env.NODE_ENV !== 'production') {
   store.commit("global/configRequestDefaults", {
     authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsInN1YiI6ImF1dGgiLCJleHAiOjE1Njk4MTIwNzR9.QgrmkpXZv8KGq7ZJ-o4Vq0L7SH-xr4h-jESbrl5nTQY',
-    organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI0IDExOjIwOjM3ICswODAwIn0.OG25Pvci0wvKiPXaLtpYyeSf9VF01Zi0PCcdNfqTvzk'
+    organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjQ0LCJzdWIiOiJvcmdhbl9hdXRoIiwiZXhwIjoxNTcwNDE0Njg0fQ.OcJPSAjsOGK6siMOZAkfSrEvLT9foVOT2L0YDjHDTgI'
+
   });
   store.dispatch("schedule/getSchedule");
   store.dispatch("global/getCourses");

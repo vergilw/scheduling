@@ -6,7 +6,14 @@
     </div>
     <div class="scrolling content">
       <form class="ui form">
-        <TimeComponent name="time" label="课程时间" />
+        <TimeComponent
+          name="time"
+          label="课程时间"
+          :start-time="startTime"
+          @changeStartTime="startTime = $event"
+          :end-time="endTime"
+          @changeEndTime="endTime = $event"
+          />
         <div class="action">
           <div class="ui submit button">确定</div>
         </div>
@@ -21,75 +28,79 @@ import TimeComponent from '../form-components/time-component.vue';
 
 export default {
   name: "LessonTimeForm",
+  computed: {
+    startTime: {
+      get() {
+        return this.$store.state.lessonTimeForm.startTime;
+      },
+      set(value) {
+        this.$store.commit("lessonTimeForm/updateStartTime", value);
+      }
+    },
+    endTime: {
+      get() {
+        return this.$store.state.lessonTimeForm.endTime;
+      },
+      set(value) {
+        this.$store.commit("lessonTimeForm/updateEndTime", value);
+      }
+    }
+  },
   components: {
     TimeComponent
   },
   updated: function() {
+    let component = this;
+    $(".ui.modal.lesson-time .ui.form").form({
+      fields: {
+        startTime: {
+          identifier: "start-time",
+          rules: [
+            {
+              type: "empty",
+              prompt: "开始时间不能为空"
+            }
+          ]
+        },
+        endTime: {
+          identifier: "end-time",
+          rules: [
+            {
+              type: "empty",
+              prompt: "结束时间不能为空"
+            }
+          ]
+        }
+      },
+      onSuccess: function(event, fields) {
+        if(component.$store.state.lessonTimeForm.lessonTimeID) {
+          component.$store.dispatch("lessonTimeForm/patchLessonTime", function () {
+            component.$store.dispatch("global/getClassTime");
+          });
+        } else {
+          component.$store.dispatch("lessonTimeForm/putLessonTime", function () {
+            component.$store.dispatch("global/getClassTime");
+          });
+        }
 
-    // var component = this;
-    // $(".ui.modal.lesson-time .ui.form").form({
-    //   fields: {
-    //     weekday: {
-    //       identifier: "weekday",
-    //       rules: [
-    //         {
-    //           type: "empty",
-    //           prompt: "周不能为空"
-    //         }
-    //       ]
-    //     },
-    //     time: {
-    //       identifier: "time",
-    //       rules: [
-    //         {
-    //           type: "empty",
-    //           prompt: "时间不能为空"
-    //         }
-    //       ]
-    //     }
-    //   },
-    //   onSuccess: function(event, fields) {
-    //     var itemData = [
-    //       {
-    //         key: "每周",
-    //         value:
-    //           component.$store.state.global.weekdayModels[
-    //             component.$store.state.classTimeForm.weekdayIndex
-    //           ].name,
-    //         data: component.$store.state.classTimeForm.weekdayIndex
-    //       },
-    //       {
-    //         key: "时间",
-    //         value:
-    //           component.$store.state.global.classTimeModels[
-    //             component.$store.state.classTimeForm.timeItemIndex
-    //           ].name,
-    //         data: component.$store.state.classTimeForm.timeItemIndex
-    //       }
-    //     ];
-    //     component.$store.commit("coursePeriodForm/updatePeriodItem", {
-    //       positionIndex: component.$store.state.classTimeForm.positionIndex,
-    //       itemData: itemData
-    //     });
+        $(".ui.modal.lesson-time").modal("hide");
 
-    //     $(".ui.modal.class-time").modal("hide");
+        component.$store.commit("lessonTimeForm/reset");
+        $(".ui.modal.lesson-time .ui.form").form("clear");
 
-    //     component.$store.commit("classTimeForm/reset");
-    //     $(".ui.modal.class-time .ui.form").form("clear");
-
-    //     return false;
-    //   },
-    //   onFailure: function(formErrors, fields) {
-    //     return false;
-    //   }
-    // });
+        return false;
+      },
+      onFailure: function(formErrors, fields) {
+        return false;
+      }
+    });
   }
 };
 </script>
 
 <style src='timepicker.js/dist/timepicker.min.css'>
 /* global styles */
-</style> 
+</style>
 
 <style scoped>
 .ui.modal > .fa-times {

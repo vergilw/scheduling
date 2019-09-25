@@ -3,7 +3,7 @@
     <div
       v-for="model in models"
       :key="model.id"
-      @click="onEditItem"
+      @click="onEditItem(model)"
       :data-id="model.id"
       class="item"
     >
@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     onNewItem: function() {
-      var element = this.$el;
+      let element = this.$el;
+      let component = this;
 
       $(".ui.active.dimmable.modal:not(.lesson-time)").dimmer("show");
       $(element).dimmer({
@@ -43,15 +44,16 @@ export default {
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
+            component.$store.commit("lessonTimeForm/reset");
           }
         })
         .modal("show");
     },
-    onEditItem: function(event) {
-      // console.log($(event.target).attr('data-id'));
+    onEditItem: function(model) {
+      let element = this.$el;
+      let component = this;
 
-      var element = this.$el;
-      var component = this;
+      component.$store.commit("lessonTimeForm/assign", model);
 
       $(".ui.active.dimmable.modal:not(.lesson-time)").dimmer("show");
       $(element).dimmer({
@@ -66,14 +68,19 @@ export default {
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            // component.$store.commit("transferStudentForm/reset");
+            component.$store.commit("lessonTimeForm/reset");
             $(".ui.modal.lesson-time .ui.form").form("clear");
           }
         })
         .modal("show");
     },
-    onDeleteItem: function(courseID) {
-      console.log(courseID);
+    onDeleteItem: function(lessonTimeId) {
+      let component = this;
+      this.$store.dispatch("lessonTimeForm/deleteLessonTime", {lessonTimeId: lessonTimeId,
+        completeCallback: function () {
+          component.$store.dispatch("global/getClassTime");
+        }
+      });
     }
   }
 };

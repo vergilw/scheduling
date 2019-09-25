@@ -2,8 +2,8 @@
   <div class="field">
     <label class="header">{{ label }}</label>
     <div class="horizontal">
-      <input id="start-time" type="text" placeholder="开始时间" />
-      <input id="end-time" type="text" placeholder="结束时间" />
+      <input id="start-time" type="text" :value="startTime" placeholder="开始时间" />
+      <input id="end-time" type="text" :value="endTime" placeholder="结束时间" />
     </div>
   </div>
 </template>
@@ -15,9 +15,12 @@ export default {
   name: "TimeComponent",
   props: {
     name: String,
-    label: String
+    label: String,
+    startTime: String,
+    endTime: String
   },
   mounted: function() {
+    let component = this;
     var timepicker = new TimePicker(["start-time", "end-time"], {
       lang: "en",
       theme: "blue-grey"
@@ -26,7 +29,11 @@ export default {
       var value = (evt.hour || "00") + ":" + (evt.minute || "00");
       evt.element.value = value;
 
-      console.log()
+      if(evt.element.id === "start-time") {
+        component.$emit("changeStartTime", value);
+      } else if(evt.element.id === "end-time") {
+        component.$emit("changeEndTime", value);
+      }
     });
   }
 };
@@ -34,7 +41,7 @@ export default {
 
 <style src='timepicker.js/dist/timepicker.min.css'>
 /* global styles */
-</style> 
+</style>
 
 <style scoped>
 .field > label,
