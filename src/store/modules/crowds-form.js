@@ -63,6 +63,17 @@ const actions = {
         }, error => {
             console.log(error);
         });
+    },
+
+    deleteStudentById({ state, commit, rootState }, {crowdsID, studentID, completeCallback}) {
+        commit("updateFormLoading", true);
+        crowdsApi.deleteStudentsById(crowdsID, studentID, response => {
+            commit("updateFormLoading", false);
+            completeCallback();
+        }, error => {
+            console.log(error);
+            commit("updateFormLoading", false);
+        });
     }
 };
 

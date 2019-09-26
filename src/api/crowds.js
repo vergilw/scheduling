@@ -61,4 +61,19 @@ export default {
             });
     },
 
+    deleteStudentsById(crowdsId, studentId, successCallback, failureCallback) {
+        axios.delete('/admin/crowds/' + crowdsId + "/crowd_members?member_id=" + studentId)
+            .then(function (response) {
+                successCallback(response);
+                notify.show("删除成功");
+            })
+            .catch(function (error) {
+                failureCallback(error);
+                notify.show("删除失败");
+            })
+            .finally(function () {
+
+            });
+    },
+
 }

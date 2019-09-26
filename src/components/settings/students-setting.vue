@@ -45,9 +45,10 @@ export default {
 
     crowdIndex: {
       get() {
-        return null;
+        return this.$store.state.studentsForm.crowdsIndex;
       },
       set(value) {
+        this.$store.commit("studentsForm/updateCrowdsIndex", value);
         this.$store.commit("crowdsForm/clearStudentItems");
         let crowdsId = this.$store.state.global.crowdModels[value]["id"];
         this.$store.dispatch("crowdsForm/getStudentsByCrowdsId", crowdsId);
@@ -59,35 +60,39 @@ export default {
   },
   methods: {
     onEditItem: function(model) {
-      let element = this.$el;
+      // let element = this.$el;
+      // let component = this;
+      //
+      // component.$store.commit("studentsForm/assign", model);
+      //
+      // $(".ui.active.dimmable.modal:not(.students)").dimmer("show");
+      // $(element).dimmer({
+      //   onHide: function() {
+      //     $(".ui.modal.students").modal("hide");
+      //   }
+      // });
+      //
+      // $(".ui.modal.students")
+      //   .modal({
+      //     autofocus: false,
+      //     allowMultiple: true,
+      //     onHidden: function() {
+      //       $(element).dimmer("hide");
+      //       component.$store.commit("studentsForm/reset");
+      //       $(".ui.modal.course .ui.form").form("clear");
+      //     }
+      //   })
+      //   .modal("show");
+    },
+    onDeleteItem: function(studentID) {
       let component = this;
-
-      component.$store.commit("studentsForm/assign", model);
-
-      $(".ui.active.dimmable.modal:not(.students)").dimmer("show");
-      $(element).dimmer({
-        onHide: function() {
-          $(".ui.modal.students").modal("hide");
+      let crowdsID = this.$store.state.global.crowdModels[this.crowdIndex]["id"];
+      component.$store.dispatch("crowdsForm/deleteStudentById", {crowdsID: crowdsID, studentID: studentID,
+        completeCallback: function () {
+          component.$store.commit("crowdsForm/clearStudentItems");
+          component.$store.dispatch("crowdsForm/getStudentsByCrowdsId", crowdsID);
         }
       });
-
-      $(".ui.modal.students")
-        .modal({
-          autofocus: false,
-          allowMultiple: true,
-          onHidden: function() {
-            $(element).dimmer("hide");
-            component.$store.commit("studentsForm/reset");
-            $(".ui.modal.course .ui.form").form("clear");
-          }
-        })
-        .modal("show");
-    },
-    onDeleteItem: function(studentsID) {
-      let component = this;
-      // component.$store.dispatch("studentsForm/deleteStudentByID", {studentsID: studentsID, completeCallback: function() {
-      //     component.$store.dispatch('global/getCrowds');
-      // }});
     }
   }
 };

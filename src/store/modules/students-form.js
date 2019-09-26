@@ -4,37 +4,12 @@ const state = {
     studentID: null,
     formLoading: false,
     title: null,
+    crowdsIndex: null,
 }
 
 const getters = {}
 
 const actions = {
-
-    patchStudentByID({ state, commit, rootState }, completeCallback) {
-        let params = {};
-        params["name"] = state.title;
-
-        let store = this;
-        // commit("updateFormLoading", true);
-        // studentsApi.patchStudentById(state.studentID, { member: params }, response => {
-        //     commit("updateFormLoading", false);
-        //     store.dispatch("global/getCrowds");
-        //     completeCallback();
-        // }, error => {
-        //     commit("updateFormLoading", false);
-        // });
-    },
-
-    deleteStudentByID({ state, commit, rootState }, {crowdsID, completeCallback}) {
-        let store = this;
-
-        // studentsApi.deleteStudentById(crowdsID, response => {
-        //     store.dispatch("global/getCrowds");
-        //     completeCallback();
-        // }, error => {
-        //     console.log(error);
-        // });
-    },
 
 };
 
@@ -50,11 +25,17 @@ const mutations = {
     updateFormLoading(state, boolean) {
         state.formLoading = boolean;
     },
-    updateCrowdsID(state, int) {
+    updateStudentID(state, int) {
         state.studentID = int;
     },
     updateTitle(state, string) {
         state.title = string;
+    },
+    updateCrowdsIndex(state, int) {
+        state.crowdsIndex = int;
+    },
+    resetCrowdsIndex(state) {
+        state.crowdsIndex = null;
     },
 }
 
