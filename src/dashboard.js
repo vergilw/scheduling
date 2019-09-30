@@ -24,8 +24,6 @@ Vue.use(Notifications);
 axios.defaults.baseURL = apiConfig.hostname;
 
 
-
-
 // const routes = [
 //   { path: '', component: Schedule },
 //   {

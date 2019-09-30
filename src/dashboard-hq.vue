@@ -1,13 +1,32 @@
 <template>
   <div class="dashboard">
-    <div class="top-left"><PieChart name="income" /></div>
-    <div class="top-right"><LineChart name="students" /></div>
-    <div class="bottom-left"><LineChart name="targetStudents" /></div>
-    <div class="bottom-right"><BarChart name="teachers" /></div>
+    <div class="top">
+      <div class="overview">
+        <ScrollableBarChart />
+      </div>
+      <div class="horizontal">
+        <div class="left">
+          <LineBarChart />
+        </div>
+        <div class="right">
+          <PieChart />
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="left">
+        <BarChart />
+      </div>
+      <div class="right">
+        <LineChart />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import ScrollableBarChart from "./components/chart-components/scrollable-bar-chart.vue";
+import LineBarChart from "./components/chart-components/line-bar-chart.vue";
 import PieChart from "./components/chart-components/pie-chart.vue";
 import BarChart from "./components/chart-components/bar-chart.vue";
 import LineChart from "./components/chart-components/line-chart.vue";
@@ -15,6 +34,8 @@ import LineChart from "./components/chart-components/line-chart.vue";
 export default {
   name: "Dashboard",
   components: {
+    ScrollableBarChart,
+    LineBarChart,
     PieChart,
     BarChart,
     LineChart,
@@ -23,16 +44,14 @@ export default {
 </script>
 
 <style scoped>
-.dashboard {
+.dashboard > .top {
   background-color: white;
   border-radius: 8px;
   margin: 0 40px;
-  display: flex;
-  flex-wrap: wrap;
 }
 
-.dashboard > * {
-  width: 50%;
+.dashboard > .top > .overview {
+  border-bottom: 1px solid #00cddd;
 }
 
 .dashboard > .top > .horizontal {
