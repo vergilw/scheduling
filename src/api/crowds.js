@@ -1,11 +1,10 @@
-import apiConfig from './api.config.js';
 import notify from "./notify";
 const axios = require('axios');
 
 export default {
 
-    putCourse(params, successCallback, failureCallback) {
-        axios.post('/admin/events', params)
+    putCrowds(params, successCallback, failureCallback) {
+        axios.post('/admin/crowds', params)
             .then(function (response) {
                 successCallback(response);
                 notify.show("添加成功");
@@ -19,8 +18,8 @@ export default {
             });
     },
 
-    patchCourse(courseId, params, successCallback, failureCallback) {
-        axios.patch('/admin/events/' + courseId, params)
+    patchCrowdsById(crowdsId, params, successCallback, failureCallback) {
+        axios.patch('/admin/crowds/' + crowdsId, params)
             .then(function (response) {
                 successCallback(response);
                 notify.show("更新成功");
@@ -34,21 +33,8 @@ export default {
             });
     },
 
-    getCourse(courseId, successCallback, failureCallback) {
-        axios.get('/admin/events/' + courseId)
-            .then(function (response) {
-                successCallback(response);
-            })
-            .catch(function (error) {
-                failureCallback(error);
-            })
-            .finally(function () {
-
-            });
-    },
-
-    deleteCourse(courseId, successCallback, failureCallback) {
-        axios.delete('/admin/events/' + courseId)
+    deleteCrowdsById(crowdsId, successCallback, failureCallback) {
+        axios.delete('/admin/crowds/' + crowdsId)
             .then(function (response) {
                 successCallback(response);
                 notify.show("删除成功");
@@ -62,38 +48,21 @@ export default {
             });
     },
 
-    putCourseType(params, successCallback, failureCallback) {
-        axios.post('/admin/event_taxons', params)
+    getStudentsByCrowdsId(crowdsId, successCallback, failureCallback) {
+        axios.get('/admin/crowds/' + crowdsId)
             .then(function (response) {
                 successCallback(response);
-                notify.show("添加成功");
             })
             .catch(function (error) {
                 failureCallback(error);
-                notify.show("添加失败");
             })
             .finally(function () {
 
             });
     },
 
-    patchCourseTypeByID(courseTypeID, params, successCallback, failureCallback) {
-        axios.patch('/admin/event_taxons/' + courseTypeID, params)
-            .then(function (response) {
-                successCallback(response);
-                notify.show("修改成功");
-            })
-            .catch(function (error) {
-                failureCallback(error);
-                notify.show("修改失败");
-            })
-            .finally(function () {
-
-            });
-    },
-
-    deleteCourseTypeByID(courseTypeID, successCallback, failureCallback) {
-        axios.post('/admin/event_taxons/' + courseTypeID)
+    deleteStudentsById(crowdsId, studentId, successCallback, failureCallback) {
+        axios.delete('/admin/crowds/' + crowdsId + "/crowd_members?member_id=" + studentId)
             .then(function (response) {
                 successCallback(response);
                 notify.show("删除成功");
@@ -105,5 +74,6 @@ export default {
             .finally(function () {
 
             });
-    }
+    },
+
 }

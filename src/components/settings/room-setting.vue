@@ -3,7 +3,7 @@
     <div
       v-for="model in models"
       :key="model.id"
-      @click="onEditItem"
+      @click="onEditItem(model)"
       :data-id="model.id"
       class="item"
     >
@@ -47,8 +47,9 @@ export default {
         })
         .modal("show");
     },
-    onEditItem: function(event) {
-      console.log($(event.target).attr('data-id'));
+    onEditItem: function(model) {
+
+      this.$store.commit("roomForm/assign", model);
 
       var element = this.$el;
       var component = this;
@@ -66,14 +67,14 @@ export default {
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            // component.$store.commit("transferStudentForm/reset");
+            component.$store.commit("roomForm/reset");
             $(".ui.modal.room .ui.form").form("clear");
           }
         })
         .modal("show");
     },
     onDeleteItem: function(roomID) {
-      console.log(roomID);
+      this.$store.dispatch("roomForm/deleteRoomByID", roomID);
     }
   }
 };

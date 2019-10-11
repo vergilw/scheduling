@@ -1,34 +1,23 @@
 <template>
-  <div class="ui modal dimmable room">
+  <div class="ui modal dimmable students">
     <i class="fas fa-times close icon"></i>
     <div class="header">
-      <div class="title">添加教室</div>
+      <div class="title">编辑学生</div>
     </div>
     <div class="scrolling content">
       <form class="ui form">
         <InputComponent
-          label="教室名称"
+          label="学生姓名"
           name="title"
           v-bind:isRequired="true"
           v-bind:value="title"
           v-on:input="title = $event"
         />
-        <InputComponent
-          label="限制人数"
-          name="capacity"
-          v-bind:isRequired="true"
-          v-bind:value="capacity"
-          v-on:input="capacity = $event"
-        />
-
         <div class="ui error message"></div>
         <div class="action">
           <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
-        <div class="ui loader"></div>
-      </div>
     </div>
   </div>
 </template>
@@ -37,25 +26,17 @@
 import InputComponent from "../form-components/input-component.vue";
 
 export default {
-  name: "RoomForm",
+  name: "StudentsForm",
   computed: {
     formLoading: function() {
-      return this.$store.state.roomForm.formLoading;
+      return this.$store.state.studentsForm.formLoading;
     },
     title: {
       get() {
-        return this.$store.state.roomForm.title;
+        return this.$store.state.studentsForm.title;
       },
       set(value) {
-        this.$store.commit("roomForm/updateTitle", value);
-      }
-    },
-    capacity: {
-      get() {
-        return this.$store.state.roomForm.capacity;
-      },
-      set(value) {
-        this.$store.commit("roomForm/updateCapacity", value);
+        this.$store.commit("crowdsForm/updateTitle", value);
       }
     }
   },
@@ -64,48 +45,28 @@ export default {
   },
   updated: function() {
     var component = this;
-    $(".ui.modal.room .ui.form").form({
+    $(".ui.modal.crowds .ui.form").form({
       fields: {
         title: {
           identifier: "title",
           rules: [
             {
-              type: "regExp[/^\\S{2,16}$/]",
-              prompt: "教室名称不能为空，长度2-16位"
-            }
-          ]
-        },
-        capacity: {
-          identifier: "capacity",
-          rules: [
-            {
-              type: "regExp[/^[1-9]{1}[0-9]*$/]",
-              prompt: "限制人数必须为有效数字"
+              type: "empty",
+              prompt: "名称不能为空"
             }
           ]
         }
       },
       onSuccess: function(event, fields) {
-        if ( component.$store.state.roomForm.roomID === null ) {
-          component.$store.dispatch("roomForm/putRoom", function() {
-            $(".ui.modal.room").modal("hide");
-            component.$store.commit("roomForm/reset");
-            $(".ui.modal.room .ui.form").form("clear");
-          });
-        } else {
-          component.$store.dispatch("roomForm/patchRoomByID", function() {
-            $(".ui.modal.room").modal("hide");
-            component.$store.commit("roomForm/reset");
-            $(".ui.modal.room .ui.form").form("clear");
-          });
-        }
-        $(".ui.modal.room").modal("hide");
-        component.$store.commit("roomForm/reset");
-        $(".ui.modal.room .ui.form").form('clear');
+        // component.$store.dispatch("crowdsForm/patchCrowdByID", function() {
+        //   $(".ui.modal.crowds").modal("hide");
+        //   component.$store.commit("crowdsForm/reset");
+        //   $(".ui.modal.crowds .ui.form").form("clear");
+        // });
+
         return false;
       },
       onFailure: function(formErrors, fields) {
-        console.log("f");
         return false;
       }
     });

@@ -49,7 +49,7 @@ export default {
       return this.$store.state.courseForm.formLoading;
     },
     costModels: function() {
-      return this.$store.state.global.courseTypeModels;
+      return null;
     },
     courseTypeModels: function() {
       return this.$store.state.global.courseTypeModels;
@@ -120,7 +120,18 @@ export default {
         },
       },
       onSuccess: function(event, fields) {
-        component.$store.dispatch("courseForm/putCourse");
+        let type;
+        if(component.$store.state.courseForm.id === null) {
+          type = "courseForm/putCourse";
+        } else {
+          type = "courseForm/patchCourse";
+        }
+
+        component.$store.dispatch(type, function () {
+          component.$store.commit("courseForm/reset");
+          component.$store.dispatch('global/getCourses');
+          $(".ui.modal.course").modal("hide");
+        });
         return false;
       },
       onFailure: function(formErrors, fields) {

@@ -1,34 +1,23 @@
 <template>
-  <div class="ui modal dimmable room">
+  <div class="ui modal dimmable course-type">
     <i class="fas fa-times close icon"></i>
     <div class="header">
-      <div class="title">添加教室</div>
+      <div class="title">添加课程类型</div>
     </div>
     <div class="scrolling content">
       <form class="ui form">
         <InputComponent
-          label="教室名称"
+          label="类型名称"
           name="title"
           v-bind:isRequired="true"
           v-bind:value="title"
           v-on:input="title = $event"
         />
-        <InputComponent
-          label="限制人数"
-          name="capacity"
-          v-bind:isRequired="true"
-          v-bind:value="capacity"
-          v-on:input="capacity = $event"
-        />
-
         <div class="ui error message"></div>
         <div class="action">
           <div class="ui submit button">确定</div>
         </div>
       </form>
-      <div class="ui inverted dimmer" v-bind:class="{active: formLoading}">
-        <div class="ui loader"></div>
-      </div>
     </div>
   </div>
 </template>
@@ -37,25 +26,17 @@
 import InputComponent from "../form-components/input-component.vue";
 
 export default {
-  name: "RoomForm",
+  name: "CourseTypeForm",
   computed: {
     formLoading: function() {
-      return this.$store.state.roomForm.formLoading;
+      return this.$store.state.courseTypeForm.formLoading;
     },
     title: {
       get() {
-        return this.$store.state.roomForm.title;
+        return this.$store.state.courseTypeForm.title;
       },
       set(value) {
-        this.$store.commit("roomForm/updateTitle", value);
-      }
-    },
-    capacity: {
-      get() {
-        return this.$store.state.roomForm.capacity;
-      },
-      set(value) {
-        this.$store.commit("roomForm/updateCapacity", value);
+        this.$store.commit("courseTypeForm/updateTitle", value);
       }
     }
   },
@@ -64,48 +45,37 @@ export default {
   },
   updated: function() {
     var component = this;
-    $(".ui.modal.room .ui.form").form({
+    $(".ui.modal.course-type .ui.form").form({
       fields: {
         title: {
           identifier: "title",
           rules: [
             {
-              type: "regExp[/^\\S{2,16}$/]",
-              prompt: "教室名称不能为空，长度2-16位"
-            }
-          ]
-        },
-        capacity: {
-          identifier: "capacity",
-          rules: [
-            {
-              type: "regExp[/^[1-9]{1}[0-9]*$/]",
-              prompt: "限制人数必须为有效数字"
+              type: "empty",
+              prompt: "名称不能为空"
             }
           ]
         }
       },
       onSuccess: function(event, fields) {
-        if ( component.$store.state.roomForm.roomID === null ) {
-          component.$store.dispatch("roomForm/putRoom", function() {
-            $(".ui.modal.room").modal("hide");
-            component.$store.commit("roomForm/reset");
-            $(".ui.modal.room .ui.form").form("clear");
+        if (component.$store.state.courseTypeForm.courseTypeID === null) {
+          component.$store.dispatch("courseTypeForm/putCourseType", function() {
+            $(".ui.modal.course-type").modal("hide");
+            component.$store.commit("courseTypeForm/reset");
           });
         } else {
-          component.$store.dispatch("roomForm/patchRoomByID", function() {
-            $(".ui.modal.room").modal("hide");
-            component.$store.commit("roomForm/reset");
-            $(".ui.modal.room .ui.form").form("clear");
+          component.$store.dispatch("courseTypeForm/patchCourseTypeByID", function() {
+            $(".ui.modal.course-type").modal("hide");
+            component.$store.commit("courseTypeForm/reset");
           });
         }
-        $(".ui.modal.room").modal("hide");
-        component.$store.commit("roomForm/reset");
-        $(".ui.modal.room .ui.form").form('clear');
+        $(".ui.modal.course-type").modal("hide");
+        component.$store.commit("courseTypeForm/reset");
+        $(".ui.modal.course-type .ui.form").form("clear");
+
         return false;
       },
       onFailure: function(formErrors, fields) {
-        console.log("f");
         return false;
       }
     });

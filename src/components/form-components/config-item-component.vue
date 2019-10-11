@@ -3,9 +3,11 @@
         <a class="remove" @click="$emit('remove', index)">
             <i class="fas fa-times"></i>
         </a>
-        <a class="edit" @click="$emit('edit', index)">
-            <i class="icon primary edit"></i>
-        </a>
+        <div v-if="!noEdit">
+            <a class="edit" @click="$emit('edit', index)">
+                <i class="icon primary edit"></i>
+            </a>
+        </div>
         <table>
             <tbody>
                 <tr v-for="(item, intemIndex) in courseConfig" :key="intemIndex">
@@ -29,6 +31,7 @@
     props: {
         courseConfig: Array,
         index: Number,
+        noEdit: Boolean
     },
   };
 </script>
@@ -39,14 +42,14 @@
         cursor: pointer;
     }
 
-    .ui.config.sgfield > a.remove > svg {
+    .ui.config.sgfield a.remove > svg {
         position: absolute;
         right: 14px;
         top: 10px;
         color: #9199a3;
     }
 
-    .ui.config.sgfield > a.edit > i {
+    .ui.config.sgfield a.edit > i {
         bottom: 10px;
     }
 

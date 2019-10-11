@@ -225,6 +225,7 @@ export default {
           component.$store.dispatch("scheduleForm/putSchedule", function() {
             $(".ui.modal.schedule").modal("hide");
             component.$store.commit("scheduleForm/reset");
+            $(".ui.modal.schedule .ui.form").form("clear");
           });
         } else {
           component.$store.dispatch(
@@ -232,6 +233,7 @@ export default {
             function() {
               $(".ui.modal.schedule").modal("hide");
               component.$store.commit("scheduleForm/reset");
+              $(".ui.modal.schedule .ui.form").form("clear");
             }
           );
         }

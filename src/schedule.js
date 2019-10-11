@@ -22,18 +22,24 @@ import CourseForm from './components/forms/course-form.vue';
 import RoomForm from './components/forms/room-form.vue';
 import ClassTimeForm from './components/forms/class-time-form.vue';
 import TransferStudentForm from './components/forms/transfer-student-form.vue';
+import LessonTimeForm from './components/forms/lesson-time-form.vue';
+import CourseTypeForm from './components/forms/course-type-form.vue';
+import CrowdsForm from './components/forms/crowds-form.vue';
+import StudentsForm from './components/forms/students-form.vue';
 
 import RoomSetting from './components/settings/room-setting.vue';
 import ClassTimeSetting from './components/settings/class-time-setting.vue';
 import CourseTypeSetting from './components/settings/course-type-setting.vue';
 import CourseSetting from './components/settings/course-setting.vue';
+import CrowdsSetting from './components/settings/crowds-setting.vue';
+import StudentsSetting from './components/settings/students-setting.vue';
 
-import App from './app.vue';
+import ScheduleIndex from './schedule-index.vue';
 import Schedule from './schedule.vue';
 import Settings from './settings.vue';
 
 
-require('./index.css');
+require('./css/schedule.css');
 
 Vue.use(VueRouter);
 Vue.use(Notifications);
@@ -50,25 +56,35 @@ weekStart.setHours(0, 0, 0, 0);
 store.commit('schedule/weekStartUpdated', weekStart);
 
 const routes = [
-  { path: '', component: Schedule},
-  { path: '/settings', component: Settings, children: [
-    {
-      path: '',
-      component: RoomSetting
-    },
-    {
-      path: 'classtime',
-      component: ClassTimeSetting
-    },
-    {
-      path: 'coursetype',
-      component: CourseTypeSetting
-    },
-    {
-      path: 'course',
-      component: CourseSetting
-    }
-  ]}
+  { path: '', component: Schedule },
+  {
+    path: '/settings', component: Settings, children: [
+      {
+        path: '',
+        component: RoomSetting
+      },
+      {
+        path: 'classtime',
+        component: ClassTimeSetting
+      },
+      {
+        path: 'coursetype',
+        component: CourseTypeSetting
+      },
+      {
+        path: 'course',
+        component: CourseSetting
+      },
+      {
+        path: 'crowds',
+        component: CrowdsSetting
+      },
+      {
+        path: 'students',
+        component: StudentsSetting
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({
@@ -76,24 +92,28 @@ const router = new VueRouter({
 })
 
 var app = new Vue({
-  el: '#app',
+  el: '#main',
   store,
   router,
-  render: h => h(App),
+  render: h => h(ScheduleIndex),
 });
 
 //FIXME: local debug
-store.commit("global/configRequestDefaults", {
-  authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjkwLCJzdWIiOiJhdXRoIiwiZXhwIjoxNTY4ODg5OTkzfQ.4AnApGg0DKRYL7y4lBrxviQPKmtutsW-3puiFbWc81U',
-  organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjEsInN1YiI6Im9yZ2FuX2F1dGgiLCJleHAiOiIyMDE5LTA2LTI4IDA5OjUwOjUxICswODAwIn0.eG8Z1Q2pkGrMOfpSVU-xv-ckI4GwasPfREhob22MxXA'
-});
-store.dispatch("schedule/getSchedule");
-store.dispatch("global/getCourses");
-store.dispatch("global/getRooms");
-store.dispatch("global/getCrowds");
-store.dispatch("global/getTeachers");
-store.dispatch("global/getCourseTypes");
-store.dispatch("global/getClassTime");
+if (process.env.NODE_ENV !== 'production') {
+  store.commit("global/configRequestDefaults", {
+    authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsInN1YiI6ImF1dGgiLCJleHAiOjE1Njk4MTIwNzR9.QgrmkpXZv8KGq7ZJ-o4Vq0L7SH-xr4h-jESbrl5nTQY',
+    organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjQ0LCJzdWIiOiJvcmdhbl9hdXRoIiwiZXhwIjoxNTcwNDE0Njg0fQ.OcJPSAjsOGK6siMOZAkfSrEvLT9foVOT2L0YDjHDTgI'
+
+  });
+  store.dispatch("schedule/getSchedule");
+  store.dispatch("global/getCourses");
+  store.dispatch("global/getRooms");
+  store.dispatch("global/getCrowds");
+  store.dispatch("global/getTeachers");
+  store.dispatch("global/getCourseTypes");
+  store.dispatch("global/getClassTime");
+}
+
 
 var schedulesForm = new Vue({
   el: '#schedules-form',
@@ -141,5 +161,29 @@ var transferStudentForm = new Vue({
   el: "#transfer-student-form",
   store,
   render: h => h(TransferStudentForm)
+});
+
+var lessonTimeForm = new Vue({
+  el: "#lesson-time-form",
+  store,
+  render: h => h(LessonTimeForm)
+});
+
+var courseTypeForm = new Vue({
+  el: "#course-type-form",
+  store,
+  render: h => h(CourseTypeForm)
+});
+
+var crowdsForm = new Vue({
+  el: "#crowd-form",
+  store,
+  render: h => h(CrowdsForm)
+});
+
+var studentsForm = new Vue({
+  el: "#student-form",
+  store,
+  render: h => h(StudentsForm)
 });
 

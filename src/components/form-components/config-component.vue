@@ -5,6 +5,7 @@
         v-for="(item, index) in itemArray"
         :course-config="item"
         :index="index"
+        :noEdit="noEdit"
         :key="index"
         @remove="remove"
         @edit="edit"
@@ -25,7 +26,8 @@
             label: String,
             button: String,
             isRequired: Boolean,
-            itemArray: Array
+            itemArray: Array,
+            noEdit: Boolean
         },
         components: {
             ConfigItemComponent

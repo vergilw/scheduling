@@ -3,6 +3,7 @@
     label="临时学生"
     button="添加其他班级学生"
     :itemArray="configModels"
+    :noEdit="true"
     @addConfig="addConfig"
     @remove="remove"
     @edit="edit"

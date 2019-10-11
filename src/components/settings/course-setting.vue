@@ -3,7 +3,7 @@
     <div
       v-for="model in models"
       :key="model.id"
-      @click="onEditItem(model)"
+      @click="onEditItem(model.id)"
       :data-id="model.id"
       class="item"
     >
@@ -47,65 +47,36 @@ export default {
         })
         .modal("show");
     },
-    onEditItem: function(model) {
-      // console.log($(event.target).attr("data-id"));
-      console.log("id: " + model["id"]);
-      console.log("name: " + model["name"]);
+    onEditItem: function(courseId) {
+      let element = this.$el;
+      let component = this;
 
-      var element = this.$el;
-      var component = this;
-
-      let lessonItems = [];
-      for(let i = 0; i < model["event_items"].length; i++) {
-        // let lessonItem = new Object();
-        let eventItem = model["event_items"][i];
-
-        let lessonItem = [
-          {
-            key: "标题",
-            value: eventItem["name"]
-          },
-          {
-            key: "文件",
-            value: eventItem["video_urls"][0]["name"]
-          },
-          {
-            key: "媒体资料",
-            value: eventItem["document_urls"][0]["name"],
+      component.$store.dispatch("courseForm/getCourse", {courseId: courseId, completeCallback: function() {
+        $(".ui.active.dimmable.modal:not(.course)").dimmer("show");
+        $(element).dimmer({
+          onHide: function() {
+            $(".ui.modal.course").modal("hide");
           }
-        ];
+        });
 
-        lessonItems.push(lessonItem);
-      }
-
-      let itemData = {
-        id: model.id,
-        title: model.name,
-        lessonItems: lessonItems,
-      };
-      component.$store.commit("courseForm/assign", itemData);
-
-      $(".ui.active.dimmable.modal:not(.course)").dimmer("show");
-      $(element).dimmer({
-        onHide: function() {
-          $(".ui.modal.course").modal("hide");
-        }
-      });
-
-      $(".ui.modal.course")
-        .modal({
-          autofocus: false,
-          allowMultiple: true,
-          onHidden: function() {
-            $(element).dimmer("hide");
-            // component.$store.commit("transferStudentForm/reset");
-            $(".ui.modal.course .ui.form").form("clear");
-          }
-        })
-        .modal("show");
+        $(".ui.modal.course")
+          .modal({
+            autofocus: false,
+            allowMultiple: true,
+            onHidden: function() {
+              $(element).dimmer("hide");
+              component.$store.commit("courseForm/reset");
+              $(".ui.modal.course .ui.form").form("clear");
+            }
+          })
+          .modal("show");
+      }});
     },
-    onDeleteItem: function(courseID) {
-      console.log(courseID);
+    onDeleteItem: function(courseId) {
+      let component = this;
+      component.$store.dispatch("courseForm/deleteCourse", {courseId: courseId, completeCallback: function() {
+          component.$store.dispatch('global/getCourses');
+      }});
     }
   }
 };

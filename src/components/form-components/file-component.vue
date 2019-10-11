@@ -27,9 +27,6 @@ export default {
     showFile: function(e){
         let file = e.currentTarget.files[0];
         let name = file.name;
-        if(name.length > 20) {
-            name = name.substr(0,20)+"...";
-        }
 
         context = this;
         getUpToken(file);

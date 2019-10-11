@@ -36,6 +36,8 @@ const actions = {
         paramItem['planned_type'] = 'Event';
         paramItem['planned_id'] = rootState.global.courseModels[state.courseIndex].id;
 
+        console.log(paramItem);
+        
         var store = this;
 
         commit('updateFormLoading', true);

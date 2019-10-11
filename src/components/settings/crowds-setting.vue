@@ -1,5 +1,5 @@
 <template>
-  <div class="class-time" v-if="models">
+  <div class="crowds" v-if="models">
     <div
       v-for="model in models"
       :key="model.id"
@@ -8,7 +8,7 @@
       class="item"
     >
       <div v-on:click.stop="onDeleteItem(model.id)" class="delete"><i class="fas fa-times"></i></div>
-      <div class="title">课程时间</div>
+      <div class="title">班级</div>
       <div class="footer">{{ model.name }}</div>
     </div>
     <div @click="onNewItem" class="item append">
@@ -20,10 +20,10 @@
 
 <script>
 export default {
-  name: "ClassTimeSetting",
+  name: "CrowdsSetting",
   computed: {
     models: function() {
-      return this.$store.state.global.classTimeModels;
+      return this.$store.state.global.crowdModels;
     }
   },
   methods: {
@@ -31,20 +31,21 @@ export default {
       let element = this.$el;
       let component = this;
 
-      $(".ui.active.dimmable.modal:not(.lesson-time)").dimmer("show");
+      component.$store.commit("crowdsForm/reset");
+      $(".ui.active.dimmable.modal:not(.crowds)").dimmer("show");
       $(element).dimmer({
         onHide: function() {
-          $(".ui.modal.lesson-time").modal("hide");
+          $(".ui.modal.crowds").modal("hide");
         }
       });
 
-      $(".ui.modal.lesson-time")
+      $(".ui.modal.crowds")
         .modal({
           autofocus: false,
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            component.$store.commit("lessonTimeForm/reset");
+            component.$store.commit("crowdsForm/reset");
           }
         })
         .modal("show");
@@ -53,51 +54,49 @@ export default {
       let element = this.$el;
       let component = this;
 
-      component.$store.commit("lessonTimeForm/assign", model);
+      component.$store.commit("crowdsForm/assign", model);
 
-      $(".ui.active.dimmable.modal:not(.lesson-time)").dimmer("show");
+      $(".ui.active.dimmable.modal:not(.crowds)").dimmer("show");
       $(element).dimmer({
         onHide: function() {
-          $(".ui.modal.lesson-time").modal("hide");
+          $(".ui.modal.crowds").modal("hide");
         }
       });
 
-      $(".ui.modal.lesson-time")
+      $(".ui.modal.crowds")
         .modal({
           autofocus: false,
           allowMultiple: true,
           onHidden: function() {
             $(element).dimmer("hide");
-            component.$store.commit("lessonTimeForm/reset");
-            $(".ui.modal.lesson-time .ui.form").form("clear");
+            component.$store.commit("crowdsForm/reset");
+            $(".ui.modal.course .ui.form").form("clear");
           }
         })
         .modal("show");
     },
-    onDeleteItem: function(lessonTimeId) {
+    onDeleteItem: function(crowdsID) {
       let component = this;
-      this.$store.dispatch("lessonTimeForm/deleteLessonTime", {lessonTimeId: lessonTimeId,
-        completeCallback: function () {
-          component.$store.dispatch("global/getClassTime");
-        }
-      });
+      component.$store.dispatch("crowdsForm/deleteCrowdByID", {crowdsID: crowdsID, completeCallback: function() {
+          component.$store.dispatch('global/getCrowds');
+      }});
     }
   }
 };
 </script>
 
 <style scoped>
-.class-time {
+.crowds {
   display: flex;
   margin: -10px;
   flex-wrap: wrap;
 }
 
-.class-time > .item {
+.crowds > .item {
   margin: 10px;
 }
 
-.class-time > .item {
+.crowds > .item {
   width: 248px;
   height: 98px;
   background-color: #ffffff;
@@ -112,7 +111,7 @@ export default {
   position: relative;
 }
 
-.class-time > .item.append {
+.crowds > .item.append {
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -120,11 +119,11 @@ export default {
   font-size: 12px;
 }
 
-.class-time > .item.append > svg {
+.crowds > .item.append > svg {
   margin-right: 10px;
 }
 
-.class-time > .item > .delete {
+.crowds > .item > .delete {
   position: absolute;
   right: 0;
   top: 0;
@@ -133,15 +132,15 @@ export default {
   display: flex;
 }
 
-.class-time > .item > .delete > svg {
+.crowds > .item > .delete > svg {
   margin: auto;
 }
 
-.class-time > .item > .title {
+.crowds > .item > .title {
   font-size: 14px;
 }
 
-.class-time > .item > .footer {
+.crowds > .item > .footer {
   font-size: 12px;
 }
 </style>
