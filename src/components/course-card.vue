@@ -1,7 +1,7 @@
 <template>
   <div
     @click="onEdit(courseModel.id)"
-    :class="disableClass"
+    :class="highlightClass"
     :schedule-id="courseModel.id"
     class="course"
   >
@@ -44,9 +44,9 @@ export default {
     courseModel: Object
   },
   computed: {
-    disableClass: function() {
+    highlightClass: function() {
       return {
-        disable:
+        highlight:
           (this.filterCourseID !== null &&
             this.filterCourseID !== this.courseModel.id) ||
           (this.filterCrowdID !== null &&
@@ -123,6 +123,10 @@ export default {
 .disable.course {
   background-color: #f6f8fa;
   color: #9199a3;
+}
+
+.highlight.course {
+  border: 2px solid yellow;
 }
 
 .course > .delete {
