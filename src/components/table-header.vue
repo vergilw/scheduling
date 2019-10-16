@@ -149,6 +149,17 @@ export default {
       this.$store.dispatch("schedule/getSchedule");
     },
     onNewSchedules() {
+      //course default value by filter
+      if (
+        this.$store.state.schedulesForm.courseIndex === null &&
+        this.$store.state.schedule.courseIndex !== null
+      ) {
+        this.$store.commit(
+          "schedulesForm/updateCourseIndex",
+          this.$store.state.schedule.courseIndex
+        );
+      }
+
       $(".ui.modal.schedules").dimmer("hide");
       $(".ui.modal.schedules")
         .modal({ autofocus: false, allowMultiple: true })

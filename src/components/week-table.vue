@@ -198,11 +198,54 @@ export default {
       return new Date() > comparedDate;
     },
     onNewCourseSchedule: function(event) {
-      this.$store.commit("scheduleForm/reset");
-      $(".ui.modal.schedule .ui.form").form("clear");
+      // this.$store.commit("scheduleForm/reset");
+      // $(".ui.modal.schedule .ui.form").form("clear");
 
-      var element = $(event.target)
-        .parent();
+      //course default value by filter
+      if (
+        this.$store.state.scheduleForm.courseIndex === null &&
+        this.$store.state.schedule.courseIndex !== null
+      ) {
+        this.$store.commit(
+          "scheduleForm/updateCourseIndex",
+          this.$store.state.schedule.courseIndex
+        );
+      }
+
+      //crowd default value by filter
+      if (
+        this.$store.state.scheduleForm.crowdIndex === null &&
+        this.$store.state.schedule.crowdIndex !== null
+      ) {
+        this.$store.commit(
+          "scheduleForm/updateCrowdIndex",
+          this.$store.state.schedule.crowdIndex
+        );
+      }
+
+      //teacher default value by filter
+      if (
+        this.$store.state.scheduleForm.teacherIndex === null &&
+        this.$store.state.schedule.teacherIndex !== null
+      ) {
+        this.$store.commit(
+          "scheduleForm/updateTeacherIndex",
+          this.$store.state.schedule.teacherIndex
+        );
+      }
+
+      //room default value by filter
+      if (
+        this.$store.state.scheduleForm.roomIndex === null &&
+        this.$store.state.schedule.roomIndex !== null
+      ) {
+        this.$store.commit(
+          "scheduleForm/updateRoomIndex",
+          this.$store.state.schedule.roomIndex
+        );
+      }
+
+      var element = $(event.target).parent();
       var date = new Date(element.attr("date-value"));
       var timeItemID = element.parent().attr("time-item-id");
       this.$store.commit("scheduleForm/updateScheduleTime", {
