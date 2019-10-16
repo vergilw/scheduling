@@ -45,16 +45,29 @@ export default {
   },
   computed: {
     highlightClass: function() {
+      if (
+        this.filterCourseID === null &&
+        this.filterCrowdID === null &&
+        this.filterTeacherID === null &&
+        this.filterRoomID === null
+      ) {
+        return false;
+      }
+
       return {
         highlight:
-          (this.filterCourseID !== null &&
-            this.filterCourseID !== this.courseModel.id) ||
-          (this.filterCrowdID !== null &&
-            this.filterCrowdID !== this.courseModel.crowd.id) ||
-          (this.filterTeacherID !== null &&
-            this.filterTeacherID !== this.courseModel.teacher.id) ||
-          (this.filterRoomID !== null &&
-            this.filterRoomID !== this.courseModel.room.id)
+          ((this.filterCourseID !== null &&
+            this.filterCourseID === this.courseModel.planned_id) ||
+            (this.filterCourseID === null)) &&
+          ((this.filterCrowdID !== null &&
+            this.filterCrowdID === this.courseModel.crowd.id) ||
+            (this.filterCrowdID === null)) &&
+          ((this.filterTeacherID !== null &&
+            this.filterTeacherID === this.courseModel.teacher.id) ||
+            (this.filterTeacherID === null)) &&
+          ((this.filterRoomID !== null &&
+            this.filterRoomID === this.courseModel.room.id) ||
+            (this.filterRoomID === null))
       };
     },
     filterCourseID: function() {
@@ -96,7 +109,6 @@ export default {
       this.$store.dispatch("scheduleForm/deleteScheduleByID");
     },
     onEdit(scheduleID) {
-      
       this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
 
       this.$store.dispatch("scheduleForm/getScheduleByID");
