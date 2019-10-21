@@ -58,16 +58,16 @@ export default {
         highlight:
           ((this.filterCourseID !== null &&
             this.filterCourseID === this.courseModel.planned_id) ||
-            (this.filterCourseID === null)) &&
+            this.filterCourseID === null) &&
           ((this.filterCrowdID !== null &&
             this.filterCrowdID === this.courseModel.crowd.id) ||
-            (this.filterCrowdID === null)) &&
+            this.filterCrowdID === null) &&
           ((this.filterTeacherID !== null &&
             this.filterTeacherID === this.courseModel.teacher.id) ||
-            (this.filterTeacherID === null)) &&
+            this.filterTeacherID === null) &&
           ((this.filterRoomID !== null &&
             this.filterRoomID === this.courseModel.room.id) ||
-            (this.filterRoomID === null))
+            this.filterRoomID === null)
       };
     },
     filterCourseID: function() {
@@ -123,7 +123,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .course {
   position: relative;
   background-color: white;
@@ -131,6 +131,11 @@ export default {
   border-radius: 8px;
   text-align: left;
   cursor: pointer;
+
+  max-width: calc(- (100vw - 60px - 120px - 20px) / 7);
+  max-width: -moz-calc(-(100vw - 60px - 120px - 20px)/7);
+  max-width: -webkit-calc(-(100vw - 60px - 120px - 20px)/7);
+  max-width: -o-calc(-(100vw - 60px - 120px - 20px)/7);
 }
 
 .disable.course {
@@ -156,6 +161,10 @@ export default {
   padding-top: 16px;
   font-size: 14px;
   color: #00cddd;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .course > .shortname {
@@ -165,6 +174,10 @@ export default {
   border-radius: 4px;
   margin: 6px 15px 0 15px;
   padding: 2px 8px 1px 8px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .course > .footer {
