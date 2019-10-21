@@ -107,10 +107,11 @@ export default {
     onDelete(scheduleID) {
       this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
       this.$store.dispatch("scheduleForm/deleteScheduleByID");
+
+      this.$store.commit("scheduleForm/reset");
     },
     onEdit(scheduleID) {
       this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
-
       this.$store.dispatch("scheduleForm/getScheduleByID");
 
       $(".ui.modal.schedule").dimmer("hide");

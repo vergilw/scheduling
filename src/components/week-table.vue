@@ -198,8 +198,8 @@ export default {
       return new Date() > comparedDate;
     },
     onNewCourseSchedule: function(event) {
-      // this.$store.commit("scheduleForm/reset");
-      // $(".ui.modal.schedule .ui.form").form("clear");
+      this.$store.commit("scheduleForm/reset");
+      $(".ui.modal.schedule .ui.form").form("clear");
 
       //course default value by filter
       if (

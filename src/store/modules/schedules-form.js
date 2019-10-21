@@ -42,7 +42,7 @@ const actions = {
             paramItem['planned_type'] = 'Event';
             paramItem['planned_id'] = rootState.global.courseModels[state.courseIndex].id;
             paramItem['begin_on'] = dateFormat(state.startDate, "yyyy-mm-dd");
-            paramItem['end_on'] = dateFormat(state.startDate, "yyyy-mm-dd");
+            paramItem['end_on'] = dateFormat(state.endDate, "yyyy-mm-dd");
             paramItem['repeat_type'] = 'weekly';
 
             params.push(paramItem);

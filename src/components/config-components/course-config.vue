@@ -52,6 +52,9 @@ export default {
       return arr;
     },
     addConfig: function() {
+      this.$store.commit("coursePeriodForm/reset");
+      $(".ui.modal.course-period .ui.form").form("clear");
+
       //crowd default value by filter
       if (
         this.$store.state.coursePeriodForm.crowdIndex === null &&

@@ -165,6 +165,9 @@ export default {
       this.$store.dispatch("schedule/getSchedule");
     },
     onNewSchedules() {
+      this.$store.commit('schedulesForm/reset');
+      $(".ui.modal.schedules .ui.form").form("clear");
+
       //course default value by filter
       if (
         this.$store.state.schedulesForm.courseIndex === null &&
