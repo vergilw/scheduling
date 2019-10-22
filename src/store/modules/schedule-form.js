@@ -21,6 +21,7 @@ const actions = {
     putSchedule({ state, commit, rootState }, completeCallback) {
 
         var paramItem = {};
+        console.log('dateFormat store date', state.date);
         paramItem['plan_on'] = dateFormat(state.date, 'yyyy-mm-dd');
         paramItem['time_item_id'] = state.timeItemID;
 
