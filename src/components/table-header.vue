@@ -31,6 +31,10 @@
           <div class="default text">全部</div>
           <div class="menu">
             <div
+              class="item"
+              @click="onChangeFilter('course', null)"
+            >全部</div>
+            <div
               v-for="(course, index) in courseModels"
               :key="index"
               class="item"
@@ -47,6 +51,10 @@
           <i class="dropdown icon"></i>
           <div class="default text">全部</div>
           <div class="menu">
+            <div
+              class="item"
+              @click="onChangeFilter('crowd', null)"
+            >全部</div>
             <div
               v-for="(crowd, index) in crowdModels"
               :key="index"
@@ -65,6 +73,10 @@
           <div class="default text">全部</div>
           <div class="menu">
             <div
+              class="item"
+              @click="onChangeFilter('teacher', null)"
+            >全部</div>
+            <div
               v-for="(teacher, index) in teacherModels"
               :key="index"
               class="item"
@@ -81,6 +93,10 @@
           <i class="dropdown icon"></i>
           <div class="default text">全部</div>
           <div class="menu">
+            <div
+              class="item"
+              @click="onChangeFilter('room', null)"
+            >全部</div>
             <div
               v-for="(room, index) in roomModels"
               :key="index"
@@ -149,6 +165,20 @@ export default {
       this.$store.dispatch("schedule/getSchedule");
     },
     onNewSchedules() {
+      this.$store.commit('schedulesForm/reset');
+      $(".ui.modal.schedules .ui.form").form("clear");
+
+      //course default value by filter
+      if (
+        this.$store.state.schedulesForm.courseIndex === null &&
+        this.$store.state.schedule.courseIndex !== null
+      ) {
+        this.$store.commit(
+          "schedulesForm/updateCourseIndex",
+          this.$store.state.schedule.courseIndex
+        );
+      }
+
       $(".ui.modal.schedules").dimmer("hide");
       $(".ui.modal.schedules")
         .modal({ autofocus: false, allowMultiple: true })

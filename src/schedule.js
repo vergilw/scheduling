@@ -101,8 +101,8 @@ var app = new Vue({
 //FIXME: local debug
 if (process.env.NODE_ENV !== 'production') {
   store.commit("global/configRequestDefaults", {
-    authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsInN1YiI6ImF1dGgiLCJleHAiOjE1Njk4MTIwNzR9.QgrmkpXZv8KGq7ZJ-o4Vq0L7SH-xr4h-jESbrl5nTQY',
-    organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjQ0LCJzdWIiOiJvcmdhbl9hdXRoIiwiZXhwIjoxNTcwNDE0Njg0fQ.OcJPSAjsOGK6siMOZAkfSrEvLT9foVOT2L0YDjHDTgI'
+    authToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsInN1YiI6ImF1dGgiLCJleHAiOjE1NzE3MDg5NDB9.h3hQynFYRCEAu_7jeiBuqApplPbvQKosL7M-SeJPaT4',
+    organToken: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOjQ0LCJzdWIiOiJvcmdhbl9hdXRoIiwiZXhwIjoxNTcwNDE0Njg0fQ.OcJPSAjsOGK6siMOZAkfSrEvLT9foVOT2L0YDjHDTgI',
 
   });
   store.dispatch("schedule/getSchedule");

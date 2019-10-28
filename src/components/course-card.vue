@@ -1,7 +1,7 @@
 <template>
   <div
     @click="onEdit(courseModel.id)"
-    :class="disableClass"
+    :class="highlightClass"
     :schedule-id="courseModel.id"
     class="course"
   >
@@ -44,17 +44,30 @@ export default {
     courseModel: Object
   },
   computed: {
-    disableClass: function() {
+    highlightClass: function() {
+      if (
+        this.filterCourseID === null &&
+        this.filterCrowdID === null &&
+        this.filterTeacherID === null &&
+        this.filterRoomID === null
+      ) {
+        return false;
+      }
+
       return {
-        disable:
-          (this.filterCourseID !== null &&
-            this.filterCourseID !== this.courseModel.id) ||
-          (this.filterCrowdID !== null &&
-            this.filterCrowdID !== this.courseModel.crowd.id) ||
-          (this.filterTeacherID !== null &&
-            this.filterTeacherID !== this.courseModel.teacher.id) ||
-          (this.filterRoomID !== null &&
-            this.filterRoomID !== this.courseModel.room.id)
+        highlight:
+          ((this.filterCourseID !== null &&
+            this.filterCourseID === this.courseModel.planned_id) ||
+            this.filterCourseID === null) &&
+          ((this.filterCrowdID !== null &&
+            this.filterCrowdID === this.courseModel.crowd.id) ||
+            this.filterCrowdID === null) &&
+          ((this.filterTeacherID !== null &&
+            this.filterTeacherID === this.courseModel.teacher.id) ||
+            this.filterTeacherID === null) &&
+          ((this.filterRoomID !== null &&
+            this.filterRoomID === this.courseModel.room.id) ||
+            this.filterRoomID === null)
       };
     },
     filterCourseID: function() {
@@ -94,11 +107,11 @@ export default {
     onDelete(scheduleID) {
       this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
       this.$store.dispatch("scheduleForm/deleteScheduleByID");
+
+      this.$store.commit("scheduleForm/reset");
     },
     onEdit(scheduleID) {
-      
       this.$store.commit("scheduleForm/updateScheduleID", scheduleID);
-
       this.$store.dispatch("scheduleForm/getScheduleByID");
 
       $(".ui.modal.schedule").dimmer("hide");
@@ -110,7 +123,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .course {
   position: relative;
   background-color: white;
@@ -118,11 +131,20 @@ export default {
   border-radius: 8px;
   text-align: left;
   cursor: pointer;
+
+  max-width: calc(- (100vw - 60px - 120px - 20px) / 7);
+  max-width: -moz-calc(-(100vw - 60px - 120px - 20px)/7);
+  max-width: -webkit-calc(-(100vw - 60px - 120px - 20px)/7);
+  max-width: -o-calc(-(100vw - 60px - 120px - 20px)/7);
 }
 
 .disable.course {
   background-color: #f6f8fa;
   color: #9199a3;
+}
+
+.highlight.course {
+  border: 2px solid yellow;
 }
 
 .course > .delete {
@@ -139,6 +161,10 @@ export default {
   padding-top: 16px;
   font-size: 14px;
   color: #00cddd;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .course > .shortname {
@@ -148,6 +174,10 @@ export default {
   border-radius: 4px;
   margin: 6px 15px 0 15px;
   padding: 2px 8px 1px 8px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .course > .footer {
