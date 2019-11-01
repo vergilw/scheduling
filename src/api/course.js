@@ -93,7 +93,7 @@ export default {
     },
 
     deleteCourseTypeByID(courseTypeID, successCallback, failureCallback) {
-        axios.post('/admin/event_taxons/' + courseTypeID)
+        axios.delete('/admin/event_taxons/' + courseTypeID)
             .then(function (response) {
                 successCallback(response);
                 notify.show("删除成功");
